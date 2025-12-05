@@ -97,7 +97,7 @@ django-multiselectfield==0.1.13  # Multi-select fields
 
 # Data Import/Export
 django-import-export==4.1.1  # Data import/export
-tablib==3.6.1           # Tabular data library
+tablib==3.7.0           # Tabular data library (Python 3.12 compatible)
 
 # Background Tasks
 django-celery-beat==2.7.0  # Celery beat scheduler (Python 3.12 compatible)
