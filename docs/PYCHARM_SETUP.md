@@ -70,21 +70,21 @@ cd pycharm-community-2024.1/bin
 #### Using Command Line
 ```bash
 git clone https://github.com/OumaCavin/FlexiFinance.git
-cd django-microfinance-mpsa
+cd FlexiFinance
 ```
 
 ### 2. Open Project in PyCharm
 1. Open PyCharm
 2. Select "Open"
 3. Navigate to the project directory
-4. Select the root folder `django-microfinance-mpsa`
+4. Select the root folder `FlexiFinance`
 5. Click "Open as Project"
 
 ### 3. Configure Python Interpreter
 
 #### Set Up Virtual Environment
 1. Go to `File` → `Settings` (Windows/Linux) or `PyCharm` → `Preferences` (macOS)
-2. Navigate to `Project: django-microfinance-mpsa` → `Python Interpreter`
+2. Navigate to `Project: FlexiFinance` → `Python Interpreter`
 3. Click the gear icon → `Add`
 4. Choose `System Interpreter`
 5. Click `Existing Environment` and select your Python 3.11+ interpreter
@@ -116,7 +116,7 @@ cd django-microfinance-mpsa
    ```
 
 #### Using PyCharm Package Manager
-1. Go to `File` → `Settings` → `Project: django-microfinance-mpsa` → `Python Interpreter`
+1. Go to `File` → `Settings` → `Project: FlexiFinance` → `Python Interpreter`
 2. Click the `+` button
 3. Search for packages from `requirements.txt`
 4. Install each package individually
@@ -124,7 +124,7 @@ cd django-microfinance-mpsa
 ## Django Configuration
 
 ### 1. Configure Django Support
-1. Go to `File` → `Settings` → `Project: django-microfinance-mpsa` → `Django`
+1. Go to `File` → `Settings` → `Project: FlexiFinance` → `Django`
 2. Check `Enable Django Support`
 3. Set Django project root to the project directory
 4. Set settings module to `flexifinance.settings`
@@ -154,7 +154,7 @@ cd django-microfinance-mpsa
    ```
 
 ### 3. Configure Static Files
-1. Go to `Settings` → `Project: django-microfinance-mpsa` → `Django`
+1. Go to `Settings` → `Project: FlexiFinance` → `Django`
 2. Set "Static files (CSS, JavaScript, Images)" mapping:
    ```
    URL: /static/
@@ -397,7 +397,7 @@ coverage report
 ## Testing Setup
 
 ### 1. Configure Test Runner
-1. Go to `File` → `Settings` → `Project: django-microfinance-mpsa` → `Tools` → `Python Integrated Tools`
+1. Go to `File` → `Settings` → `Project: FlexiFinance` → `Tools` → `Python Integrated Tools`
 2. Set "Default test runner" to "pytest"
 
 ### 2. Run Tests

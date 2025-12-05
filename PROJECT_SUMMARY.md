@@ -11,7 +11,7 @@ I have successfully created a comprehensive **FlexiFinance** Django micro-financ
 ## 📁 Project Structure Created
 
 ```
-django-microfinance-mpsa/
+FlexiFinance/
 ├── 📋 README.md                    # Complete project documentation
 ├── ⚙️ requirements.txt             # All dependencies with Django 5.2.8
 ├── 🔧 .env.example                 # Environment configuration template
@@ -209,7 +209,7 @@ DATABASES = {
 ### 1. Clone Repository
 ```bash
 git clone https://github.com/OumaCavin/FlexiFinance.git
-cd django-microfinance-mpsa
+cd FlexiFinance
 ```
 
 ### 2. Setup Virtual Environment
