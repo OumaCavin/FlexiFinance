@@ -128,7 +128,7 @@ yfinance==0.2.28        # Financial data (if needed)
 
 # Communication Services
 twilio==9.0.5           # SMS and voice services
-django-notifications-hq==9.1.1  # Notification system
+django-notifications-hq==1.8.3  # Notification system (latest available version)
 
 # Analytics and Tracking
 django-analytical==4.3  # Web analytics integration
