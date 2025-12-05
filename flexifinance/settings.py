@@ -636,6 +636,135 @@ AUDIT_LOG = {
     'LOGIN_FAILURE_LOG': True,
 }
 
+# =============================================================================
+# STRIPE PAYMENT CONFIGURATION
+# =============================================================================
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+
+# =============================================================================
+# SUPABASE CONFIGURATION
+# =============================================================================
+SUPABASE_URL = config('SUPABASE_URL', default='')
+SUPABASE_ANON_KEY = config('SUPABASE_ANON_KEY', default='')
+SUPABASE_SERVICE_KEY = config('SUPABASE_SERVICE_KEY', default='')
+
+# =============================================================================
+# RESEND EMAIL CONFIGURATION
+# =============================================================================
+RESEND_API_KEY = config('RESEND_API_KEY', default='')
+FROM_EMAIL = config('FROM_EMAIL', default='noreply@flexifinance.com')
+FROM_NAME = config('FROM_NAME', default='FlexiFinance')
+
+# =============================================================================
+# RAILWAY DEPLOYMENT CONFIGURATION
+# =============================================================================
+RAILWAY_ENVIRONMENT = config('RAILWAY_ENVIRONMENT', default='development')
+RAILWAY_BACKEND_URL = config('RAILWAY_BACKEND_URL', default='')
+
+# =============================================================================
+# PAYMENT PROVIDER CONFIGURATION
+# =============================================================================
+PAYMENT_PROVIDERS = {
+    'mpesa': {
+        'enabled': bool(config('MPESA_CONSUMER_KEY', default='')),
+        'name': 'M-PESA Mobile Money',
+        'currencies': ['kes'],
+        'countries': ['KE']
+    },
+    'stripe': {
+        'enabled': bool(config('STRIPE_SECRET_KEY', default='')),
+        'name': 'Credit/Debit Cards',
+        'currencies': ['usd', 'eur', 'gbp', 'cad', 'aud'],
+        'countries': ['US', 'GB', 'CA', 'AU', 'DE', 'FR', 'IT', 'ES', 'NL', 'BE', 'AT', 'IE', 'PT', 'FI', 'SE', 'NO', 'DK', 'CH', 'JP', 'AU', 'NZ', 'SG', 'HK']
+    }
+}
+
+# =============================================================================
+# FRONTEND CONFIGURATION
+# =============================================================================
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
+AOS_ANIMATION_ENABLED = config('AOS_ANIMATION_ENABLED', default=True, cast=bool)
+RESPONSIVE_DESIGN_ENABLED = config('RESPONSIVE_DESIGN_ENABLED', default=True, cast=bool)
+
+# =============================================================================
+# CONTACT AND SUPPORT CONFIGURATION
+# =============================================================================
+SUPPORT_EMAIL = config('SUPPORT_EMAIL', default='support@flexifinance.com')
+SUPPORT_PHONE = config('SUPPORT_PHONE', default='+254 708 101 604')
+SUPPORT_HOURS = config('SUPPORT_HOURS', default='24/7')
+SUPPORT_ADDRESS = config('SUPPORT_ADDRESS', default='Westlands Business Park, Ring Road, P.O. Box 12345-00100, Nairobi, Kenya')
+
+# =============================================================================
+# BUSINESS INFORMATION
+# =============================================================================
+BUSINESS_NAME = config('BUSINESS_NAME', default='FlexiFinance')
+BUSINESS_EMAIL = config('BUSINESS_EMAIL', default='info@flexifinance.com')
+BUSINESS_PHONE = config('BUSINESS_PHONE', default='+254 708 101 604')
+BUSINESS_ADDRESS = config('BUSINESS_ADDRESS', default='Westlands Business Park, Ring Road, P.O. Box 12345-00100, Nairobi, Kenya')
+BUSINESS_REGISTRATION = config('BUSINESS_REGISTRATION', default='CPR/2023/123456')
+
+# =============================================================================
+# SOCIAL MEDIA LINKS
+# =============================================================================
+SOCIAL_MEDIA = {
+    'facebook': config('FACEBOOK_URL', default='https://facebook.com/flexifinance'),
+    'twitter': config('TWITTER_URL', default='https://twitter.com/flexifinance'),
+    'linkedin': config('LINKEDIN_URL', default='https://linkedin.com/company/flexifinance'),
+    'instagram': config('INSTAGRAM_URL', default='https://instagram.com/flexifinance'),
+    'youtube': config('YOUTUBE_URL', default='https://youtube.com/flexifinance')
+}
+
+# =============================================================================
+# ANALYTICS AND MONITORING
+# =============================================================================
+GOOGLE_ANALYTICS_ID = config('GOOGLE_ANALYTICS_ID', default='')
+FACEBOOK_PIXEL_ID = config('FACEBOOK_PIXEL_ID', default='')
+SENTRY_DSN = config('SENTRY_DSN', default='')
+
+# =============================================================================
+# SEO CONFIGURATION
+# =============================================================================
+SEO_CONFIG = {
+    'SITE_NAME': 'FlexiFinance - MicroFinance Platform',
+    'SITE_DESCRIPTION': 'Fast, secure microfinance loans with M-PESA integration. Get approved in minutes, repay flexibly.',
+    'SITE_KEYWORDS': 'microfinance, loans, M-PESA, Kenya, financial services, personal loans, business loans',
+    'DEFAULT_OG_IMAGE': '/static/images/og-default.jpg',
+    'TWITTER_HANDLE': '@flexifinance',
+    'BRAND_NAME': 'FlexiFinance'
+}
+
+# =============================================================================
+# FEATURE FLAGS
+# =============================================================================
+FEATURES = {
+    'ENABLE_CONTACT_FORMS': config('ENABLE_CONTACT_FORMS', default=True, cast=bool),
+    'ENABLE_NEWSLETTER': config('ENABLE_NEWSLETTER', default=True, cast=bool),
+    'ENABLE_CHAT_SUPPORT': config('ENABLE_CHAT_SUPPORT', default=True, cast=bool),
+    'ENABLE_MULTI_CURRENCY': config('ENABLE_MULTI_CURRENCY', default=True, cast=bool),
+    'ENABLE_ANALYTICS': config('ENABLE_ANALYTICS', default=True, cast=bool),
+    'ENABLE_SOCIAL_LOGIN': config('ENABLE_SOCIAL_LOGIN', default=True, cast=bool),
+}
+
+# =============================================================================
+# EXPORTABLE SETTINGS
+# =============================================================================
+# These settings can be exported to frontend via API
+EXPORT_TO_FRONTEND = {
+    'STRIPE_PUBLISHABLE_KEY',
+    'SUPPORT_EMAIL',
+    'SUPPORT_PHONE',
+    'SUPPORT_HOURS',
+    'BUSINESS_NAME',
+    'BUSINESS_EMAIL',
+    'BUSINESS_PHONE',
+    'SOCIAL_MEDIA',
+    'SEO_CONFIG',
+    'FEATURES',
+    'PAYMENT_PROVIDERS'
+}
+
 # Import additional local settings
 try:
     from .local_settings import *

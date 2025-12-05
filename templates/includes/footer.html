@@ -1,0 +1,571 @@
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <!-- Company Information -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="footer-section">
+                    <div class="footer-brand d-flex align-items-center mb-3">
+                        <img src="{% static 'images/logo-white.png' %}" alt="FlexiFinance" height="40" class="me-2">
+                        <h5 class="text-white mb-0">FlexiFinance</h5>
+                    </div>
+                    <p class="text-light mb-3">
+                        Kenya's leading microfinance platform providing fast, secure, and accessible loans to individuals and businesses across the country.
+                    </p>
+                    
+                    <!-- Business Information -->
+                    <div class="business-info">
+                        <div class="info-item d-flex align-items-start mb-2">
+                            <i class="fas fa-map-marker-alt text-primary me-2 mt-1"></i>
+                            <div>
+                                <small class="text-light">
+                                    {{ BUSINESS_ADDRESS|default:"Westlands Business Park, Ring Road, P.O. Box 12345-00100, Nairobi, Kenya" }}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="info-item d-flex align-items-center mb-2">
+                            <i class="fas fa-phone text-primary me-2"></i>
+                            <div>
+                                <a href="tel:{{ BUSINESS_PHONE|default:"+254708101604" }}" class="text-light text-decoration-none">
+                                    {{ BUSINESS_PHONE|default:"+254 708 101 604" }}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item d-flex align-items-center mb-2">
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            <div>
+                                <a href="mailto:{{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}" class="text-light text-decoration-none">
+                                    {{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item d-flex align-items-center">
+                            <i class="fas fa-clock text-primary me-2"></i>
+                            <small class="text-light">24/7 Customer Support</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <div class="footer-section">
+                    <h5 class="text-white mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'home' %}" class="text-light text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="{% url 'loan_products' %}" class="text-light text-decoration-none">Personal Loans</a></li>
+                        <li class="mb-2"><a href="{% url 'business_loans' %}" class="text-light text-decoration-none">Business Loans</a></li>
+                        <li class="mb-2"><a href="{% url 'emergency_loans' %}" class="text-light text-decoration-none">Emergency Loans</a></li>
+                        <li class="mb-2"><a href="{% url 'loan_calculator' %}" class="text-light text-decoration-none">Loan Calculator</a></li>
+                        <li class="mb-2"><a href="{% url 'how_it_works' %}" class="text-light text-decoration-none">How It Works</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Support -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <div class="footer-section">
+                    <h5 class="text-white mb-3">Support</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'contact' %}" class="text-light text-decoration-none">Contact Us</a></li>
+                        <li class="mb-2"><a href="{% url 'support' %}" class="text-light text-decoration-none">Help Center</a></li>
+                        <li class="mb-2"><a href="{% url 'faq' %}" class="text-light text-decoration-none">FAQ</a></li>
+                        <li class="mb-2"><a href="{% url 'privacy_policy' %}" class="text-light text-decoration-none">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="{% url 'terms_of_service' %}" class="text-light text-decoration-none">Terms of Service</a></li>
+                        <li class="mb-2"><a href="{% url 'loan_agreement' %}" class="text-light text-decoration-none">Loan Agreement</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Company -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <div class="footer-section">
+                    <h5 class="text-white mb-3">Company</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'about' %}" class="text-light text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="{% url 'careers' %}" class="text-light text-decoration-none">Careers</a></li>
+                        <li class="mb-2"><a href="{% url 'press' %}" class="text-light text-decoration-none">Press</a></li>
+                        <li class="mb-2"><a href="{% url 'blog' %}" class="text-light text-decoration-none">Blog</a></li>
+                        <li class="mb-2"><a href="{% url 'investors' %}" class="text-light text-decoration-none">Investors</a></li>
+                        <li class="mb-2"><a href="{% url 'partners' %}" class="text-light text-decoration-none">Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Newsletter & Social -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <div class="footer-section">
+                    <h5 class="text-white mb-3">Stay Connected</h5>
+                    
+                    <!-- Newsletter Signup -->
+                    <div class="newsletter-signup mb-3">
+                        <p class="text-light mb-2">Subscribe to our newsletter</p>
+                        <form class="newsletter-form" action="{% url 'newsletter_subscribe' %}" method="post">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="email" class="form-control form-control-sm" name="email" placeholder="Your email" required>
+                                <button class="btn btn-primary btn-sm" type="submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Social Media Links -->
+                    <div class="social-links">
+                        <a href="{{ SOCIAL_MEDIA.facebook|default:"#" }}" class="text-light" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="{{ SOCIAL_MEDIA.twitter|default:"#" }}" class="text-light" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="{{ SOCIAL_MEDIA.linkedin|default:"#" }}" class="text-light" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="{{ SOCIAL_MEDIA.instagram|default:"#" }}" class="text-light" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="{{ SOCIAL_MEDIA.youtube|default:"#" }}" class="text-light" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Methods -->
+        <div class="row mt-4 pt-4 border-top border-gray-700">
+            <div class="col-12">
+                <div class="payment-methods-footer">
+                    <h6 class="text-white mb-3">Accepted Payment Methods</h6>
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                        <div class="payment-method-footer">
+                            <i class="fab fa-cc-visa text-light"></i>
+                            <small class="text-light ms-1">Visa</small>
+                        </div>
+                        <div class="payment-method-footer">
+                            <i class="fab fa-cc-mastercard text-light"></i>
+                            <small class="text-light ms-1">Mastercard</small>
+                        </div>
+                        <div class="payment-method-footer">
+                            <i class="fas fa-mobile-alt text-light"></i>
+                            <small class="text-light ms-1">M-PESA</small>
+                        </div>
+                        <div class="payment-method-footer">
+                            <i class="fab fa-paypal text-light"></i>
+                            <small class="text-light ms-1">PayPal</small>
+                        </div>
+                        <div class="payment-method-footer">
+                            <i class="fas fa-shield-alt text-light"></i>
+                            <small class="text-light ms-1">Secured by SSL</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Bar -->
+        <div class="row mt-4 pt-4 border-top border-gray-700">
+            <div class="col-md-6">
+                <div class="copyright">
+                    <p class="text-light mb-0">
+                        &copy; 2025 FlexiFinance. All rights reserved. | 
+                        <span class="text-primary">Licensed by Central Bank of Kenya</span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="footer-badges">
+                    <img src="{% static 'images/cbk-logo.png' %}" alt="CBK Licensed" height="30" class="me-2">
+                    <img src="{% static 'images/icta-logo.png' %}" alt="ICTA Compliant" height="30" class="me-2">
+                    <img src="{% static 'images/iso27001-logo.png' %}" alt="ISO 27001 Certified" height="30">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll to Top Button -->
+    <button id="footer-scroll-top" class="btn btn-primary btn-floating" style="position: absolute; top: -15px; right: 20px;">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+</footer>
+
+<style>
+.footer {
+    position: relative;
+    background: var(--gray-900);
+    color: white;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="footer-pattern" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.05"/><circle cx="10" cy="40" r="0.5" fill="white" opacity="0.03"/><circle cx="40" cy="10" r="0.5" fill="white" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23footer-pattern)"/></svg>') repeat;
+    pointer-events: none;
+}
+
+.footer .container {
+    position: relative;
+    z-index: 2;
+}
+
+.footer-section h5 {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.footer-section h5::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: var(--primary-color);
+    border-radius: 1px;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: var(--gray-300);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-section a::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: white;
+    padding-left: 5px;
+}
+
+.footer-section a:hover::before {
+    width: 100%;
+}
+
+.social-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.social-links a {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--gray-800);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.social-links a:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.newsletter-form .input-group {
+    background: var(--gray-800);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid var(--gray-700);
+}
+
+.newsletter-form .form-control {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 0.5rem 0.75rem;
+}
+
+.newsletter-form .form-control::placeholder {
+    color: var(--gray-400);
+}
+
+.newsletter-form .form-control:focus {
+    box-shadow: none;
+    background: var(--gray-700);
+}
+
+.newsletter-form .btn {
+    background: var(--primary-color);
+    border: none;
+    padding: 0.5rem 0.75rem;
+}
+
+.newsletter-form .btn:hover {
+    background: var(--primary-dark);
+}
+
+.payment-methods-footer {
+    text-align: center;
+}
+
+.payment-method-footer {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: var(--gray-800);
+    border-radius: 0.5rem;
+    border: 1px solid var(--gray-700);
+    transition: all 0.3s ease;
+}
+
+.payment-method-footer:hover {
+    background: var(--gray-700);
+    transform: translateY(-1px);
+}
+
+.payment-method-footer i {
+    font-size: 1.25rem;
+}
+
+.footer-badges {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.footer-badges img {
+    height: 30px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.footer-badges img:hover {
+    opacity: 1;
+}
+
+.copyright p {
+    font-size: 0.875rem;
+    color: var(--gray-400);
+}
+
+.border-gray-700 {
+    border-color: var(--gray-700) !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 767.98px) {
+    .footer {
+        padding-bottom: 2rem;
+    }
+    
+    .footer-section {
+        margin-bottom: 2rem;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    .payment-methods-footer {
+        text-align: center;
+    }
+    
+    .footer-badges {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    .newsletter-signup {
+        text-align: center;
+    }
+}
+
+/* Animation effects */
+.footer-section {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: backwards;
+}
+
+.footer-section:nth-child(1) { animation-delay: 0.1s; }
+.footer-section:nth-child(2) { animation-delay: 0.2s; }
+.footer-section:nth-child(3) { animation-delay: 0.3s; }
+.footer-section:nth-child(4) { animation-delay: 0.4s; }
+.footer-section:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scroll to top button */
+#footer-scroll-top {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 3px solid var(--gray-900);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+#footer-scroll-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Enhanced hover effects */
+.info-item a:hover {
+    color: var(--primary-color) !important;
+}
+
+.info-item:hover i {
+    color: var(--primary-color) !important;
+    transform: scale(1.1);
+}
+
+/* Loading states */
+.newsletter-form.loading .btn {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.newsletter-form.loading .btn i {
+    animation: spin 1s linear infinite;
+}
+
+/* Dark mode compatibility */
+@media (prefers-color-scheme: light) {
+    .footer {
+        background: var(--gray-800);
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Newsletter form submission
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = this.querySelector('input[name="email"]').value;
+            const button = this.querySelector('button');
+            const originalContent = button.innerHTML;
+            
+            // Show loading state
+            this.classList.add('loading');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            // Simulate API call
+            setTimeout(() => {
+                FlexiFinance.showToast('Thank you for subscribing to our newsletter!', 'success');
+                this.reset();
+                this.classList.remove('loading');
+                button.innerHTML = originalContent;
+            }, 1500);
+        });
+    }
+    
+    // Scroll to top functionality
+    const scrollTopBtn = document.getElementById('footer-scroll-top');
+    if (scrollTopBtn) {
+        // Show/hide button based on scroll position
+        function toggleScrollTopBtn() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.style.display = 'block';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        }
+        
+        window.addEventListener('scroll', throttle(toggleScrollTopBtn, 250));
+        
+        // Scroll to top when clicked
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    // Animate footer sections on scroll
+    const footerSections = document.querySelectorAll('.footer-section');
+    const footerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    footerSections.forEach(section => {
+        footerObserver.observe(section);
+    });
+    
+    // Social media tracking
+    const socialLinks = document.querySelectorAll('.social-links a');
+    socialLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const platform = this.getAttribute('aria-label');
+            FlexiFinance.trackEvent('social_media_click', {
+                platform: platform,
+                page_location: window.location.href
+            });
+        });
+    });
+    
+    // Payment method tracking
+    const paymentMethods = document.querySelectorAll('.payment-method-footer');
+    paymentMethods.forEach(method => {
+        method.addEventListener('click', function() {
+            const methodName = this.querySelector('small').textContent;
+            FlexiFinance.trackEvent('payment_method_view', {
+                method: methodName,
+                page_location: window.location.href
+            });
+        });
+    });
+});
+
+// Utility function for throttling
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+</script>
