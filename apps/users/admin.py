@@ -102,5 +102,4 @@ class UserAdmin(BaseUserAdmin):
 
 
 # Register the custom User model
-admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
