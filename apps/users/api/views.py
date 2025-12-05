@@ -16,7 +16,6 @@ from rest_framework.views import APIView
 # import django_rest_passwordreset.views
 from dj_rest_auth.views import LoginView as DJRAuthLoginView, LogoutView as DJRAuthLogoutView
 from dj_rest_auth.registration.views import RegisterView as DJRAuthRegisterView
-from dj_rest_auth.app_settings import serializers as dj_rest_auth_serializers
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
