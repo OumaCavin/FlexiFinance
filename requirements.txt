@@ -16,7 +16,7 @@ django-cors-headers==4.3.1
 django-allauth==65.0.2
 django-extensions==3.2.3
 django-crispy-forms==2.3
-crispy-bootstrap5==2024.1
+crispy-bootstrap5==2025.6  # Latest version compatible with Python 3.12
 
 # File Handling and Storage
 django-storages==1.14.4
