@@ -113,7 +113,7 @@ django-debug-toolbar-line-profiler==0.6.1  # Line profiling (latest available ve
 
 # Production Dependencies
 gunicorn==21.2.0        # WSGI HTTP Server
-django-cachalot==2.6.1  # Database caching
+django-cachalot          # Database caching (auto-resolve compatible version)
 
 # Additional Utilities
 python-dateutil==2.9.0  # Date utilities
