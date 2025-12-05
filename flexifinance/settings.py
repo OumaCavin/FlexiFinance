@@ -43,6 +43,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',  # Token authentication for dj-rest-auth
     'rest_framework_simplejwt',
     'corsheaders',
     'allauth',
