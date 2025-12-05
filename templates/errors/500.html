@@ -1,0 +1,29 @@
+{% extends 'errors/error.html' %}
+
+{% block title %}Server Error (500) - FlexiFinance{% endblock %}
+
+{% block error_title %}Server Error{% endblock %}
+
+{% block error_message %}
+<p class="lead text-muted mb-4">
+    We apologize for the inconvenience. Something went wrong on our end, 
+    and our technical team has been automatically notified.
+</p>
+
+<div class="alert alert-warning" role="alert">
+    <h6 class="alert-heading">
+        <i class="fas fa-tools me-2"></i>What You Can Do:
+    </h6>
+    <ul class="mb-0">
+        <li>Try refreshing the page in a few moments</li>
+        <li>Check if there are any known service disruptions</li>
+        <li>Clear your browser cache and try again</li>
+        <li>Contact our support team if the problem persists</li>
+    </ul>
+</div>
+
+<p class="text-muted small mt-3">
+    Error ID: {{ request.META.HTTP_X_REQUEST_ID|default:"N/A" }} | 
+    Timestamp: {{ request.META.TIME|default:"" }}
+</p>
+{% endblock %}

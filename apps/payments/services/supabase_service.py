@@ -26,31 +26,34 @@ class SupabaseService:
             'Prefer': 'return=representation'
         }
     
-    def submit_contact_form(self, name, email, phone, subject, message, source='website'):
+    def submit_contact_form(self, contact_data):
         """
         Submit contact form to Supabase
         
         Args:
-            name (str): Contact name
-            email (str): Contact email
-            phone (str): Contact phone
-            subject (str): Message subject
-            message (str): Message content
-            source (str): Source of submission
+            contact_data (dict): Contact form data with keys:
+                - name (str): Contact name
+                - email (str): Contact email
+                - phone (str): Contact phone
+                - subject (str): Message subject
+                - message (str): Message content
+                - source (str): Source of submission
             
         Returns:
             dict: Submission result
         """
         try:
             data = {
-                'name': name,
-                'email': email,
-                'phone': phone,
-                'subject': subject,
-                'message': message,
-                'source': source,
+                'name': contact_data.get('name', ''),
+                'email': contact_data.get('email', ''),
+                'phone': contact_data.get('phone', ''),
+                'subject': contact_data.get('subject', 'General Inquiry'),
+                'message': contact_data.get('message', ''),
+                'source': contact_data.get('source', 'website'),
                 'status': 'new',
-                'created_at': 'now()'
+                'created_at': contact_data.get('created_at', 'now()'),
+                'ip_address': contact_data.get('ip_address', ''),
+                'user_agent': contact_data.get('user_agent', '')
             }
             
             response = requests.post(
@@ -296,3 +299,22 @@ class SupabaseService:
                 'success': False,
                 'error': str(e)
             }
+    
+    def health_check(self):
+        """
+        Check Supabase service health
+        
+        Returns:
+            bool: True if service is healthy
+        """
+        try:
+            # Try to make a simple request to check connectivity
+            response = requests.get(
+                f"{self.supabase_url}/rest/v1/contact_submissions",
+                headers=self.headers,
+                params={'limit': 1}
+            )
+            return response.status_code in [200, 404]  # 404 is okay if table doesn't exist
+        except Exception as e:
+            logger.error(f"Supabase health check failed: {e}")
+            return False

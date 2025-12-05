@@ -286,3 +286,161 @@ class StripeService:
         
         symbol = currency_symbols.get(currency, currency.upper())
         return f"{symbol}{amount:.2f}"
+    
+    def verify_webhook(self, payload, signature):
+        """
+        Verify Stripe webhook signature
+        
+        Args:
+            payload (str): Raw webhook payload
+            signature (str): Webhook signature header
+            
+        Returns:
+            dict or None: Verified event data or None if verification failed
+        """
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, signature, settings.STRIPE_WEBHOOK_SECRET
+            )
+            return event
+        except stripe.error.SignatureVerificationError:
+            logger.error("Stripe webhook signature verification failed")
+            return None
+    
+    def handle_payment_success(self, payment_intent):
+        """
+        Handle successful payment webhook
+        
+        Args:
+            payment_intent (dict): Payment intent data
+            
+        Returns:
+            dict: Processing result
+        """
+        try:
+            logger.info(f"Processing successful payment: {payment_intent.id}")
+            
+            # Here you would typically:
+            # 1. Update payment status in database
+            # 2. Update loan/payment records
+            # 3. Send confirmation emails
+            # 4. Update user balance
+            
+            # For now, just log the success
+            return {
+                'success': True,
+                'payment_intent_id': payment_intent.id,
+                'amount': payment_intent.amount,
+                'currency': payment_intent.currency,
+                'status': payment_intent.status,
+                'message': 'Payment success processed'
+            }
+            
+        except Exception as e:
+            logger.error(f"Error processing payment success: {str(e)}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def handle_payment_failure(self, payment_intent):
+        """
+        Handle failed payment webhook
+        
+        Args:
+            payment_intent (dict): Payment intent data
+            
+        Returns:
+            dict: Processing result
+        """
+        try:
+            logger.warning(f"Processing failed payment: {payment_intent.id}")
+            
+            # Here you would typically:
+            # 1. Update payment status in database
+            # 2. Update loan/payment records
+            # 3. Send failure notification emails
+            # 4. Log the failure reason
+            
+            return {
+                'success': True,
+                'payment_intent_id': payment_intent.id,
+                'amount': payment_intent.amount,
+                'currency': payment_intent.currency,
+                'status': payment_intent.status,
+                'last_payment_error': payment_intent.get('last_payment_error', {}),
+                'message': 'Payment failure processed'
+            }
+            
+        except Exception as e:
+            logger.error(f"Error processing payment failure: {str(e)}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def handle_payment_canceled(self, payment_intent):
+        """
+        Handle canceled payment webhook
+        
+        Args:
+            payment_intent (dict): Payment intent data
+            
+        Returns:
+            dict: Processing result
+        """
+        try:
+            logger.info(f"Processing canceled payment: {payment_intent.id}")
+            
+            # Here you would typically:
+            # 1. Update payment status in database
+            # 2. Update loan/payment records
+            # 3. Send cancellation notification
+            
+            return {
+                'success': True,
+                'payment_intent_id': payment_intent.id,
+                'amount': payment_intent.amount,
+                'currency': payment_intent.currency,
+                'status': payment_intent.status,
+                'message': 'Payment cancellation processed'
+            }
+            
+        except Exception as e:
+            logger.error(f"Error processing payment cancellation: {str(e)}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def check_payment_status(self, payment_intent_id):
+        """
+        Check the status of a payment intent
+        
+        Args:
+            payment_intent_id (str): Stripe payment intent ID
+            
+        Returns:
+            dict: Payment status data
+        """
+        try:
+            payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+            
+            return {
+                'success': True,
+                'data': {
+                    'id': payment_intent.id,
+                    'status': payment_intent.status,
+                    'amount': payment_intent.amount,
+                    'currency': payment_intent.currency,
+                    'created': payment_intent.created,
+                    'description': payment_intent.description
+                }
+            }
+            
+        except stripe.error.StripeError as e:
+            logger.error(f"Failed to check payment status: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }

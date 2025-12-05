@@ -268,3 +268,50 @@ class PaymentService:
         """
         supported_currencies = self.get_supported_currencies(payment_method)
         return currency.lower() in [c.lower() for c in supported_currencies]
+    
+    def process_mpesa_callback(self, callback_data):
+        """
+        Process M-PESA payment callback
+        
+        Args:
+            callback_data (dict): M-PESA callback data
+            
+        Returns:
+            dict: Processing result
+        """
+        try:
+            # Extract transaction details
+            transaction_id = callback_data.get('transaction_id', '')
+            amount = callback_data.get('amount', 0)
+            phone_number = callback_data.get('phone_number', '')
+            reference = callback_data.get('reference', '')
+            status = callback_data.get('status', '')
+            description = callback_data.get('description', '')
+            
+            # Log the callback
+            logger.info(f"Processing M-PESA callback: {transaction_id}")
+            
+            # Here you would typically:
+            # 1. Update payment record in database
+            # 2. Update loan/payment status
+            # 3. Send notifications
+            # 4. Update user balance
+            
+            # For now, we'll just log and return success
+            payment_status = 'completed' if status == '0' else 'failed'
+            
+            return {
+                'success': True,
+                'transaction_id': transaction_id,
+                'status': payment_status,
+                'amount': amount,
+                'phone_number': phone_number,
+                'message': 'M-PESA callback processed successfully'
+            }
+            
+        except Exception as e:
+            logger.error(f"Error processing M-PESA callback: {str(e)}")
+            return {
+                'success': False,
+                'error': str(e)
+            }

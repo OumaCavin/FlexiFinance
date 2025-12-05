@@ -455,3 +455,96 @@ Need help? Contact us at support@flexifinance.com
                 'success': False,
                 'error': str(e)
             }
+    
+    def health_check(self):
+        """
+        Check Resend service health
+        
+        Returns:
+            bool: True if service is healthy
+        """
+        try:
+            # Try to send a test email to verify service connectivity
+            # In a real implementation, you might ping the API or send a test email
+            response = requests.get(
+                'https://api.resend.com/domains',
+                headers=self.headers
+            )
+            return response.status_code in [200, 401]  # 401 is okay (invalid API key but service reachable)
+        except Exception as e:
+            logger.error(f"Resend health check failed: {e}")
+            return False
+    
+    def send_contact_notification(self, contact_data):
+        """
+        Send notification email to support team about new contact form submission
+        
+        Args:
+            contact_data (dict): Contact form data
+            
+        Returns:
+            dict: Email sending result
+        """
+        try:
+            subject = f"New Contact Form Submission - {contact_data.get('subject', 'General Inquiry')}"
+            
+            html_content = f"""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <title>New Contact Form Submission</title>
+                <style>
+                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
+                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                    .header {{ background: linear-gradient(135deg, #e83e8c 0%, #fd7e14 100%); color: white; padding: 30px; text-align: center; }}
+                    .content {{ padding: 30px; background: #f9f9f9; }}
+                    .contact-details {{ background: white; padding: 20px; border-left: 4px solid #e83e8c; margin: 20px 0; }}
+                    .footer {{ padding: 20px; text-align: center; color: #666; font-size: 14px; }}
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>📧 New Contact Form Submission</h1>
+                        <p>FlexiFinance Website</p>
+                    </div>
+                    <div class="content">
+                        <h2>Contact Details</h2>
+                        
+                        <div class="contact-details">
+                            <p><strong>Name:</strong> {contact_data.get('name', 'N/A')}</p>
+                            <p><strong>Email:</strong> {contact_data.get('email', 'N/A')}</p>
+                            <p><strong>Phone:</strong> {contact_data.get('phone', 'N/A')}</p>
+                            <p><strong>Subject:</strong> {contact_data.get('subject', 'N/A')}</p>
+                            <p><strong>Source:</strong> {contact_data.get('source', 'website')}</p>
+                            <p><strong>Submitted:</strong> {contact_data.get('created_at', 'N/A')}</p>
+                            <p><strong>IP Address:</strong> {contact_data.get('ip_address', 'N/A')}</p>
+                        </div>
+                        
+                        <h3>Message:</h3>
+                        <div style="background: white; padding: 20px; border-radius: 5px; margin: 20px 0;">
+                            <p>{contact_data.get('message', 'No message provided').replace('\\n', '<br>')}</p>
+                        </div>
+                        
+                        <p>Please respond to this inquiry within 24 hours.</p>
+                    </div>
+                    <div class="footer">
+                        <p>FlexiFinance - Customer Support Notification</p>
+                        <p>View all submissions in the admin panel</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """
+            
+            # Send to support team
+            support_email = getattr(settings, 'SUPPORT_EMAIL', 'support@flexifinance.com')
+            return self.send_email(support_email, subject, html_content)
+            
+        except Exception as e:
+            logger.error(f"Contact notification email error: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }

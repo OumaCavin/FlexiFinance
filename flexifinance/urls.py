@@ -15,10 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
+from apps.core import views
 
 # Admin site customization
 admin.site.site_header = "FlexiFinance Administration"
@@ -29,8 +30,8 @@ urlpatterns = [
     # Admin interface
     path(settings.ADMIN_URL, admin.site.urls),
     
-    # Redirect root to dashboard or login
-    path('', RedirectView.as_view(url='/dashboard/', permanent=False)),
+    # Main website pages
+    path('', include('apps.core.urls')),
     
     # API endpoints
     path('api/v1/auth/', include('apps.users.urls')),
@@ -47,6 +48,7 @@ urlpatterns = [
     
     # Health check endpoints
     path('health/', include('apps.core.urls')),
+    path('api/payments/', include('apps.payments.web_urls')),
     
     # Documentation
     path('docs/', include('docs.urls')),
@@ -61,3 +63,9 @@ if settings.DEBUG:
     if 'debug_toolbar' in settings.INSTALLED_APPS:
         import debug_toolbar
         urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
+
+# Custom error handlers
+handler404 = views.handler404
+handler500 = views.handler500
+handler403 = views.handler403
+handler400 = views.handler400
