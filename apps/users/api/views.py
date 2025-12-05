@@ -5,17 +5,14 @@ REST API endpoints for user management and authentication
 
 import logging
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User as DjangoUser
+from django.contrib.auth import login, logout
 from rest_framework import status, viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
-# Password reset functionality will be implemented later
-# import django_rest_passwordreset.views
-from dj_rest_auth.views import LoginView as DJRAuthLoginView, LogoutView as DJRAuthLogoutView
-from dj_rest_auth.registration.views import RegisterView as DJRAuthRegisterView
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
@@ -50,50 +47,107 @@ class UserProfileViewSet(viewsets.ViewSet):
         return Response(data)
 
 
-class UserRegistrationView(DJRAuthRegisterView):
+class UserRegistrationView(APIView):
     """
     Custom User Registration API View
-    Uses dj_rest_auth for registration with additional fields
+    Simple implementation using Django auth
     """
     permission_classes = [AllowAny]
     
-    def get_response_data(self, user):
-        return {
-            'user': {
-                'id': user.id,
-                'email': user.email,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'phone_number': getattr(user, 'phone_number', None),
-            },
-            'key': self.token.key if self.token else None,
-            'refresh': getattr(self.token, 'refresh_token', None)
-        }
+    def post(self, request):
+        """Register a new user"""
+        email = request.data.get('email')
+        password = request.data.get('password')
+        first_name = request.data.get('first_name', '')
+        last_name = request.data.get('last_name', '')
+        phone_number = request.data.get('phone_number', '')
+        
+        if not email or not password:
+            return Response(
+                {'error': 'Email and password are required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            user = User.objects.create_user(
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+            )
+            # Set phone_number if the field exists
+            if hasattr(user, 'phone_number'):
+                user.phone_number = phone_number
+                user.save()
+            
+            return Response({
+                'message': 'User registered successfully',
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'phone_number': getattr(user, 'phone_number', None),
+                }
+            }, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
-class UserLoginView(DJRAuthLoginView):
+class UserLoginView(APIView):
     """
     Custom User Login API View
-    Uses dj_rest_auth for login functionality
+    Simple implementation using Django auth
     """
     permission_classes = [AllowAny]
     
-    def get_response(self):
-        data = super().get_response()
-        return Response({
-            'user': data.data.get('user'),
-            'access_token': data.data.get('access_token'),
-            'refresh_token': data.data.get('refresh_token')
-        })
+    def post(self, request):
+        """Login user"""
+        email = request.data.get('email')
+        password = request.data.get('password')
+        
+        if not email or not password:
+            return Response(
+                {'error': 'Email and password are required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            return Response({
+                'message': 'Login successful',
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'phone_number': getattr(user, 'phone_number', None),
+                }
+            })
+        else:
+            return Response(
+                {'error': 'Invalid credentials'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
-class UserLogoutView(DJRAuthLogoutView):
+class UserLogoutView(APIView):
     """
     Custom User Logout API View
-    Uses dj_rest_auth for logout functionality
+    Simple implementation using Django auth
     """
     permission_classes = [IsAuthenticated]
-    pass
+    
+    def post(self, request):
+        """Logout user"""
+        logout(request)
+        return Response({
+            'message': 'Logout successful'
+        })
 
 
 class EmailVerificationView(APIView):

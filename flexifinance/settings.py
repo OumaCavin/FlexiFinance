@@ -43,7 +43,6 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
-    'rest_framework.authtoken',  # Token authentication for dj-rest-auth
     'rest_framework_simplejwt',
     'corsheaders',
     'allauth',
@@ -54,7 +53,6 @@ THIRD_PARTY_APPS = [
     'celery',
     'django_filters',
     'import_export',
-    'dj_rest_auth',
 ]
 
 LOCAL_APPS = [
