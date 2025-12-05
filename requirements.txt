@@ -55,11 +55,11 @@ pandas==2.2.0           # Data analysis
 
 # Security
 cryptography==42.0.2    # Cryptographic functions
-django-csp==3.7         # Content Security Policy
-django-security==0.21.0 # Security utilities
+django-csp==3.7         # Content Security Policy (Python 3.12 compatible)
+django-security==1.1.4 # Security utilities (latest available version)
 
 # Monitoring and Logging
-django-silk==5.0.4      # Profiling and debugging
+django-silk==5.1.0      # Profiling and debugging (latest for Python 3.12)
 django-debug-toolbar==4.4.6  # Debug toolbar (Python 3.12 compatible)
 
 # Testing
