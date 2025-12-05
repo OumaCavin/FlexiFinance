@@ -101,7 +101,7 @@ tablib==3.7.0           # Tabular data library (Python 3.12 compatible)
 
 # Background Tasks
 django-celery-beat==2.7.0  # Celery beat scheduler (Python 3.12 compatible)
-django-celery-results==2.8.0  # Celery results backend (Python 3.12 compatible)
+django-celery-results==2.6.0  # Celery results backend (latest available version)
 
 # API Documentation
 drf-spectacular==0.27.1  # API documentation
