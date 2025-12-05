@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
-from django_rest_passwordreset.serializers import PasswordResetRequestSerializer
+# Import Django REST PasswordReset views (using default configuration)
 from django_rest_passwordreset.views import (
     PasswordResetRequestView as DRRPasswordResetRequestView,
     PasswordResetConfirmView as DRRPasswordResetConfirmView
@@ -136,7 +136,6 @@ class ForgotPasswordView(DRRPasswordResetRequestView):
     Uses django-rest-passwordreset package
     """
     permission_classes = [AllowAny]
-    serializer_class = PasswordResetRequestSerializer
     
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
