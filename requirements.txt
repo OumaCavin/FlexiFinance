@@ -4,7 +4,7 @@ Django==5.2.8
 
 # Database
 psycopg2-binary==2.9.9  # PostgreSQL adapter
-mysqlclient==2.2.4      # MySQL adapter
+PyMySQL==1.1.0          # Pure Python MySQL adapter (no system deps)
 dj-database-url==2.1.0  # Database URL parsing
 
 # API and Serialization
