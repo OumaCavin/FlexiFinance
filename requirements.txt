@@ -110,7 +110,7 @@ swagger-spec-validator==3.0.3  # Swagger validation
 # Development Dependencies
 ipython==8.28.0         # Enhanced Python shell (latest for Python 3.12)
 jupyter==1.0.0          # Jupyter notebook support
-django-debug-toolbar-line-profiler==2.0.2  # Line profiling
+django-debug-toolbar-line-profiler==0.6.1  # Line profiling (latest available version)
 
 # Production Dependencies
 gunicorn==21.2.0        # WSGI HTTP Server
