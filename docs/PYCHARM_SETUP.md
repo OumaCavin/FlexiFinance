@@ -63,13 +63,13 @@ cd pycharm-community-2024.1/bin
 1. Open PyCharm
 2. Select "Get from VCS"
 3. Choose "Git"
-4. Repository URL: `https://github.com/OumaCavin/django-microfinance-mpsa.git`
+4. Repository URL: `https://github.com/OumaCavin/FlexiFinance.git`
 5. Choose directory for the project
 6. Click "Clone"
 
 #### Using Command Line
 ```bash
-git clone https://github.com/OumaCavin/django-microfinance-mpsa.git
+git clone https://github.com/OumaCavin/FlexiFinance.git
 cd django-microfinance-mpsa
 ```
 

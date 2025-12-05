@@ -208,7 +208,7 @@ DATABASES = {
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/OumaCavin/django-microfinance-mpsa.git
+git clone https://github.com/OumaCavin/FlexiFinance.git
 cd django-microfinance-mpsa
 ```
 
@@ -251,7 +251,7 @@ The project has been initialized with the correct Git configuration:
 git config user.name "OumaCavin"
 git config user.email "cavin.otieno012@gmail.com"
 git branch -M main
-git remote add origin https://github.com/OumaCavin/django-microfinance-mpsa.git
+git remote add origin https://github.com/OumaCavin/FlexiFinance.git
 git add .
 git commit -m "feat: complete Django microfinance platform with M-Pesa integration"
 
@@ -359,7 +359,7 @@ The **FlexiFinance** platform is now ready for development, testing, and deploym
 
 ---
 
-**Repository:** https://github.com/OumaCavin/django-microfinance-mpsa  
+**Repository:** https://github.com/OumaCavin/FlexiFinance  
 **Author:** Cavin Otieno  
 **Email:** cavin.otieno012@gmail.com  
 **Date:** December 5, 2025

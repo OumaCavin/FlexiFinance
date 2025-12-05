@@ -733,7 +733,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Phone**: +254 700 123 456
 
 ### Community
-- **GitHub**: https://github.com/OumaCavin/django-microfinance-mpsa
+- **GitHub**: https://github.com/OumaCavin/FlexiFinance
 - **Discussions**: GitHub Discussions for community support
 
 ## 🎉 Acknowledgments
