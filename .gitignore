@@ -1,0 +1,398 @@
+# FlexiFinance .gitignore
+# Django
+*.log
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+venv
+ENV
+env.bak
+venv.bak
+.venv
+
+# Django collectstatic
+staticfiles/
+
+# SQLite database
+db.sqlite3
+
+# Media files
+media/
+!media/.gitkeep
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# PyCharm
+.idea/
+
+# PyCharm Community
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+.nox/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Django migrations
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Static files
+/static/
+/staticfiles/
+
+# Media files (user uploads)
+/media/
+!media/.gitkeep
+
+# Log files
+logs/
+*.log
+
+# Cache
+.cache/
+.cache/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# Backup files
+*.backup
+*.bak
+
+# Deployment
+.deploy/
+deploy/
+
+# Production files
+*.sql
+*.dump
+
+# Documentation builds
+docs/_build/
+
+# Node modules (if any frontend assets)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Backup files
+*.orig
+*.bak
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+
+# Security keys
+*.pem
+*.key
+*.crt
+*.cert
+*.p12
+
+# Database dumps
+*.sql
+*.dump
+*.db
+
+# Cache files
+*.cache
+
+# Session files
+sessions/
+
+# Python bytecode cache
+__pycache__/
+
+# Django debug toolbar
+debug.log
+
+# Local settings override
+local_settings.py
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml
+
+# Kubernetes
+*.yaml
+*.yml
+!docker-compose.yml
+!docker-compose.override.yml
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# AWS
+.aws/
+
+# Secrets
+secrets.json
+credentials.json
+
+# Backup and log files
+*.backup
+*.bak
+*.old
+
+# Documentation
+docs/_build/
+
+# Build artifacts
+build/
+dist/
+
+# Test results
+test-results/
+junit.xml
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+
+# Profiling data
+*.prof
+
+# Local development files
+local_settings.py
+development_settings.py
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.cert
+
+# API keys and tokens
+api_keys.txt
+tokens.txt
+access_tokens.txt
+
+# User uploaded files (in development)
+uploads/
+
+# Static analysis
+.flake8
+.pylintrc
+.isort.cfg
+
+# Pre-commit hooks
+.pre-commit-config.yaml
+
+# Docker volumes
+volumes/
+
+# Monitoring
+monitoring/
+
+# Deployment scripts
+deploy/
+scripts/deploy/
+
+# Local scripts
+scripts/local/
+
+# Database configuration
+database.yml
+database.json
+
+# Log aggregation
+logstash/
+
+# Elasticsearch
+elasticsearch/
+
+# Redis
+redis/
+
+# Celery results
+celerybeat-schedule*
+
+# Sentry
+.sentryclirc
+
+# Custom local files
+local/
+private/
+personal/
+
+# Django settings overrides
+local_settings.py
+development.py
+staging.py
+production.py
+
+# Static files
+/static/
+/media/
+!media/.gitkeep
+
+# Log files
+logs/
+*.log
+
+# Cache directories
+.cache/
+
+# Temporary directories
+tmp/
+temp/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Archive files
+*.zip
+*.tar
+*.gz
+
+# Generated files
+generated/
+
+# Backup files
+*.backup
+*.bak
+*.old
