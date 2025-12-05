@@ -54,7 +54,6 @@ THIRD_PARTY_APPS = [
     'celery',
     'django_filters',
     'import_export',
-    'django_rest_passwordreset',
     'dj_rest_auth',
 ]
 
