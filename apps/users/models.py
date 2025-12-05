@@ -144,8 +144,8 @@ class User(AbstractUser):
         self.save(update_fields=['kyc_status', 'is_verified', 'verification_date'])
     
     def get_annual_income(self):
-        """Calculate annual self.monthly_in income"""
-        ifcome:
+        """Calculate annual monthly_income"""
+        if self.monthly_income:
             return self.monthly_income * 12
         return 0
     
