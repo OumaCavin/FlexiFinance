@@ -54,6 +54,7 @@ THIRD_PARTY_APPS = [
     'django_filters',
     'import_export',
     'django_rest_passwordreset',
+    'dj_rest_auth',
 ]
 
 LOCAL_APPS = [
