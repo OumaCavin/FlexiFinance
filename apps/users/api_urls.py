@@ -17,7 +17,6 @@ urlpatterns = [
     path('', include(router.urls)),
     
     # Authentication endpoints
-    path('auth/', include('dj_rest_auth.urls')),
     path('register/', views.UserRegistrationView.as_view(), name='register'),
     path('login/', views.UserLoginView.as_view(), name='login'),
     path('logout/', views.UserLogoutView.as_view(), name='logout'),
