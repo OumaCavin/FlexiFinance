@@ -89,7 +89,7 @@ django-choices==1.7.2   # Choice field utilities
 
 # Pagination and Filtering
 django-filter==24.2     # Filtering functionality (Python 3.12 compatible)
-django-pagination==0.2  # Pagination utilities
+django-pagination==1.0.7 # Pagination utilities (latest available version)
 
 # Internationalization
 django-rosetta==0.9.8   # Translation management
