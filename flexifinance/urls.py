@@ -50,8 +50,7 @@ urlpatterns = [
     path('health/', include('apps.core.urls')),
     path('api/payments/', include('apps.payments.web_urls')),
     
-    # Documentation
-    path('docs/', include('docs.urls')),
+
 ]
 
 # Serve media files in development
