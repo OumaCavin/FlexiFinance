@@ -60,7 +60,7 @@ django-security==0.21.0 # Security utilities
 
 # Monitoring and Logging
 django-silk==5.0.4      # Profiling and debugging
-django-debug-toolbar==4.2.0  # Debug toolbar
+django-debug-toolbar==4.4.6  # Debug toolbar (Python 3.12 compatible)
 
 # Testing
 pytest==8.0.0           # Testing framework
@@ -110,7 +110,6 @@ swagger-spec-validator==3.0.3  # Swagger validation
 # Development Dependencies
 ipython==8.22.1         # Enhanced Python shell
 jupyter==1.0.0          # Jupyter notebook support
-django-debug-toolbar==4.2.0  # Debug toolbar
 django-debug-toolbar-line-profiler==2.0.2  # Line profiling
 
 # Production Dependencies
