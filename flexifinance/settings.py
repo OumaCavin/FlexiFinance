@@ -53,6 +53,7 @@ THIRD_PARTY_APPS = [
     'celery',
     'django_filters',
     'import_export',
+    'django_rest_passwordreset',
 ]
 
 LOCAL_APPS = [
