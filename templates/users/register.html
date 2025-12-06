@@ -141,5 +141,18 @@ document.getElementById('confirm_password').addEventListener('input', function()
         this.setCustomValidity('');
     }
 });
+
+// Form submission handling
+document.querySelector('form[action*="account_signup"]').addEventListener('submit', function(e) {
+    const form = this;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Account...';
+    submitBtn.disabled = true;
+    
+    // Let the form submit normally to Django allauth
+    // If there are validation errors, Django will handle them
+});
 </script>
 {% endblock %}

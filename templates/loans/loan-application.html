@@ -386,6 +386,9 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
             submitBtn.disabled = true;
             
+            // Get CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            
             // Create FormData for submission
             const formData = new FormData(form);
             
@@ -394,14 +397,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (response.headers.get('content-type').includes('application/json')) {
+                    return response.json();
+                } else {
+                    // If not JSON, assume it's a redirect or HTML response
+                    return { success: true, redirect: '/' };
                 }
             })
-            .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     alert('Application submitted successfully! You will receive a confirmation email shortly.');
-                    window.location.href = '/';
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    } else {
+                        window.location.href = '/';
+                    }
                 } else {
                     alert('Error: ' + (data.message || 'Please check your information and try again.'));
                     submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Application';
@@ -410,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+                alert('An error occurred while submitting the application. Please try again.');
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Application';
                 submitBtn.disabled = false;
             });
