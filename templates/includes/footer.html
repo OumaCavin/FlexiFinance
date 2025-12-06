@@ -1,109 +1,85 @@
 {% load static %}
 <footer class="footer">
     <div class="container">
-        <div class="row">
-            <!-- Company Information -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="footer-section">
+        <!-- Main Footer Content -->
+        <div class="row footer-main">
+            <!-- Company Info & Quick Links Combined -->
+            <div class="col-lg-4 col-md-12 mb-3">
+                <div class="footer-section company-section">
                     <div class="footer-brand d-flex align-items-center mb-3">
-                        <img src="{% static 'images/logo-white.svg' %}" alt="FlexiFinance" height="40" class="me-2">
+                        <img src="{% static 'images/logo-white.svg' %}" alt="FlexiFinance" height="35" class="me-2">
                         <h5 class="text-white mb-0">FlexiFinance</h5>
                     </div>
-                    <p class="text-light mb-3">
-                        Kenya's leading microfinance platform providing fast, secure, and accessible loans to individuals and businesses across the country.
-                    </p>
                     
-                    <!-- Business Information -->
-                    <div class="business-info">
-                        <div class="info-item d-flex align-items-start mb-2">
-                            <i class="fas fa-map-marker-alt text-primary me-2 mt-1"></i>
-                            <div>
-                                <small class="text-light">
-                                    {{ BUSINESS_ADDRESS|default:"Westlands Business Park, Ring Road, P.O. Box 12345-00100, Nairobi, Kenya" }}
-                                </small>
-                            </div>
+                    <!-- Contact Info Row -->
+                    <div class="contact-info-row">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt text-primary me-1"></i>
+                            <small class="text-light">Nairobi, Kenya</small>
                         </div>
-                        <div class="info-item d-flex align-items-center mb-2">
-                            <i class="fas fa-phone text-primary me-2"></i>
-                            <div>
-                                <a href="tel:{{ BUSINESS_PHONE|default:"+254708101604" }}" class="text-light text-decoration-none">
-                                    {{ BUSINESS_PHONE|default:"+254 708 101 604" }}
-                                </a>
-                            </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone text-primary me-1"></i>
+                            <a href="tel:{{ BUSINESS_PHONE|default:"+254708101604" }}" class="text-light text-decoration-none">
+                                {{ BUSINESS_PHONE|default:"+254 708 101 604" }}
+                            </a>
                         </div>
-                        <div class="info-item d-flex align-items-center mb-2">
-                            <i class="fas fa-envelope text-primary me-2"></i>
-                            <div>
-                                <a href="mailto:{{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}" class="text-light text-decoration-none">
-                                    {{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}
-                                </a>
-                            </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope text-primary me-1"></i>
+                            <a href="mailto:{{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}" class="text-light text-decoration-none">
+                                {{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}
+                            </a>
                         </div>
-                        <div class="info-item d-flex align-items-center">
-                            <i class="fas fa-clock text-primary me-2"></i>
-                            <small class="text-light">24/7 Customer Support</small>
-                        </div>
+                    </div>
+                    
+                    <!-- Quick Links Grid -->
+                    <div class="quick-links-grid">
+                        <a href="{% url 'home' %}" class="text-light text-decoration-none">Home</a>
+                        <a href="{% url 'loan_products' %}" class="text-light text-decoration-none">Personal Loans</a>
+                        <a href="{% url 'business_loans' %}" class="text-light text-decoration-none">Business Loans</a>
+                        <a href="{% url 'emergency_loans' %}" class="text-light text-decoration-none">Emergency Loans</a>
+                        <a href="{% url 'loan_calculator' %}" class="text-light text-decoration-none">Calculator</a>
+                        <a href="{% url 'how_it_works' %}" class="text-light text-decoration-none">How It Works</a>
                     </div>
                 </div>
             </div>
             
-            <!-- Quick Links -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <div class="footer-section">
-                    <h5 class="text-white mb-3">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{% url 'home' %}" class="text-light text-decoration-none">Home</a></li>
-                        <li class="mb-2"><a href="{% url 'loan_products' %}" class="text-light text-decoration-none">Personal Loans</a></li>
-                        <li class="mb-2"><a href="{% url 'business_loans' %}" class="text-light text-decoration-none">Business Loans</a></li>
-                        <li class="mb-2"><a href="{% url 'emergency_loans' %}" class="text-light text-decoration-none">Emergency Loans</a></li>
-                        <li class="mb-2"><a href="{% url 'loan_calculator' %}" class="text-light text-decoration-none">Loan Calculator</a></li>
-                        <li class="mb-2"><a href="{% url 'how_it_works' %}" class="text-light text-decoration-none">How It Works</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Support -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <div class="footer-section">
-                    <h5 class="text-white mb-3">Support</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{% url 'contact' %}" class="text-light text-decoration-none">Contact Us</a></li>
-                        <li class="mb-2"><a href="{% url 'support' %}" class="text-light text-decoration-none">Help Center</a></li>
-                        <li class="mb-2"><a href="{% url 'faq' %}" class="text-light text-decoration-none">FAQ</a></li>
-                        <li class="mb-2"><a href="{% url 'privacy_policy' %}" class="text-light text-decoration-none">Privacy Policy</a></li>
-                        <li class="mb-2"><a href="{% url 'terms_of_service' %}" class="text-light text-decoration-none">Terms of Service</a></li>
-                        <li class="mb-2"><a href="{% url 'loan_agreement' %}" class="text-light text-decoration-none">Loan Agreement</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Company -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <div class="footer-section">
-                    <h5 class="text-white mb-3">Company</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{% url 'about' %}" class="text-light text-decoration-none">About Us</a></li>
-                        <li class="mb-2"><a href="{% url 'careers' %}" class="text-light text-decoration-none">Careers</a></li>
-                        <li class="mb-2"><a href="{% url 'press' %}" class="text-light text-decoration-none">Press</a></li>
-                        <li class="mb-2"><a href="{% url 'blog' %}" class="text-light text-decoration-none">Blog</a></li>
-                        <li class="mb-2"><a href="{% url 'investors' %}" class="text-light text-decoration-none">Investors</a></li>
-                        <li class="mb-2"><a href="{% url 'partners' %}" class="text-light text-decoration-none">Partners</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Newsletter & Social -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <div class="footer-section">
-                    <h5 class="text-white mb-3">Stay Connected</h5>
+            <!-- Support & Company Combined -->
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="footer-section support-section">
+                    <h6 class="text-white mb-2">Support & Help</h6>
+                    <div class="links-grid">
+                        <a href="{% url 'contact' %}" class="text-light text-decoration-none">Contact Us</a>
+                        <a href="{% url 'support' %}" class="text-light text-decoration-none">Help Center</a>
+                        <a href="{% url 'faq' %}" class="text-light text-decoration-none">FAQ</a>
+                        <a href="{% url 'privacy_policy' %}" class="text-light text-decoration-none">Privacy</a>
+                        <a href="{% url 'terms_of_service' %}" class="text-light text-decoration-none">Terms</a>
+                        <a href="{% url 'loan_agreement' %}" class="text-light text-decoration-none">Loan Agreement</a>
+                    </div>
                     
-                    <!-- Newsletter Signup -->
-                    <div class="newsletter-signup mb-3">
-                        <p class="text-light mb-2">Subscribe to our newsletter</p>
+                    <h6 class="text-white mb-2 mt-3">Company</h6>
+                    <div class="links-grid">
+                        <a href="{% url 'about' %}" class="text-light text-decoration-none">About Us</a>
+                        <a href="{% url 'careers' %}" class="text-light text-decoration-none">Careers</a>
+                        <a href="{% url 'press' %}" class="text-light text-decoration-none">Press</a>
+                        <a href="{% url 'blog' %}" class="text-light text-decoration-none">Blog</a>
+                        <a href="{% url 'investors' %}" class="text-light text-decoration-none">Investors</a>
+                        <a href="{% url 'partners' %}" class="text-light text-decoration-none">Partners</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Newsletter & Social Combined -->
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="footer-section social-section">
+                    <h6 class="text-white mb-2">Stay Connected</h6>
+                    
+                    <!-- Newsletter -->
+                    <div class="newsletter-compact">
+                        <p class="text-light mb-2">Newsletter</p>
                         <form class="newsletter-form" action="{% url 'newsletter_subscribe' %}" method="post">
                             {% csrf_token %}
-                            <div class="input-group">
-                                <input type="email" class="form-control form-control-sm" name="email" placeholder="Your email" required>
+                            <div class="input-group input-group-sm">
+                                <input type="email" class="form-control form-control-sm" name="email" placeholder="Email address" required>
                                 <button class="btn btn-primary btn-sm" type="submit">
                                     <i class="fas fa-paper-plane"></i>
                                 </button>
@@ -111,8 +87,8 @@
                         </form>
                     </div>
                     
-                    <!-- Social Media Links -->
-                    <div class="social-links">
+                    <!-- Social Media -->
+                    <div class="social-links-compact">
                         <a href="{{ SOCIAL_MEDIA.facebook|default:"#" }}" class="text-light" aria-label="Facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
@@ -133,52 +109,48 @@
             </div>
         </div>
         
-        <!-- Payment Methods -->
-        <div class="row mt-4 pt-4 border-top border-gray-700">
-            <div class="col-12">
-                <div class="payment-methods-footer">
-                    <h6 class="text-white mb-3">Accepted Payment Methods</h6>
-                    <div class="d-flex align-items-center gap-3 flex-wrap">
-                        <div class="payment-method-footer">
+        <!-- Payment Methods & Bottom Bar Combined -->
+        <div class="row footer-bottom border-top border-gray-700">
+            <!-- Payment Methods -->
+            <div class="col-lg-8 col-md-7">
+                <div class="payment-methods-compact">
+                    <span class="text-light me-2">Payments:</span>
+                    <div class="payment-badges">
+                        <span class="payment-badge">
                             <i class="fab fa-cc-visa text-light"></i>
-                            <small class="text-light ms-1">Visa</small>
-                        </div>
-                        <div class="payment-method-footer">
+                            <small class="text-light">Visa</small>
+                        </span>
+                        <span class="payment-badge">
                             <i class="fab fa-cc-mastercard text-light"></i>
-                            <small class="text-light ms-1">Mastercard</small>
-                        </div>
-                        <div class="payment-method-footer">
+                            <small class="text-light">MC</small>
+                        </span>
+                        <span class="payment-badge">
                             <i class="fas fa-mobile-alt text-light"></i>
-                            <small class="text-light ms-1">M-PESA</small>
-                        </div>
-                        <div class="payment-method-footer">
+                            <small class="text-light">M-PESA</small>
+                        </span>
+                        <span class="payment-badge">
                             <i class="fab fa-paypal text-light"></i>
-                            <small class="text-light ms-1">PayPal</small>
-                        </div>
-                        <div class="payment-method-footer">
+                            <small class="text-light">PayPal</small>
+                        </span>
+                        <span class="payment-badge">
                             <i class="fas fa-shield-alt text-light"></i>
-                            <small class="text-light ms-1">Secured by SSL</small>
-                        </div>
+                            <small class="text-light">SSL</small>
+                        </span>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Bottom Bar -->
-        <div class="row mt-4 pt-4 border-top border-gray-700">
-            <div class="col-md-6">
-                <div class="copyright">
-                    <p class="text-light mb-0">
-                        &copy; 2025 FlexiFinance. All rights reserved. | 
-                        <span class="text-primary">Licensed by Central Bank of Kenya</span>
+            
+            <!-- Copyright & Badges -->
+            <div class="col-lg-4 col-md-5 text-md-end">
+                <div class="footer-bottom-right">
+                    <div class="footer-badges-compact">
+                        <img src="{% static 'images/cbk-logo.svg' %}" alt="CBK" height="25" class="me-1">
+                        <img src="{% static 'images/icta-logo.svg' %}" alt="ICTA" height="25" class="me-1">
+                        <img src="{% static 'images/iso27001-logo.svg' %}" alt="ISO" height="25">
+                    </div>
+                    <p class="text-light mb-0 mt-1">
+                        &copy; 2025 FlexiFinance | <span class="text-primary">CBK Licensed</span>
                     </p>
-                </div>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <div class="footer-badges">
-                    <img src="{% static 'images/cbk-logo.svg' %}" alt="CBK Licensed" height="30" class="me-2">
-                    <img src="{% static 'images/icta-logo.svg' %}" alt="ICTA Compliant" height="30" class="me-2">
-                    <img src="{% static 'images/iso27001-logo.svg' %}" alt="ISO 27001 Certified" height="30">
                 </div>
             </div>
         </div>
@@ -196,6 +168,7 @@
     background: var(--gray-900);
     color: white;
     overflow: hidden;
+    padding: 2rem 0 1rem;
 }
 
 .footer::before {
@@ -214,84 +187,102 @@
     z-index: 2;
 }
 
-.footer-section h5 {
+/* Main Footer Layout */
+.footer-main {
+    margin-bottom: 1.5rem;
+}
+
+.footer-section h6 {
     color: white;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     position: relative;
 }
 
-.footer-section h5::after {
+.footer-section h6::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -3px;
     left: 0;
-    width: 30px;
+    width: 25px;
     height: 2px;
     background: var(--primary-color);
     border-radius: 1px;
 }
 
-.footer-section ul li {
-    margin-bottom: 0.5rem;
+/* Company Section */
+.company-section .footer-brand h5 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
 }
 
-.footer-section a {
+.contact-info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.contact-info-row .info-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.contact-info-row .info-item i {
+    font-size: 0.875rem;
+}
+
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.quick-links-grid a {
     color: var(--gray-300);
     text-decoration: none;
+    font-size: 0.875rem;
     transition: all 0.3s ease;
-    position: relative;
 }
 
-.footer-section a::before {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--primary-color);
-    transition: width 0.3s ease;
-}
-
-.footer-section a:hover {
-    color: white;
+.quick-links-grid a:hover {
+    color: var(--primary-color);
     padding-left: 5px;
 }
 
-.footer-section a:hover::before {
-    width: 100%;
+/* Support Section */
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
 }
 
-.social-links {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-.social-links a {
-    width: 2.5rem;
-    height: 2.5rem;
-    background: var(--gray-800);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
+.links-grid a {
+    color: var(--gray-300);
     text-decoration: none;
+    font-size: 0.875rem;
     transition: all 0.3s ease;
-    border: 1px solid transparent;
 }
 
-.social-links a:hover {
-    background: var(--primary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+.links-grid a:hover {
+    color: var(--primary-color);
+    padding-left: 3px;
+}
+
+/* Social Section */
+.newsletter-compact {
+    margin-bottom: 1rem;
+}
+
+.newsletter-compact p {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
 }
 
 .newsletter-form .input-group {
     background: var(--gray-800);
-    border-radius: 0.5rem;
+    border-radius: 0.375rem;
     overflow: hidden;
     border: 1px solid var(--gray-700);
 }
@@ -300,7 +291,8 @@
     background: transparent;
     border: none;
     color: white;
-    padding: 0.5rem 0.75rem;
+    padding: 0.375rem 0.5rem;
+    font-size: 0.875rem;
 }
 
 .newsletter-form .form-control::placeholder {
@@ -315,57 +307,110 @@
 .newsletter-form .btn {
     background: var(--primary-color);
     border: none;
-    padding: 0.5rem 0.75rem;
+    padding: 0.375rem 0.5rem;
 }
 
 .newsletter-form .btn:hover {
     background: var(--primary-dark);
 }
 
-.payment-methods-footer {
-    text-align: center;
+.social-links-compact {
+    display: flex;
+    gap: 0.5rem;
 }
 
-.payment-method-footer {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
+.social-links-compact a {
+    width: 2rem;
+    height: 2rem;
     background: var(--gray-800);
-    border-radius: 0.5rem;
-    border: 1px solid var(--gray-700);
-    transition: all 0.3s ease;
-}
-
-.payment-method-footer:hover {
-    background: var(--gray-700);
-    transform: translateY(-1px);
-}
-
-.payment-method-footer i {
-    font-size: 1.25rem;
-}
-
-.footer-badges {
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.social-links-compact a:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.payment-methods-compact {
+    display: flex;
+    align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem;
 }
 
-.footer-badges img {
-    height: 30px;
+.payment-methods-compact span {
+    font-size: 0.875rem;
+}
+
+.payment-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.payment-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: var(--gray-800);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--gray-700);
+    transition: all 0.3s ease;
+}
+
+.payment-badge:hover {
+    background: var(--gray-700);
+    transform: translateY(-1px);
+}
+
+.payment-badge i {
+    font-size: 0.875rem;
+}
+
+.payment-badge small {
+    font-size: 0.75rem;
+}
+
+.footer-bottom-right {
+    text-align: right;
+}
+
+.footer-badges-compact {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.footer-badges-compact img {
+    height: 25px;
     opacity: 0.8;
     transition: opacity 0.3s ease;
 }
 
-.footer-badges img:hover {
+.footer-badges-compact img:hover {
     opacity: 1;
 }
 
-.copyright p {
-    font-size: 0.875rem;
+.footer-bottom-right p {
+    font-size: 0.75rem;
     color: var(--gray-400);
+    margin: 0;
 }
 
 .border-gray-700 {
@@ -373,30 +418,53 @@
 }
 
 /* Mobile Responsive */
+@media (max-width: 991.98px) {
+    .footer-main .col-lg-4 {
+        margin-bottom: 1.5rem;
+    }
+    
+    .contact-info-row {
+        justify-content: flex-start;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+    }
+    
+    .footer-bottom-right {
+        text-align: center;
+    }
+    
+    .payment-methods-compact {
+        justify-content: center;
+    }
+    
+    .footer-badges-compact {
+        justify-content: center;
+    }
+}
+
 @media (max-width: 767.98px) {
     .footer {
-        padding-bottom: 2rem;
+        padding: 1.5rem 0 1rem;
     }
     
-    .footer-section {
-        margin-bottom: 2rem;
+    .quick-links-grid,
+    .links-grid {
+        grid-template-columns: 1fr;
     }
     
-    .social-links {
+    .contact-info-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .payment-badges {
         justify-content: center;
     }
     
-    .payment-methods-footer {
-        text-align: center;
-    }
-    
-    .footer-badges {
+    .social-links-compact {
         justify-content: center;
-        margin-top: 1rem;
-    }
-    
-    .newsletter-signup {
-        text-align: center;
     }
 }
 
@@ -409,13 +477,11 @@
 .footer-section:nth-child(1) { animation-delay: 0.1s; }
 .footer-section:nth-child(2) { animation-delay: 0.2s; }
 .footer-section:nth-child(3) { animation-delay: 0.3s; }
-.footer-section:nth-child(4) { animation-delay: 0.4s; }
-.footer-section:nth-child(5) { animation-delay: 0.5s; }
 
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -425,27 +491,18 @@
 
 /* Scroll to top button */
 #footer-scroll-top {
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     border: 3px solid var(--gray-900);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
+    top: -12px;
 }
 
 #footer-scroll-top:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-}
-
-/* Enhanced hover effects */
-.info-item a:hover {
-    color: var(--primary-color) !important;
-}
-
-.info-item:hover i {
-    color: var(--primary-color) !important;
-    transform: scale(1.1);
 }
 
 /* Loading states */
