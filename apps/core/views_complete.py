@@ -420,7 +420,77 @@ class LoanCalculatorView(TemplateView):
 
 class LoanApplicationView(TemplateView):
     """Loan application page view"""
-    template_name = 'loan-application.html'
+    template_name = 'loans/loan-application.html'
+    
+    def get(self, request, *args, **kwargs):
+        """Handle GET requests - display the form"""
+        return render(request, self.template_name)
+    
+    def post(self, request, *args, **kwargs):
+        """Handle POST requests - process form submission"""
+        try:
+            # Check if this is an AJAX request
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                # Extract form data
+                form_data = {
+                    'first_name': request.POST.get('first_name', ''),
+                    'last_name': request.POST.get('last_name', ''),
+                    'email': request.POST.get('email', ''),
+                    'phone': request.POST.get('phone', ''),
+                    'id_number': request.POST.get('id_number', ''),
+                    'date_of_birth': request.POST.get('date_of_birth', ''),
+                    'loan_amount': request.POST.get('loan_amount', ''),
+                    'loan_purpose': request.POST.get('loan_purpose', ''),
+                    'loan_tenure': request.POST.get('loan_tenure', ''),
+                    'monthly_income': request.POST.get('monthly_income', ''),
+                    'employment_status': request.POST.get('employment_status', ''),
+                    'employer_name': request.POST.get('employer_name', ''),
+                    'work_experience': request.POST.get('work_experience', ''),
+                    'work_phone': request.POST.get('work_phone', ''),
+                    'ref1_name': request.POST.get('ref1_name', ''),
+                    'ref1_phone': request.POST.get('ref1_phone', ''),
+                    'ref1_relationship': request.POST.get('ref1_relationship', ''),
+                    'ref2_name': request.POST.get('ref2_name', ''),
+                    'ref2_phone': request.POST.get('ref2_phone', ''),
+                    'ref2_relationship': request.POST.get('ref2_relationship', ''),
+                    'terms_consent': request.POST.get('terms_consent', ''),
+                    'credit_check': request.POST.get('credit_check', ''),
+                    'marketing_consent': request.POST.get('marketing_consent', ''),
+                }
+                
+                # Basic validation
+                required_fields = ['first_name', 'last_name', 'email', 'phone', 'id_number', 'date_of_birth']
+                missing_fields = [field for field in required_fields if not form_data.get(field)]
+                
+                if missing_fields:
+                    return JsonResponse({
+                        'success': False,
+                        'message': f'Missing required fields: {", ".join(missing_fields)}'
+                    })
+                
+                # Here you would typically save the application to the database
+                # For now, we'll just simulate successful submission
+                logger.info(f"Loan application submitted for {form_data['first_name']} {form_data['last_name']} ({form_data['email']})")
+                
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Application submitted successfully!'
+                })
+            else:
+                # Regular form submission - redirect to success page
+                messages.success(request, 'Application submitted successfully! You will receive a confirmation email shortly.')
+                return redirect('home')
+                
+        except Exception as e:
+            logger.error(f"Error processing loan application: {str(e)}")
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'message': 'An error occurred while processing your application. Please try again.'
+                })
+            else:
+                messages.error(request, 'An error occurred while processing your application. Please try again.')
+                return render(request, self.template_name)
 
 # Legal Pages
 class PrivacyPolicyView(TemplateView):

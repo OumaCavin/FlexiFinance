@@ -19,7 +19,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="bg-white rounded-3 shadow-sm p-5">
-                    <form id="loanApplicationForm" class="needs-validation" novalidate>
+                    <form id="loanApplicationForm" method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
                         <!-- Progress Bar -->
                         <div class="progress mb-4" style="height: 8px;">
                             <div class="progress-bar bg-primary" role="progressbar" style="width: 25%" id="progressBar"></div>
@@ -385,11 +386,34 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
             submitBtn.disabled = true;
             
-            // Simulate form submission (replace with actual API call)
-            setTimeout(() => {
-                alert('Application submitted successfully! You will receive a confirmation email shortly.');
-                window.location.href = '/';
-            }, 2000);
+            // Create FormData for submission
+            const formData = new FormData(form);
+            
+            // Submit form using fetch
+            fetch('/loan-application/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Application submitted successfully! You will receive a confirmation email shortly.');
+                    window.location.href = '/';
+                } else {
+                    alert('Error: ' + (data.message || 'Please check your information and try again.'));
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Application';
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Application';
+                submitBtn.disabled = false;
+            });
         } else {
             form.classList.add('was-validated');
         }

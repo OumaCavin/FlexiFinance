@@ -13,7 +13,7 @@
                         <p class="text-muted">Join FlexiFinance and access financial services</p>
                     </div>
                     
-                    <form method="post" class="needs-validation" novalidate>
+                    <form method="post" action="{% url 'account_signup' %}" class="needs-validation" novalidate>
                         {% csrf_token %}
                         
                         <div class="row">
@@ -103,7 +103,7 @@
                     
                     <div class="text-center">
                         <p class="mb-0">Already have an account? 
-                            <a href="{% url 'users:login' %}" class="text-decoration-none fw-bold">Sign in here</a>
+                            <a href="{% url 'account_login' %}" class="text-decoration-none fw-bold">Sign in here</a>
                         </p>
                     </div>
                 </div>
