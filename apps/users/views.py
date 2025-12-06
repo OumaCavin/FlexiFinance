@@ -14,7 +14,7 @@ from .models import User
 def login_view(request):
     """User login view"""
     if request.user.is_authenticated:
-        return redirect('users:dashboard')
+        return redirect('dashboard')
     
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -23,7 +23,7 @@ def login_view(request):
         
         if user is not None:
             login(request, user)
-            return redirect('users:dashboard')
+            return redirect('dashboard')
         else:
             messages.error(request, 'Invalid credentials')
     
@@ -33,7 +33,7 @@ def login_view(request):
 def register_view(request):
     """User registration view"""
     if request.user.is_authenticated:
-        return redirect('users:dashboard')
+        return redirect('dashboard')
     
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -54,7 +54,7 @@ def register_view(request):
                 user.save()
             
             messages.success(request, 'Registration successful! Please log in.')
-            return redirect('users:login')
+            return redirect('login')
         except Exception as e:
             messages.error(request, f'Registration failed: {str(e)}')
     
@@ -64,7 +64,7 @@ def register_view(request):
 def logout_view(request):
     """User logout view"""
     logout(request)
-    return redirect('users:login')
+    return redirect('login')
 
 
 @login_required
@@ -91,9 +91,19 @@ def profile(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('users:profile')
+        return redirect('profile')
     
     context = {
         'user': request.user,
     }
     return render(request, 'users/profile.html', context)
+
+
+@login_required
+def my_loans(request):
+    """User loans view"""
+    context = {
+        'user': request.user,
+        'loans': []  # TODO: Fetch user's loans from database
+    }
+    return render(request, 'users/my_loans.html', context)

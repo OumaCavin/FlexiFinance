@@ -30,8 +30,20 @@ urlpatterns = [
     # Admin interface
     path(settings.ADMIN_URL, admin.site.urls),
     
+    # Allauth authentication URLs
+    path('accounts/', include('allauth.urls')),
+    
     # Main website pages
     path('', include('apps.core.urls')),
+    
+    # Additional website pages
+    path('about/', views.AboutView.as_view(), name='about'),
+    path('how-it-works/', views.HowItWorksView.as_view(), name='how_it_works'),
+    path('support/', views.SupportView.as_view(), name='support'),
+    path('products/', views.LoanProductsView.as_view(), name='loan_products'),
+    path('business-loans/', views.BusinessLoansView.as_view(), name='business_loans'),
+    path('emergency-loans/', views.EmergencyLoansView.as_view(), name='emergency_loans'),
+    path('loan-calculator/', views.LoanCalculatorView.as_view(), name='loan_calculator'),
     
     # API endpoints
     path('api/v1/auth/', include('apps.users.urls')),

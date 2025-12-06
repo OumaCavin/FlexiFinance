@@ -69,6 +69,71 @@ class ContactView(TemplateView):
         
         return context
 
+class AboutView(TemplateView):
+    """About Us page view"""
+    template_name = 'about.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company_name'] = settings.FLEXIFINANCE_CONFIG['COMPANY_NAME']
+        return context
+
+class HowItWorksView(TemplateView):
+    """How It Works page view"""
+    template_name = 'how-it-works.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['loan_products'] = settings.LOAN_PRODUCTS
+        return context
+
+class SupportView(TemplateView):
+    """Support page view"""
+    template_name = 'support.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'support_email': getattr(settings, 'SUPPORT_EMAIL', ''),
+            'support_phone': getattr(settings, 'SUPPORT_PHONE', ''),
+            'support_hours': getattr(settings, 'SUPPORT_HOURS', '24/7'),
+        })
+        return context
+
+class LoanProductsView(TemplateView):
+    """Loan Products page view"""
+    template_name = 'products/loan-products.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['loan_products'] = settings.LOAN_PRODUCTS
+        return context
+
+class BusinessLoansView(TemplateView):
+    """Business Loans page view"""
+    template_name = 'products/business-loans.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class EmergencyLoansView(TemplateView):
+    """Emergency Loans page view"""
+    template_name = 'products/emergency-loans.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class LoanCalculatorView(TemplateView):
+    """Loan Calculator page view"""
+    template_name = 'loan-calculator.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['loan_products'] = settings.LOAN_PRODUCTS
+        return context
+
 @require_http_methods(["POST"])
 def submit_contact_form(request):
     """Handle contact form submission with Supabase integration"""

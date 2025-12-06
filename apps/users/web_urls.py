@@ -7,8 +7,6 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
-app_name = 'users_web'
-
 urlpatterns = [
     # Authentication
     path('login/', views.login_view, name='login'),
@@ -18,6 +16,9 @@ urlpatterns = [
     # Dashboard
     path('dashboard/', views.dashboard, name='dashboard'),
     path('profile/', views.profile, name='profile'),
+    
+    # Loan-related URLs
+    path('my-loans/', views.my_loans, name='my_loans'),
     
     # Django auth views
     path('password-reset/', auth_views.PasswordResetView.as_view(
