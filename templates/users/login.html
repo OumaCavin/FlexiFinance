@@ -1,76 +1,217 @@
+{% load static %}
 {% extends "base.html" %}
 
 {% block title %}Login - {{ block.super }}{% endblock %}
 
 {% block content %}
-<div class="container-fluid py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-            <div class="card shadow-lg border-0">
-                <div class="card-body p-5">
-                    <div class="text-center mb-4">
-                        <h2 class="fw-bold text-primary">Welcome Back</h2>
-                        <p class="text-muted">Sign in to your FlexiFinance account</p>
-                    </div>
-                    
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+<div class="login-container">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="card shadow border-0 login-card">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <div class="login-logo mb-3">
+                                <img src="{% static 'images/logo.svg' %}" alt="FlexiFinance" height="40" class="mb-2">
                             </div>
-                        {% endfor %}
-                    {% endif %}
-                    
-                    <form method="post" class="needs-validation" novalidate>
-                        {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <div class="invalid-feedback">
-                                Please provide your email address.
-                            </div>
+                            <h2 class="fw-bold text-primary mb-2">Welcome Back</h2>
+                            <p class="text-muted small">Sign in to your FlexiFinance account</p>
                         </div>
                         
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                            <div class="invalid-feedback">
-                                Please provide your password.
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <form method="post" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label small">Email Address</label>
+                                <input type="email" class="form-control form-control-sm" id="email" name="email" required>
+                                <div class="invalid-feedback">
+                                    Please provide your email address.
+                                </div>
                             </div>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label small">Password</label>
+                                <input type="password" class="form-control form-control-sm" id="password" name="password" required>
+                                <div class="invalid-feedback">
+                                    Please provide your password.
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember">
+                                    <label class="form-check-label small" for="remember">
+                                        Remember me
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 mb-3">
+                                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                            </button>
+                        </form>
+                        
+                        <div class="text-center mb-3">
+                            <a href="{% url 'password_reset' %}" class="text-decoration-none small">
+                                Forgot your password?
+                            </a>
                         </div>
                         
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember">
-                                <label class="form-check-label" for="remember">
-                                    Remember me
-                                </label>
-                            </div>
+                        <div class="text-center">
+                            <p class="mb-0 small">Don't have an account? 
+                                <a href="{% url 'users:register' %}" class="text-decoration-none fw-bold">Create one here</a>
+                            </p>
                         </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
-                            Sign In
-                        </button>
-                    </form>
-                    
-                    <div class="text-center mb-3">
-                        <a href="{% url 'password_reset' %}" class="text-decoration-none">
-                            Forgot your password?
-                        </a>
-                    </div>
-                    
-                    <div class="text-center">
-                        <p class="mb-0">Don't have an account? 
-                            <a href="{% url 'users:register' %}" class="text-decoration-none fw-bold">Create one here</a>
-                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.login-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="login-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23login-pattern)"/></svg>') repeat;
+    pointer-events: none;
+}
+
+.login-card {
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideInUp 0.6s ease-out;
+}
+
+.login-logo img {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.form-control-sm {
+    border-radius: 0.5rem;
+    border: 1px solid #e0e0e0;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.form-control-sm:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    border-radius: 0.5rem;
+    padding: 0.625rem 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(45deg, var(--primary-dark), var(--primary-color));
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-check-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.text-decoration-none {
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+.text-decoration-none:hover {
+    color: var(--primary-dark);
+    text-decoration: underline !important;
+}
+
+.alert {
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 0.875rem;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile optimizations */
+@media (max-width: 576px) {
+    .login-card {
+        margin: 1rem;
+        border-radius: 0.75rem;
+    }
+    
+    .login-container {
+        padding: 0;
+    }
+    
+    .form-control-sm {
+        padding: 0.5rem 0.625rem;
+        font-size: 0.8125rem;
+    }
+    
+    .btn-primary {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Loading state */
+.btn.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
 
 <script>
 // Form validation
@@ -89,5 +230,14 @@
         });
     }, false);
 })();
+
+// Add loading state to submit button
+document.querySelector('form').addEventListener('submit', function(e) {
+    const submitBtn = this.querySelector('button[type="submit"]');
+    if (this.checkValidity()) {
+        submitBtn.classList.add('loading');
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Signing In...';
+    }
+});
 </script>
 {% endblock %}
