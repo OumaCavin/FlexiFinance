@@ -31,6 +31,16 @@ def profile(request):
     }
     return render(request, 'users/profile.html', context)
 
+@login_required
+def my_loans(request):
+    """User loans view"""
+    context = {
+        'user': request.user,
+        'page_title': 'My Loans',
+        'loans': []  # Empty for now, will be populated when loan models are implemented
+    }
+    return render(request, 'users/my_loans.html', context)
+
 @require_http_methods(["POST"])
 def logout_view(request):
     """Handle user logout"""
