@@ -7,22 +7,12 @@ from django.utils import timezone
 from .models import User
 
 
-class UserProfileInline(admin.StackedInline):
-    model = User
-    can_delete = False
-    verbose_name_plural = 'Profile'
-    fields = (
-        'phone_number', 'middle_name', 'date_of_birth', 'national_id',
-        'address', 'city', 'county', 'country',
-        'occupation', 'employer_name', 'monthly_income', 'employment_duration',
-        'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_relationship',
-        'kyc_status', 'credit_score', 'total_loans_taken', 'active_loans_count',
-        'email_notifications', 'sms_notifications', 'marketing_emails', 'two_factor_enabled'
-    )
+# Removed UserProfileInline to avoid circular reference
+# The User model contains all fields, so no separate profile inline is needed
 
 
 class UserAdmin(BaseUserAdmin):
-    inlines = (UserProfileInline,)
+    # inlines removed to avoid circular reference
     list_display = (
         'username', 'email', 'first_name', 'last_name', 'phone_number',
         'is_verified', 'kyc_status', 'credit_score', 'is_staff', 'is_active', 'date_joined'

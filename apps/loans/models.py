@@ -93,7 +93,6 @@ class Loan(models.Model):
             models.Index(fields=['user', 'status']),
             models.Index(fields=['loan_reference']),
             models.Index(fields=['status', 'application_date']),
-            models.Index(fields=['user', 'status']),
         ]
     
     def __str__(self):
