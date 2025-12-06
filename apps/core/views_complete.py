@@ -429,6 +429,12 @@ class LoanApplicationView(TemplateView):
     def post(self, request, *args, **kwargs):
         """Handle POST requests - process form submission"""
         try:
+            # Debug: Log the request details
+            logger.info(f"Loan application POST request received")
+            logger.info(f"Headers: {dict(request.headers)}")
+            logger.info(f"POST data: {dict(request.POST)}")
+            logger.info(f"AJAX: {request.headers.get('x-requested-with')}")
+            
             # Check if this is an AJAX request
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 # Extract form data
@@ -458,11 +464,14 @@ class LoanApplicationView(TemplateView):
                     'marketing_consent': request.POST.get('marketing_consent', ''),
                 }
                 
+                logger.info(f"Extracted form data: {form_data}")
+                
                 # Basic validation
                 required_fields = ['first_name', 'last_name', 'email', 'phone', 'id_number', 'date_of_birth']
                 missing_fields = [field for field in required_fields if not form_data.get(field)]
                 
                 if missing_fields:
+                    logger.warning(f"Missing required fields: {missing_fields}")
                     return JsonResponse({
                         'success': False,
                         'message': f'Missing required fields: {", ".join(missing_fields)}'
@@ -474,15 +483,18 @@ class LoanApplicationView(TemplateView):
                 
                 return JsonResponse({
                     'success': True,
-                    'message': 'Application submitted successfully!'
+                    'message': 'Application submitted successfully!',
+                    'redirect': '/'
                 })
             else:
                 # Regular form submission - redirect to success page
+                logger.info("Regular form submission received")
                 messages.success(request, 'Application submitted successfully! You will receive a confirmation email shortly.')
                 return redirect('home')
                 
         except Exception as e:
             logger.error(f"Error processing loan application: {str(e)}")
+            logger.error(f"Exception type: {type(e)}")
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({
                     'success': False,
