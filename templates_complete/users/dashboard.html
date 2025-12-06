@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FlexiFinance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .dashboard-header {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem 0;
+        }
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        .loan-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending { background-color: #fff3cd; color: #856404; }
+        .status-approved { background-color: #d1edff; color: #0c63e4; }
+        .status-active { background-color: #d4edda; color: #155724; }
+        .status-rejected { background-color: #f8d7da; color: #721c24; }
+        .quick-action {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        .quick-action:hover {
+            border-color: #667eea;
+            color: inherit;
+            transform: translateY(-3px);
+        }
+        .recent-activity {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        .activity-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .welcome-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center">
+                        <div class="welcome-avatar me-3">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h1 class="mb-1">Welcome back, {{ user.first_name|default:"User" }}!</h1>
+                            <p class="mb-0 opacity-75">Manage your loans and account from your dashboard</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <a href="{% url 'loan_application' %}" class="btn btn-light">
+                        <i class="fas fa-plus me-2"></i>Apply for Loan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <!-- Quick Stats -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon me-3" style="background: linear-gradient(45deg, #28a745, #20c997);">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">3</h3>
+                                <small class="text-muted">Active Loans</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon me-3" style="background: linear-gradient(45deg, #dc3545, #e83e8c);">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">KES 245,000</h3>
+                                <small class="text-muted">Total Balance</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon me-3" style="background: linear-gradient(45deg, #ffc107, #fd7e14);">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">KES 12,500</h3>
+                                <small class="text-muted">Next Payment</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon me-3" style="background: linear-gradient(45deg, #6f42c1, #e83e8c);">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">95%</h3>
+                                <small class="text-muted">Credit Score</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Active Loans -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list me-2"></i>Your Loans
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Loan ID</th>
+                                        <th>Amount</th>
+                                        <th>Purpose</th>
+                                        <th>Status</th>
+                                        <th>Due Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#LF2024001</td>
+                                        <td>KES 150,000</td>
+                                        <td>Business Expansion</td>
+                                        <td><span class="loan-status status-active">Active</span></td>
+                                        <td>Jan 15, 2025</td>
+                                        <td>
+                                            <a href="{% url 'my_loans' %}" class="btn-primary">View Details btn-sm btn-outline </td>
+                                    </tr>
+                                   </a>
+                                        <tr>
+                                        <td>#LF2024002</td>
+                                        <td>KES 50,000</td>
+                                        <td>Emergency Medical</td>
+                                        <td><span class="loan-status status-active">Active</span></td>
+                                        <td>Feb 10, 2025</td>
+                                        <td>
+                                            <a href="{% url 'my_loans' %}" class="btn btn-sm btn-outline-primary">View Details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#LF2024003</td>
+                                        <td>KES 45,000</td>
+                                        <td>Equipment Purchase</td>
+                                        <td><span class="loan-status status-pending">Pending</span></td>
+                                        <td>-</td>
+                                        <td>
+                                            <a href="{% url 'my_loans' %}" class="btn btn-sm btn-outline-secondary">Under Review</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'my_loans' %}" class="btn btn-primary">View All Loans</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions & Account Summary -->
+            <div class="col-md-4">
+                <!-- Quick Actions -->
+                <div class="mb-4">
+                    <h5 class="mb-3">
+                        <i class="fas fa-bolt me-2"></i>Quick Actions
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <a href="{% url 'loan_application' %}" class="quick-action">
+                                <i class="fas fa-plus-circle fa-2x mb-2 d-block text-primary"></i>
+                                <small>New Loan</small>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="#" class="quick-action">
+                                <i class="fas fa-credit-card fa-2x mb-2 d-block text-success"></i>
+                                <small>Make Payment</small>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="{% url 'profile' %}" class="quick-action">
+                                <i class="fas fa-user-edit fa-2x mb-2 d-block text-info"></i>
+                                <small>Update Profile</small>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="{% url 'support' %}" class="quick-action">
+                                <i class="fas fa-headset fa-2x mb-2 d-block text-warning"></i>
+                                <small>Get Help</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Summary -->
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-wallet me-2"></i>Account Summary
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Available Credit</span>
+                                <strong>KES 300,000</strong>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Utilized Credit</span>
+                                <strong>KES 245,000</strong>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Credit Utilization</span>
+                                <strong>81.7%</strong>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="mb-0">
+                            <div class="d-flex justify-content-between">
+                                <span>Payment Due</span>
+                                <strong class="text-danger">KES 12,500</strong>
+                            </div>
+                            <small class="text-muted">Due: Jan 5, 2025</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="row g-4 mt-4">
+            <div class="col-md-12">
+                <div class="recent-activity">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-history me-2"></i>Recent Activity
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-item">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <strong>Payment Received</strong>
+                                    <p class="mb-0 text-muted">Payment of KES 12,500 received for loan #LF2024001</p>
+                                </div>
+                                <small class="text-muted">2 days ago</small>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-file-alt text-info"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <strong>Loan Application Submitted</strong>
+                                    <p class="mb-0 text-muted">New loan application for KES 45,000 submitted</p>
+                                </div>
+                                <small class="text-muted">3 days ago</small>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-user-edit text-primary"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <strong>Profile Updated</strong>
+                                    <p class="mb-0 text-muted">Contact information updated successfully</p>
+                                </div>
+                                <small class="text-muted">1 week ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

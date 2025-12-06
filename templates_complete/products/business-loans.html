@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Loans - FlexiFinance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.1"><polygon points="0,0 1000,100 1000,0"/></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .loan-types {
+            padding: 6rem 0;
+            background: white;
+        }
+        .loan-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            border: none;
+            height: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .loan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            transition: left 0.3s ease;
+            z-index: 1;
+        }
+        .loan-card:hover::before {
+            left: 0;
+        }
+        .loan-card:hover {
+            color: white;
+            transform: translateY(-10px);
+        }
+        .loan-card > * {
+            position: relative;
+            z-index: 2;
+        }
+        .loan-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2.5rem;
+        }
+        .loan-card:hover .loan-icon {
+            background: rgba(255,255,255,0.2);
+        }
+        .requirements-section {
+            padding: 6rem 0;
+            background: linear-gradient(45deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        .requirement-item {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid #28a745;
+            transition: transform 0.3s ease;
+        }
+        .requirement-item:hover {
+            transform: translateX(10px);
+        }
+        .requirement-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+        }
+        .benefits-section {
+            padding: 6rem 0;
+            background: white;
+        }
+        .benefit-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: none;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        .benefit-card:hover {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            transform: translateY(-5px);
+        }
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+        .benefit-card:hover .benefit-icon {
+            background: rgba(255,255,255,0.2);
+        }
+        .process-section {
+            padding: 6rem 0;
+            background: linear-gradient(45deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+        .process-step {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            height: 100%;
+        }
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .calculator-section {
+            padding: 6rem 0;
+            background: linear-gradient(45deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: none;
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+        }
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+        .btn-calculate {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+            color: white;
+        }
+        .testimonial-section {
+            padding: 6rem 0;
+            background: white;
+        }
+        .testimonial-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: none;
+            height: 100%;
+        }
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+        .stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .faq-section {
+            padding: 6rem 0;
+            background: linear-gradient(45deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        .faq-item {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: none;
+        }
+        .faq-question {
+            background: none;
+            border: none;
+            width: 100%;
+            padding: 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-radius: 15px;
+        }
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        .success-stories {
+            padding: 6rem 0;
+            background: white;
+        }
+        .story-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 4px solid #28a745;
+            height: 100%;
+        }
+        .story-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="display-4 fw-bold mb-4">Business Loans</h1>
+                        <p class="lead mb-4">
+                            Fuel your business growth with flexible financing solutions designed 
+                            for Kenyan entrepreneurs. From working capital to equipment purchases.
+                        </p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="{% url 'loan_application' %}" class="btn btn-light btn-lg">
+                                <i class="fas fa-rocket me-2"></i>Apply Now
+                            </a>
+                            <a href="#calculator" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-calculator me-2"></i>Calculate Payment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <i class="fas fa-briefcase fa-10x opacity-25"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loan Types -->
+    <section class="loan-types">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Types of Business Loans</h2>
+                <p class="lead text-muted">Choose the right financing for your business needs</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="loan-card">
+                        <div class="loan-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <h3>Working Capital</h3>
+                        <p class="mb-4">
+                            Keep your business running smoothly with funds for daily operations, 
+                            inventory, payroll, and short-term expenses.
+                        </p>
+                        <div class="row g-3 text-start">
+                            <div class="col-6">
+                                <strong>KES 50,000 - 200,000</strong><br>
+                                <small class="text-muted">Loan Amount</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>6 - 18 months</strong><br>
+                                <small class="text-muted">Repayment Term</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>12% - 16%</strong><br>
+                                <small class="text-muted">Interest Rate</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>2-3 days</strong><br>
+                                <small class="text-muted">Approval Time</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="loan-card">
+                        <div class="loan-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Equipment Financing</h3>
+                        <p class="mb-4">
+                            Purchase or upgrade business equipment, machinery, or technology 
+                            with financing that matches your equipment's lifespan.
+                        </p>
+                        <div class="row g-3 text-start">
+                            <div class="col-6">
+                                <strong>KES 100,000 - 500,000</strong><br>
+                                <small class="text-muted">Loan Amount</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>12 - 36 months</strong><br>
+                                <small class="text-muted">Repayment Term</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>10% - 14%</strong><br>
+                                <small class="text-muted">Interest Rate</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>3-5 days</strong><br>
+                                <small class="text-muted">Approval Time</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="loan-card">
+                        <div class="loan-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Expansion Funding</h3>
+                        <p class="mb-4">
+                            Scale your business with funds for new locations, marketing campaigns, 
+                            inventory expansion, or hiring additional staff.
+                        </p>
+                        <div class="row g-3 text-start">
+                            <div class="col-6">
+                                <strong>KES 200,000 - 500,000</strong><br>
+                                <small class="text-muted">Loan Amount</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>18 - 36 months</strong><br>
+                                <small class="text-muted">Repayment Term</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>14% - 18%</strong><br>
+                                <small class="text-muted">Interest Rate</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>5-7 days</strong><br>
+                                <small class="text-muted">Approval Time</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Requirements Section -->
+    <section class="requirements-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="display-5 fw-bold mb-4">Business Loan Requirements</h2>
+                    <p class="lead mb-4">
+                        To qualify for a FlexiFinance business loan, your business must meet 
+                        the following criteria:
+                    </p>
+                    
+                    <div class="requirement-item d-flex align-items-center">
+                        <div class="requirement-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Business Registration</h5>
+                            <p class="text-muted mb-0">Valid business registration certificate (KRA PIN)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="requirement-item d-flex align-items-center">
+                        <div class="requirement-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Operating History</h5>
+                            <p class="text-muted mb-0">Minimum 12 months of business operations</p>
+                        </div>
+                    </div>
+                    
+                    <div class="requirement-item d-flex align-items-center">
+                        <div class="requirement-icon">
+                            <i class="fas fa-money-bill"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Monthly Revenue</h5>
+                            <p class="text-muted mb-0">Minimum monthly revenue of KES 50,000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="requirement-item d-flex align-items-center">
+                        <div class="requirement-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Bank Statements</h5>
+                            <p class="text-muted mb-0">6 months of business bank statements</p>
+                        </div>
+                    </div>
+                    
+                    <div class="requirement-item d-flex align-items-center">
+                        <div class="requirement-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Owner Details</h5>
+                            <p class="text-muted mb-0">Valid ID and proof of business ownership</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-4">Required Documents</h4>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-certificate text-success me-3"></i>
+                                <div>
+                                    <strong>Business Registration Certificate</strong>
+                                    <p class="text-muted mb-0 small">KRA PIN certificate</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-file-invoice text-success me-3"></i>
+                                <div>
+                                    <strong>Financial Statements</strong>
+                                    <p class="text-muted mb-0 small">P&L statements (12 months)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-chart-line text-success me-3"></i>
+                                <div>
+                                    <strong>Bank Statements</strong>
+                                    <p class="text-muted mb-0 small">6 months business account</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-file-alt text-success me-3"></i>
+                                <div>
+                                    <strong>Business Plan</strong>
+                                    <p class="text-muted mb-0 small">For loans over KES 200,000</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-home text-success me-3"></i>
+                                <div>
+                                    <strong>Proof of Business Address</strong>
+                                    <p class="text-muted mb-0 small">Utility bill or lease agreement</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Why Choose Our Business Loans?</h2>
+                <p class="lead text-muted">Advantages that help your business thrive</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h4>Fast Approval</h4>
+                        <p>
+                            Get approved in 2-7 days, not weeks. Our streamlined process 
+                            means you can access funds when your business needs them most.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <h4>Competitive Rates</h4>
+                        <p>
+                            Enjoy some of the most competitive interest rates for businesses 
+                            in Kenya, with no hidden fees or prepayment penalties.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h4>Flexible Terms</h4>
+                        <p>
+                            Choose repayment terms that match your business cash flow. 
+                            Seasonal businesses welcome with customized schedules.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h4>No Collateral</h4>
+                        <p>
+                            Most business loans don't require collateral, protecting your 
+                            business assets while giving you the capital you need.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Growth Support</h4>
+                        <p>
+                            We provide more than just funding. Access business advisory 
+                            services, financial planning tools, and growth resources.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4>Digital Management</h4>
+                        <p>
+                            Track your loan, make payments, and manage your account 
+                            through our mobile app or online dashboard.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Business Loan Process</h2>
+                <p class="lead">Simple steps to get your business funding</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h4>Apply Online</h4>
+                        <p>
+                            Complete our quick online application with your business 
+                            details and funding needs.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h4>Document Review</h4>
+                        <p>
+                            Upload required documents for verification. Our team 
+                            reviews everything within 24 hours.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h4>Assessment</h4>
+                        <p>
+                            We assess your business performance, cash flow, 
+                            and creditworthiness using multiple data points.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h4>Funding</h4>
+                        <p>
+                            Upon approval, funds are transferred directly to your 
+                            business bank account within 24 hours.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="calculator-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="text-center mb-5">
+                        <h2 class="display-5 fw-bold">Business Loan Calculator</h2>
+                        <p class="lead text-muted">Estimate your monthly payments and see what you can afford</p>
+                    </div>
+                    
+                    <div class="calculator-card">
+                        <form id="businessLoanCalculator">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="businessLoanAmount" class="form-label">Loan Amount</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">KES</span>
+                                        <input type="number" class="form-control" id="businessLoanAmount" value="100000" min="50000" max="500000">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="businessInterestRate" class="form-label">Annual Interest Rate</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="businessInterestRate" value="14" min="10" max="20" step="0.1">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="businessLoanTerm" class="form-label">Loan Term</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="businessLoanTerm" value="18" min="6" max="36">
+                                        <span class="input-group-text">months</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="monthlyRevenue" class="form-label">Monthly Revenue</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">KES</span>
+                                        <input type="number" class="form-control" id="monthlyRevenue" placeholder="e.g. 100000" min="50000">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="button" class="btn btn-calculate" onclick="calculateBusinessLoan()">
+                                <i class="fas fa-calculator me-2"></i>Calculate Payment
+                            </button>
+                        </form>
+                        
+                        <div id="businessResults" class="mt-4" style="display: none;">
+                            <div class="row g-4">
+                                <div class="col-md-4 text-center">
+                                    <h4 class="text-success" id="businessMonthlyPayment">KES 0</h4>
+                                    <p class="text-muted">Monthly Payment</p>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <h4 class="text-success" id="businessTotalPayment">KES 0</h4>
+                                    <p class="text-muted">Total Payment</p>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <h4 class="text-success" id="businessTotalInterest">KES 0</h4>
+                                    <p class="text-muted">Total Interest</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories -->
+    <section class="success-stories">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Success Stories</h2>
+                <p class="lead text-muted">Real businesses that grew with FlexiFinance</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="story-card">
+                        <div class="story-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h4>Mama Rose Restaurant</h4>
+                        <p class="text-muted mb-3">Nairobi</p>
+                        <p>
+                            "The working capital loan helped us expand from one location to three. 
+                            We hired 15 new staff members and tripled our monthly revenue within 8 months."
+                        </p>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <strong class="text-success">KES 150,000</strong><br>
+                                <small class="text-muted">Loan Amount</small>
+                            </div>
+                            <div class="col-6">
+                                <strong class="text-success">300% Growth</strong><br>
+                                <small class="text-muted">Revenue Increase</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="story-card">
+                        <div class="story-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <h4>Tech Solutions Ltd</h4>
+                        <p class="text-muted mb-3">Mombasa</p>
+                        <p>
+                            "Equipment financing enabled us to upgrade our entire IT infrastructure. 
+                            We now serve 50+ corporate clients and doubled our team size."
+                        </p>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <strong class="text-success">KES 300,000</strong><br>
+                                <small class="text-muted">Loan Amount</small>
+                            </div>
+                            <div class="col-6">
+                                <strong class="text-success">50+ Clients</strong><br>
+                                <small class="text-muted">New Customers</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="story-card">
+                        <div class="story-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h4>Fresh Grocers</h4>
+                        <p class="text-muted mb-3">Kisumu</p>
+                        <p>
+                            "Expansion funding helped us open two new branches and increase 
+                            our inventory. Our customer base grew from 500 to 2,000 families."
+                        </p>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <strong class="text-success">KES 200,000</strong><br>
+                                <small class="text-muted">Loan Amount</small>
+                            </div>
+                            <div class="col-6">
+                                <strong class="text-success">3 Locations</strong><br>
+                                <small class="text-muted">New Branches</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">What Business Owners Say</h2>
+                <p class="lead text-muted">Testimonials from satisfied business customers</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-4">
+                            "FlexiFinance understood my business needs immediately. The application 
+                            was straightforward, and I had the funds within 3 days to purchase new equipment."
+                        </p>
+                        <h5 class="mb-1">Peter Mwangi</h5>
+                        <p class="text-muted">Construction Company Owner</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-4">
+                            "The working capital loan saved my retail business during a slow season. 
+                            The flexible repayment terms matched my cash flow perfectly."
+                        </p>
+                        <h5 class="mb-1">Grace Atieno</h5>
+                        <p class="text-muted">Fashion Boutique Owner</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-4">
+                            "From application to funding, the entire process was professional and fast. 
+                            The interest rates are fair, and the customer service is excellent."
+                        </p>
+                        <h5 class="mb-1">Samuel Kiprotich</h5>
+                        <p class="text-muted">Transport Business Owner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Frequently Asked Questions</h2>
+                <p class="lead text-muted">Common questions about business loans</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="accordion" id="businessFaqAccordion">
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                <i class="fas fa-question-circle me-2"></i>What can I use a business loan for?
+                            </button>
+                            <div id="faq1" class="collapse show" data-bs-parent="#businessFaqAccordion">
+                                <div class="faq-answer">
+                                    Business loans can be used for working capital, equipment purchases, inventory, expansion, marketing, hiring, or any legitimate business expense. We work with you to ensure the funds are used effectively for your business growth.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                <i class="fas fa-clock me-2"></i>How long does the approval process take?
+                            </button>
+                            <div id="faq2" class="collapse" data-bs-parent="#businessFaqAccordion">
+                                <div class="faq-answer">
+                                    Approval times vary based on loan amount and type: Working capital loans (2-3 days), Equipment financing (3-5 days), and Expansion funding (5-7 days). Complete documentation helps speed up the process.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                <i class="fas fa-percentage me-2"></i>What interest rates do you offer?
+                            </button>
+                            <div id="faq3" class="collapse" data-bs-parent="#businessFaqAccordion">
+                                <div class="faq-answer">
+                                    Interest rates range from 10% to 18% APR depending on loan type, amount, business performance, and credit profile. Rates are competitive and transparent no hidden fees.
+ with                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                <i class="fas fa-shield-alt me-2"></i>Do I need collateral for a business loan?
+                            </button>
+                            <div id="faq4" class="collapse" data-bs-parent="#businessFaqAccordion">
+                                <div class="faq-answer">
+                                    Most of our business loans don't require collateral. We assess your business performance, cash flow, and growth potential. For larger loans (over KES 300,000), we may require minimal collateral or guarantees.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                <i class="fas fa-chart-line me-2"></i>Can I pay off my loan early?
+                            </button>
+                            <div id="faq5" class="collapse" data-bs-parent="#businessFaqAccordion">
+                                <div class="faq-answer">
+                                    Yes! You can make early payments without any penalties. Early repayment can actually reduce your total interest cost and help you build a better relationship with us for future financing needs.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                <i class="fas fa-building me-2"></i>What if my business is new?
+                            </button>
+                            <div id="faq6" class="collapse" data-bs-parent="#businessFaqAccordion">
+                                <div class="faq-answer">
+                                    We require at least 12 months of business operations for most loans. However, we may consider newer businesses with strong business plans, good personal credit, and proven revenue streams.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-success text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="display-6 fw-bold mb-3">Ready to Grow Your Business?</h2>
+                    <p class="lead mb-0">
+                        Join hundreds of successful businesses that have grown with FlexiFinance. 
+                        Apply today and get funding in as little as 2 days.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="{% url 'loan_application' %}" class="btn btn-light btn-lg me-3">
+                        <i class="fas fa-rocket me-2"></i>Apply Now
+                    </a>
+                    <a href="{% url 'support' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-phone me-2"></i>Get Help
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function calculateBusinessLoan() {
+            const loanAmount = parseFloat(document.getElementById('businessLoanAmount').value);
+            const annualRate = parseFloat(document.getElementById('businessInterestRate').value);
+            const loanTerm = parseInt(document.getElementById('businessLoanTerm').value);
+            
+            // Calculate monthly interest rate
+            const monthlyRate = annualRate / 100 / 12;
+            
+            // Calculate monthly payment
+            let monthlyPayment = 0;
+            if (monthlyRate > 0) {
+                monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTerm)) / 
+                               (Math.pow(1 + monthlyRate, loanTerm) - 1);
+            } else {
+                monthlyPayment = loanAmount / loanTerm;
+            }
+            
+            // Calculate total payment and interest
+            const totalPayment = monthlyPayment * loanTerm;
+            const totalInterest = totalPayment - loanAmount;
+            
+            // Update display
+            document.getElementById('businessMonthlyPayment').textContent = 'KES ' + monthlyPayment.toLocaleString('en-KE', {maximumFractionDigits: 0});
+            document.getElementById('businessTotalPayment').textContent = 'KES ' + totalPayment.toLocaleString('en-KE', {maximumFractionDigits: 0});
+            document.getElementById('businessTotalInterest').textContent = 'KES ' + totalInterest.toLocaleString('en-KE', {maximumFractionDigits: 0});
+            
+            // Show results
+            document.getElementById('businessResults').style.display = 'block';
+        }
+        
+        // Calculate on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateBusinessLoan();
+        });
+    </script>
+</body>
+</html>
