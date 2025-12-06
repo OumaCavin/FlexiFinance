@@ -100,6 +100,29 @@ class SupportView(TemplateView):
         })
         return context
 
+class FAQView(TemplateView):
+    """FAQ page view"""
+    template_name = 'faq.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add FAQ data if needed
+        context['faq_items'] = getattr(settings, 'FAQ_ITEMS', [
+            {
+                'question': 'How do I apply for a loan?',
+                'answer': 'You can apply for a loan through our online application form or visit any of our branches.'
+            },
+            {
+                'question': 'What documents do I need?',
+                'answer': 'You will need a valid ID, proof of income, and recent bank statements.'
+            },
+            {
+                'question': 'How long does the approval process take?',
+                'answer': 'Most loan applications are approved within 24-48 hours.'
+            }
+        ])
+        return context
+
 class LoanProductsView(TemplateView):
     """Loan Products page view"""
     template_name = 'products/loan-products.html'

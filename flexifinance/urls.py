@@ -40,6 +40,7 @@ urlpatterns = [
     path('about/', views.AboutView.as_view(), name='about'),
     path('how-it-works/', views.HowItWorksView.as_view(), name='how_it_works'),
     path('support/', views.SupportView.as_view(), name='support'),
+    path('faq/', views.FAQView.as_view(), name='faq'),
     path('products/', views.LoanProductsView.as_view(), name='loan_products'),
     path('business-loans/', views.BusinessLoansView.as_view(), name='business_loans'),
     path('emergency-loans/', views.EmergencyLoansView.as_view(), name='emergency_loans'),
