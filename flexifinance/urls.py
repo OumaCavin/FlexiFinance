@@ -47,7 +47,7 @@ urlpatterns = [
     path('payments/', include('apps.payments.web_urls')),
     
     # Health check endpoints
-    path('health/', include('apps.core.urls')),
+    path('health/', include('apps.core.health_urls')),
     
 
 ]

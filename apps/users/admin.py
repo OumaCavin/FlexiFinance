@@ -27,31 +27,35 @@ class UserAdmin(BaseUserAdmin):
         'credit_score_updated', 'total_loans_taken', 'active_loans_count'
     )
     fieldsets = BaseUserAdmin.fieldsets + (
-        ('Personal Information', {
+        ('Additional Personal Information', {
+            'classes': ('wide',),
             'fields': (
-                'first_name', 'middle_name', 'last_name',
-                'phone_number', 'date_of_birth', 'national_id',
+                'middle_name', 'phone_number', 'date_of_birth', 'national_id',
                 'email_verification_token', 'email_verification_sent_at'
             )
         }),
         ('Contact Information', {
+            'classes': ('wide',),
             'fields': (
                 'address', 'city', 'county', 'country',
                 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_relationship'
             )
         }),
         ('Employment Information', {
+            'classes': ('wide',),
             'fields': (
                 'occupation', 'employer_name', 'monthly_income', 'employment_duration'
             )
         }),
-        ('Verification & Status', {
+        ('FlexiFinance Verification', {
+            'classes': ('wide',),
             'fields': (
                 'is_verified', 'verification_date', 'kyc_status',
                 'credit_score', 'credit_score_updated'
             )
         }),
-        ('System Information', {
+        ('FlexiFinance System Information', {
+            'classes': ('wide',),
             'fields': (
                 'total_loans_taken', 'active_loans_count',
                 'registration_ip', 'last_login_ip',
