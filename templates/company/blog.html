@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold text-primary">{{ company_name }} Blog</h1>
+                    <p class="lead text-muted">Insights, tips, and news about microfinance and financial inclusion in Kenya</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-white rounded-3 shadow-sm p-5 mb-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">Featured Articles</h2>
+                    
+                    <div class="blog-list">
+                        <!-- Blog posts would be populated dynamically -->
+                        <article class="blog-post border-bottom pb-4 mb-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="fas fa-image text-muted fa-3x"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-primary me-2">Microfinance</span>
+                                        <small class="text-muted">December 5, 2025</small>
+                                    </div>
+                                    <h4 class="fw-bold text-dark mb-2">How Digital Lending is Transforming Financial Inclusion in Kenya</h4>
+                                    <p class="text-muted mb-3">Explore how technology-driven lending platforms are making financial services more accessible to underserved communities across Kenya.</p>
+                                    <div class="d-flex align-items-center">
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23e3f2fd'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='%23000' font-size='12'%3EAW%3C/text%3E%3C/svg%3E" alt="Author" class="rounded-circle me-2" width="32" height="32">
+                                        <small class="text-muted">By Alice Wanjiku</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="blog-post border-bottom pb-4 mb-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="fas fa-chart-line text-muted fa-3x"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-success me-2">Business Tips</span>
+                                        <small class="text-muted">December 3, 2025</small>
+                                    </div>
+                                    <h4 class="fw-bold text-dark mb-2">5 Essential Tips for Small Business Loan Applications</h4>
+                                    <p class="text-muted mb-3">Learn how to prepare a winning loan application that increases your chances of approval and gets you the funding you need.</p>
+                                    <div class="d-flex align-items-center">
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23e8f5e8'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='%23000' font-size='12'%3EDK%3C/text%3E%3C/svg%3E" alt="Author" class="rounded-circle me-2" width="32" height="32">
+                                        <small class="text-muted">By David Kiprop</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="blog-post border-bottom pb-4 mb-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="fas fa-mobile-alt text-muted fa-3x"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-info me-2">Technology</span>
+                                        <small class="text-muted">November 30, 2025</small>
+                                    </div>
+                                    <h4 class="fw-bold text-dark mb-2">The Rise of Mobile Banking in East Africa</h4>
+                                    <p class="text-muted mb-3">Understanding how mobile money and digital banking are revolutionizing financial services across East Africa.</p>
+                                    <div class="d-flex align-items-center">
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23e3f2fd'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='%23000' font-size='12'%3EGM%3C/text%3E%3C/svg%3E" alt="Author" class="rounded-circle me-2" width="32" height="32">
+                                        <small class="text-muted">By Grace Mutua</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="blog-post border-bottom pb-4 mb-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="fas fa-shield-alt text-muted fa-3x"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-warning me-2">Security</span>
+                                        <small class="text-muted">November 28, 2025</small>
+                                    </div>
+                                    <h4 class="fw-bold text-dark mb-2">Protecting Your Finances: A Guide to Digital Security</h4>
+                                    <p class="text-muted mb-3">Essential security practices to keep your financial information safe when using online and mobile banking services.</p>
+                                    <div class="d-flex align-items-center">
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23fff3e0'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='%23000' font-size='12'%3EJW%3C/text%3E%3C/svg%3E" alt="Author" class="rounded-circle me-2" width="32" height="32">
+                                        <small class="text-muted">By John Waweru</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="blog-post">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="fas fa-handshake text-muted fa-3x"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-secondary me-2">Community</span>
+                                        <small class="text-muted">November 25, 2025</small>
+                                    </div>
+                                    <h4 class="fw-bold text-dark mb-2">Success Stories: How Microfinance Changed Lives in Rural Kenya</h4>
+                                    <p class="text-muted mb-3">Real stories from customers who transformed their lives and businesses through access to microfinance services.</p>
+                                    <div class="d-flex align-items-center">
+                                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23f3e5f5'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='%23000' font-size='12'%3EAM%3C/text%3E%3C/svg%3E" alt="Author" class="rounded-circle me-2" width="32" height="32">
+                                        <small class="text-muted">By Alice Mwangi</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5 mb-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">Categories</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 border rounded">
+                                <i class="fas fa-lightbulb text-primary me-3"></i>
+                                <div>
+                                    <h6 class="mb-1">Microfinance Insights</h6>
+                                    <small class="text-muted">Latest trends and analysis</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 border rounded">
+                                <i class="fas fa-chart-line text-success me-3"></i>
+                                <div>
+                                    <h6 class="mb-1">Business Tips</h6>
+                                    <small class="text-muted">Grow your business</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 border rounded">
+                                <i class="fas fa-mobile-alt text-info me-3"></i>
+                                <div>
+                                    <h6 class="mb-1">Technology</h6>
+                                    <small class="text-muted">Digital finance innovations</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 border rounded">
+                                <i class="fas fa-shield-alt text-warning me-3"></i>
+                                <div>
+                                    <h6 class="mb-1">Security</h6>
+                                    <small class="text-muted">Protect your finances</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5">
+                    <h2 class="h4 fw-bold text-dark mb-3">Stay Updated</h2>
+                    <p class="text-muted mb-4">Subscribe to our newsletter to receive the latest blog posts and financial tips directly in your inbox.</p>
+                    
+                    <form class="row g-2 mb-4">
+                        <div class="col-md-8">
+                            <input type="email" class="form-control" placeholder="Enter your email address" required>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center">
+                        <h5 class="mb-3">Follow Us</h5>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="#" class="text-decoration-none">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fab fa-facebook-f"></i>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fab fa-twitter"></i>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fab fa-instagram"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

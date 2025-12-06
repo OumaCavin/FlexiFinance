@@ -46,6 +46,19 @@ urlpatterns = [
     path('emergency-loans/', views.EmergencyLoansView.as_view(), name='emergency_loans'),
     path('loan-calculator/', views.LoanCalculatorView.as_view(), name='loan_calculator'),
     
+    # Legal and company pages
+    path('privacy-policy/', views.PrivacyPolicyView.as_view(), name='privacy_policy'),
+    path('terms-of-service/', views.TermsOfServiceView.as_view(), name='terms_of_service'),
+    path('loan-agreement/', views.LoanAgreementView.as_view(), name='loan_agreement'),
+    path('careers/', views.CareersView.as_view(), name='careers'),
+    path('press/', views.PressView.as_view(), name='press'),
+    path('blog/', views.BlogView.as_view(), name='blog'),
+    path('investors/', views.InvestorsView.as_view(), name='investors'),
+    path('partners/', views.PartnersView.as_view(), name='partners'),
+    
+    # Newsletter subscription endpoint
+    path('newsletter/subscribe/', views.newsletter_subscribe, name='newsletter_subscribe'),
+    
     # API endpoints
     path('api/v1/auth/', include('apps.users.urls')),
     path('api/v1/users/', include('apps.users.api_urls')),

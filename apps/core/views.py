@@ -157,6 +157,78 @@ class LoanCalculatorView(TemplateView):
         context['loan_products'] = settings.LOAN_PRODUCTS
         return context
 
+class PrivacyPolicyView(TemplateView):
+    """Privacy Policy page view"""
+    template_name = 'legal/privacy-policy.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['last_updated'] = 'December 2025'
+        return context
+
+class TermsOfServiceView(TemplateView):
+    """Terms of Service page view"""
+    template_name = 'legal/terms-of-service.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['last_updated'] = 'December 2025'
+        return context
+
+class LoanAgreementView(TemplateView):
+    """Loan Agreement page view"""
+    template_name = 'legal/loan-agreement.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['last_updated'] = 'December 2025'
+        return context
+
+class CareersView(TemplateView):
+    """Careers page view"""
+    template_name = 'company/careers.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company_name'] = settings.FLEXIFINANCE_CONFIG['COMPANY_NAME']
+        return context
+
+class PressView(TemplateView):
+    """Press page view"""
+    template_name = 'company/press.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company_name'] = settings.FLEXIFINANCE_CONFIG['COMPANY_NAME']
+        return context
+
+class BlogView(TemplateView):
+    """Blog page view"""
+    template_name = 'company/blog.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company_name'] = settings.FLEXIFINANCE_CONFIG['COMPANY_NAME']
+        return context
+
+class InvestorsView(TemplateView):
+    """Investors page view"""
+    template_name = 'company/investors.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company_name'] = settings.FLEXIFINANCE_CONFIG['COMPANY_NAME']
+        return context
+
+class PartnersView(TemplateView):
+    """Partners page view"""
+    template_name = 'company/partners.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company_name'] = settings.FLEXIFINANCE_CONFIG['COMPANY_NAME']
+        return context
+
 @require_http_methods(["POST"])
 def submit_contact_form(request):
     """Handle contact form submission with Supabase integration"""
@@ -283,6 +355,60 @@ def get_public_config(request):
         return JsonResponse({
             'success': False,
             'error': 'Failed to get configuration'
+        }, status=500)
+
+@require_http_methods(["POST"])
+def newsletter_subscribe(request):
+    """Handle newsletter subscription"""
+    try:
+        # Parse JSON data
+        data = json.loads(request.body)
+        
+        email = data.get('email', '').strip().lower()
+        
+        if not email:
+            return JsonResponse({
+                'success': False,
+                'error': 'Email is required'
+            }, status=400)
+        
+        # Validate email format
+        if '@' not in email or '.' not in email:
+            return JsonResponse({
+                'success': False,
+                'error': 'Please enter a valid email address'
+            }, status=400)
+        
+        # Add to newsletter (you can implement this with Supabase or email service)
+        subscription_data = {
+            'email': email,
+            'source': 'website_newsletter',
+            'subscribed_at': datetime.now().isoformat(),
+            'status': 'active'
+        }
+        
+        # Here you would typically store in Supabase or send to email service
+        # For now, we'll just log it
+        logger.info(f"Newsletter subscription: {email}")
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Thank you for subscribing to our newsletter!',
+            'data': {
+                'subscribed_at': subscription_data['subscribed_at']
+            }
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'error': 'Invalid data format'
+        }, status=400)
+    except Exception as e:
+        logger.error(f"Newsletter subscription error: {str(e)}")
+        return JsonResponse({
+            'success': False,
+            'error': 'Subscription failed. Please try again.'
         }, status=500)
 
 class ErrorView(TemplateView):

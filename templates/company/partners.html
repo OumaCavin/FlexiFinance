@@ -1,0 +1,374 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Partners - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold text-primary">Partner With Us</h1>
+                    <p class="lead text-muted">Join hands in expanding financial inclusion across Kenya</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-white rounded-3 shadow-sm p-5 mb-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">Why Partner With Us?</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-handshake text-primary"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Mutual Growth</h5>
+                                    <p class="text-muted small">Expand your reach and grow together through strategic partnerships</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-chart-line text-success"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Market Access</h5>
+                                    <p class="text-muted small">Leverage our customer base and distribution network</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-cogs text-info"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Technology Integration</h5>
+                                    <p class="text-muted small">Seamless API integrations and technical support</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-shield-alt text-warning"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Risk Mitigation</h5>
+                                    <p class="text-muted small">Shared risk and collaborative approach to challenges</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5 mb-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">Partnership Types</h2>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 h-100">
+                                <div class="card-body">
+                                    <div class="text-center mb-3">
+                                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-university text-primary fa-2x"></i>
+                                        </div>
+                                        <h5 class="card-title">Financial Institutions</h5>
+                                    </div>
+                                    <p class="card-text">Banks, microfinance institutions, and credit unions looking to expand their lending portfolio.</p>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-check text-success me-2"></i> Co-lending partnerships</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Risk-sharing arrangements</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Shared infrastructure</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 h-100">
+                                <div class="card-body">
+                                    <div class="text-center mb-3">
+                                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-mobile-alt text-success fa-2x"></i>
+                                        </div>
+                                        <h5 class="card-title">Payment Providers</h5>
+                                    </div>
+                                    <p class="card-text">Mobile money operators, payment gateways, and fintech companies.</p>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-check text-success me-2"></i> Payment integration</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Disbursement services</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Collection partnerships</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 h-100">
+                                <div class="card-body">
+                                    <div class="text-center mb-3">
+                                        <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-users text-info fa-2x"></i>
+                                        </div>
+                                        <h5 class="card-title">Community Organizations</h5>
+                                    </div>
+                                    <p class="card-text">NGOs, community groups, and social enterprises focused on financial inclusion.</p>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-check text-success me-2"></i> Customer referrals</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Financial literacy programs</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Impact measurement</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 h-100">
+                                <div class="card-body">
+                                    <div class="text-center mb-3">
+                                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-laptop-code text-warning fa-2x"></i>
+                                        </div>
+                                        <h5 class="card-title">Technology Partners</h5>
+                                    </div>
+                                    <p class="card-text">Software companies, cloud providers, and technology infrastructure partners.</p>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-check text-success me-2"></i> API integrations</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Technology solutions</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Innovation labs</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5 mb-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">Current Partners</h2>
+                    
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-4">
+                            <div class="bg-light rounded p-4 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-mobile-alt text-primary fa-3x mb-3"></i>
+                                <h6 class="fw-bold">Safaricom</h6>
+                                <small class="text-muted">M-Pesa Integration</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="bg-light rounded p-4 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-university text-success fa-3x mb-3"></i>
+                                <h6 class="fw-bold">Equity Bank</h6>
+                                <small class="text-muted">Banking Partnership</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="bg-light rounded p-4 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-shield-alt text-info fa-3x mb-3"></i>
+                                <h6 class="fw-bold">CIC Insurance</h6>
+                                <small class="text-muted">Credit Insurance</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="bg-light rounded p-4 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-cloud text-warning fa-3x mb-3"></i>
+                                <h6 class="fw-bold">Amazon Web Services</h6>
+                                <small class="text-muted">Cloud Infrastructure</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5 mb-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">Partnership Benefits</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="mb-3">For You</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-primary me-2"></i>
+                                    Access to 50,000+ customers
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-primary me-2"></i>
+                                    Proven technology platform
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-primary me-2"></i>
+                                    Risk diversification
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-primary me-2"></i>
+                                    Market expansion opportunities
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-primary me-2"></i>
+                                    Revenue sharing potential
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mb-3">For Customers</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-success me-2"></i>
+                                    Enhanced service offerings
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-success me-2"></i>
+                                    Better rates and terms
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-success me-2"></i>
+                                    Improved customer experience
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-success me-2"></i>
+                                    Faster service delivery
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-arrow-right text-success me-2"></i>
+                                    Comprehensive financial solutions
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5 mb-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">Partnership Process</h2>
+                    
+                    <div class="timeline">
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <span class="fw-bold">1</span>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="mb-1">Initial Discussion</h5>
+                                <p class="text-muted small mb-0">Contact us to discuss your partnership goals and requirements.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <span class="fw-bold">2</span>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="mb-1">Proposal & Assessment</h5>
+                                <p class="text-muted small mb-0">We evaluate the partnership opportunity and develop a customized proposal.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <span class="fw-bold">3</span>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="mb-1">Legal & Compliance</h5>
+                                <p class="text-muted small mb-0">Finalize partnership agreements and ensure regulatory compliance.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <span class="fw-bold">4</span>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="mb-1">Implementation</h5>
+                                <p class="text-muted small mb-0">Technical integration, team training, and go-live preparation.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <span class="fw-bold">5</span>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="mb-1">Launch & Growth</h5>
+                                <p class="text-muted small mb-0">Launch partnership and collaborate on growth initiatives.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5">
+                    <h2 class="h4 fw-bold text-dark mb-3">Contact Partnership Team</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="mb-3">Partnership Inquiries</h5>
+                            <div class="mb-3">
+                                <i class="fas fa-envelope text-primary me-2"></i>
+                                <strong>Email:</strong> partners@flexifinance.co.ke
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-phone text-primary me-2"></i>
+                                <strong>Phone:</strong> +254 700 123 456
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-calendar text-primary me-2"></i>
+                                <strong>Schedule Meeting:</strong> 
+                                <a href="#" class="text-decoration-none">Book a consultation</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mb-3">Partnership Resources</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <a href="#" class="text-decoration-none">
+                                        <i class="fas fa-file-pdf text-primary me-2"></i>
+                                        Partnership Proposal Template
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="#" class="text-decoration-none">
+                                        <i class="fas fa-code text-primary me-2"></i>
+                                        API Documentation
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="#" class="text-decoration-none">
+                                        <i class="fas fa-handshake text-primary me-2"></i>
+                                        Case Studies
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="#" class="text-decoration-none">
+                                        <i class="fas fa-question-circle text-primary me-2"></i>
+                                        FAQ
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-top text-center">
+                        <h5 class="mb-3">Ready to Partner With Us?</h5>
+                        <p class="text-muted mb-3">Let's explore how we can work together to expand financial inclusion in Kenya.</p>
+                        <a href="mailto:partners@flexifinance.co.ke" class="btn btn-primary">
+                            <i class="fas fa-envelope me-2"></i>Get Started
+                        </a>
+                        <a href="#" class="btn btn-outline-primary ms-2">
+                            <i class="fas fa-calendar me-2"></i>Schedule Meeting
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
