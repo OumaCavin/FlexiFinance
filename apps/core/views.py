@@ -157,6 +157,21 @@ class LoanCalculatorView(TemplateView):
         context['loan_products'] = settings.LOAN_PRODUCTS
         return context
 
+class LoanApplicationView(TemplateView):
+    """Loan Application page view"""
+    template_name = 'loans/loan-application.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'loan_products': getattr(settings, 'LOAN_PRODUCTS', []),
+            'max_loan_amount': getattr(settings, 'MAX_LOAN_AMOUNT', 500000),
+            'min_loan_amount': getattr(settings, 'MIN_LOAN_AMOUNT', 5000),
+            'interest_rates': getattr(settings, 'INTEREST_RATES', {}),
+            'loan_tenures': getattr(settings, 'LOAN_TENURES', [3, 6, 12, 24]),
+        })
+        return context
+
 class PrivacyPolicyView(TemplateView):
     """Privacy Policy page view"""
     template_name = 'legal/privacy-policy.html'
