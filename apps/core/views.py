@@ -18,6 +18,8 @@ from datetime import datetime
 # Import services
 from apps.payments.services.supabase_service import SupabaseService
 from apps.payments.services.resend_email_service import ResendEmailService
+from apps.loans.models import Loan
+from apps.users.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -171,6 +173,171 @@ class LoanApplicationView(TemplateView):
             'loan_tenures': getattr(settings, 'LOAN_TENURES', [3, 6, 12, 24]),
         })
         return context
+    
+    def post(self, request, *args, **kwargs):
+        """Handle loan application form submission"""
+        try:
+            # Parse JSON data from request
+            data = json.loads(request.body)
+            
+            # Validate required fields
+            required_fields = ['first_name', 'last_name', 'email', 'phone', 'loan_amount', 'loan_purpose']
+            missing_fields = []
+            for field in required_fields:
+                if not data.get(field):
+                    missing_fields.append(field)
+            
+            if missing_fields:
+                return JsonResponse({
+                    'success': False,
+                    'error': f'Missing required fields: {", ".join(missing_fields)}'
+                }, status=400)
+            
+            # Check if user exists or create new user
+            email = data.get('email', '').strip().lower()
+            phone = data.get('phone', '').strip()
+            
+            try:
+                user = User.objects.get(email=email)
+                # Update existing user with new information
+                user.first_name = data.get('first_name', user.first_name)
+                user.last_name = data.get('last_name', user.last_name)
+                user.phone_number = phone
+                
+                # Update additional fields if provided
+                if data.get('date_of_birth'):
+                    user.date_of_birth = data.get('date_of_birth')
+                if data.get('national_id'):
+                    user.national_id = data.get('national_id')
+                if data.get('employer_name'):
+                    user.employer_name = data.get('employer_name')
+                if data.get('monthly_income'):
+                    user.monthly_income = data.get('monthly_income')
+                if data.get('employment_duration'):
+                    user.employment_duration = data.get('employment_duration')
+                if data.get('ref1_name'):
+                    user.emergency_contact_name = data.get('ref1_name')
+                if data.get('ref1_phone'):
+                    user.emergency_contact_phone = data.get('ref1_phone')
+                if data.get('ref1_relationship'):
+                    user.emergency_contact_relationship = data.get('ref1_relationship')
+                
+                user.save()
+                logger.info(f"Updated existing user: {email}")
+                
+            except User.DoesNotExist:
+                # Create new user
+                try:
+                    # Generate a random password for the user
+                    from django.contrib.auth.hashers import make_password
+                    import secrets
+                    
+                    user = User.objects.create_user(
+                        username=email,  # Use email as username
+                        email=email,
+                        password=secrets.token_urlsafe(16),  # Generate random password
+                        first_name=data.get('first_name', ''),
+                        last_name=data.get('last_name', ''),
+                        phone_number=phone,
+                    )
+                    
+                    # Set additional fields
+                    if data.get('date_of_birth'):
+                        user.date_of_birth = data.get('date_of_birth')
+                    if data.get('national_id'):
+                        user.national_id = data.get('national_id')
+                    if data.get('employer_name'):
+                        user.employer_name = data.get('employer_name')
+                    if data.get('monthly_income'):
+                        user.monthly_income = data.get('monthly_income')
+                    if data.get('employment_duration'):
+                        user.employment_duration = data.get('employment_duration')
+                    if data.get('ref1_name'):
+                        user.emergency_contact_name = data.get('ref1_name')
+                    if data.get('ref1_phone'):
+                        user.emergency_contact_phone = data.get('ref1_phone')
+                    if data.get('ref1_relationship'):
+                        user.emergency_contact_relationship = data.get('ref1_relationship')
+                    
+                    user.save()
+                    logger.info(f"Created new user: {email}")
+                    
+                except Exception as e:
+                    logger.error(f"Error creating user: {str(e)}")
+                    return JsonResponse({
+                        'success': False,
+                        'error': 'Failed to create user account. Please try again.'
+                    }, status=500)
+            
+            # Determine loan type based on amount or purpose
+            loan_amount = float(data.get('loan_amount', 0))
+            loan_purpose = data.get('loan_purpose', '').lower()
+            
+            if loan_amount <= 50000:
+                loan_type = 'QUICK_CASH'
+            elif 'business' in loan_purpose or 'business' in loan_type:
+                loan_type = 'BUSINESS'
+            elif 'emergency' in loan_purpose or 'emergency' in loan_type:
+                loan_type = 'EMERGENCY'
+            else:
+                loan_type = 'PERSONAL'
+            
+            # Set default interest rate (you might want to make this dynamic based on loan type)
+            interest_rate = getattr(settings, 'DEFAULT_INTEREST_RATE', 12.5)
+            
+            # Create loan instance
+            try:
+                loan = Loan.objects.create(
+                    user=user,
+                    loan_type=loan_type,
+                    principal_amount=loan_amount,
+                    interest_rate=interest_rate,
+                    loan_tenure=int(data.get('loan_tenure', 12)),
+                    purpose=data.get('loan_purpose', ''),
+                    description=f"Loan application from {data.get('first_name', '')} {data.get('last_name', '')}. Purpose: {data.get('loan_purpose', '')}",
+                    status='SUBMITTED',
+                    processing_fee=0,  # Set based on your business logic
+                    risk_category='MEDIUM'  # Set based on risk assessment logic
+                )
+                
+                logger.info(f"Created loan application: {loan.loan_reference} for user {email}")
+                
+                # Return success response
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Your loan application has been submitted successfully!',
+                    'data': {
+                        'loan_reference': loan.loan_reference,
+                        'loan_type': loan.get_loan_type_display(),
+                        'principal_amount': str(loan.principal_amount),
+                        'interest_rate': str(loan.interest_rate),
+                        'loan_tenure': loan.loan_tenure,
+                        'total_amount': str(loan.total_amount),
+                        'monthly_payment': str(loan.monthly_payment),
+                        'status': loan.get_status_display(),
+                        'application_date': loan.application_date.isoformat(),
+                    },
+                    'redirect_url': f"/dashboard/applications/{loan.id}/"  # You might want to create this page
+                })
+                
+            except Exception as e:
+                logger.error(f"Error creating loan: {str(e)}")
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Failed to process loan application. Please try again.'
+                }, status=500)
+                
+        except json.JSONDecodeError:
+            return JsonResponse({
+                'success': False,
+                'error': 'Invalid JSON data'
+            }, status=400)
+        except Exception as e:
+            logger.error(f"Unexpected error in loan application: {str(e)}")
+            return JsonResponse({
+                'success': False,
+                'error': 'An unexpected error occurred. Please try again.'
+            }, status=500)
 
 class PrivacyPolicyView(TemplateView):
     """Privacy Policy page view"""
