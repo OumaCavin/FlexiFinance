@@ -184,14 +184,10 @@ class PaymentAdmin(admin.ModelAdmin):
             )
         }),
         ('M-Pesa Integration', {
-            'fields': (
-                'mpesa_transaction'
-            )
+            'fields': ('mpesa_transaction',)
         }),
         ('Metadata', {
-            'fields': (
-                'metadata',
-            )
+            'fields': ('metadata',)
         }),
         ('Timestamps', {
             'fields': (
