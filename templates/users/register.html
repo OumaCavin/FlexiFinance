@@ -295,16 +295,19 @@
 })();
 
 // Password confirmation validation
-document.getElementById('confirm_password').addEventListener('input', function() {
-    const password = document.getElementById('password').value;
-    const confirmPassword = this.value;
-    
-    if (password !== confirmPassword) {
-        this.setCustomValidity('Passwords do not match');
-    } else {
-        this.setCustomValidity('');
-    }
-});
+const confirmPasswordField = document.getElementById('confirm_password');
+if (confirmPasswordField) {
+    confirmPasswordField.addEventListener('input', function() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = this.value;
+        
+        if (password !== confirmPassword) {
+            this.setCustomValidity('Passwords do not match');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+}
 
 // Form submission handling
 document.querySelector('form[action*="account_signup"]').addEventListener('submit', function(e) {

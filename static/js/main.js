@@ -553,7 +553,7 @@
 
     // Make utility functions globally available
     window.FlexiFinance = {
-        showToast,
+        showToast: window.showToast,
         formatCurrency,
         trackEvent,
         validateField,
