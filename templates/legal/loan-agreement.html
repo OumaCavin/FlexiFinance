@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Loan Agreement - {{ block.super }}{% endblock %}
 
@@ -14,23 +15,23 @@
                     
                     <div class="content">
                         <h2 class="h4 fw-bold text-dark mb-3">1. Agreement Overview</h2>
-                        <p>This Loan Agreement ("Agreement") is entered into between FlexiFinance Limited ("Lender") and the borrower ("Borrower") for the provision of loan services. By accepting loan disbursement, the Borrower agrees to be bound by the terms herein.</p>
+                        <p>This Loan Agreement ("Agreement") is entered into between {{ company.company_name|default:"FlexiFinance Limited" }} ("Lender") and the borrower ("Borrower") for the provision of loan services. By accepting loan disbursement, the Borrower agrees to be bound by the terms herein.</p>
 
                         <h2 class="h4 fw-bold text-dark mb-3">2. Loan Details</h2>
                         <div class="bg-light p-3 rounded mb-4">
                             <p class="mb-2"><strong>Principal Amount:</strong> KSh [LOAN_AMOUNT]</p>
-                            <p class="mb-2"><strong>Interest Rate:</strong> [INTEREST_RATE]% per annum</p>
+                            <p class="mb-2"><strong>Interest Rate:</strong> {{ company.default_interest_rate|default:12.5 }}% per annum</p>
                             <p class="mb-2"><strong>Loan Term:</strong> [LOAN_TERM] months</p>
                             <p class="mb-2"><strong>Monthly Repayment:</strong> KSh [MONTHLY_REPAYMENT]</p>
                             <p class="mb-0"><strong>Total Repayable Amount:</strong> KSh [TOTAL_AMOUNT]</p>
                         </div>
 
                         <h2 class="h4 fw-bold text-dark mb-3">3. Disbursement</h2>
-                        <p>The loan amount will be disbursed to the Borrower's designated bank account within [DISBURSEMENT_TIMEFRAME] business days after:</p>
+                        <p>The loan amount will be disbursed to the Borrower's designated bank account within {{ company.disbursement_timeframe_days|default:3 }} business days after:</p>
                         <ul class="mb-4">
                             <li>Completion of all required documentation</li>
                             <li>Successful verification of provided information</li>
-                            <li>Approval by FlexiFinance's credit committee</li>
+                            <li>Approval by {{ company.company_name|default:"FlexiFinance" }}'s credit committee</li>
                             <li>Execution of this agreement by both parties</li>
                         </ul>
 
@@ -46,7 +47,7 @@
                         <h2 class="h4 fw-bold text-dark mb-3">5. Interest Calculation</h2>
                         <p>Interest shall be calculated on the outstanding principal balance using the simple interest method:</p>
                         <ul class="mb-4">
-                            <li>Interest Rate: [INTEREST_RATE]% per annum</li>
+                            <li>Interest Rate: {{ company.default_interest_rate|default:12.5 }}% per annum</li>
                             <li>Calculation Method: Simple interest on reducing balance</li>
                             <li>Accrual Period: From disbursement date to final settlement</li>
                         </ul>
@@ -54,7 +55,7 @@
                         <h2 class="h4 fw-bold text-dark mb-3">6. Late Payment Penalties</h2>
                         <p>In the event of late payment:</p>
                         <ul class="mb-4">
-                            <li>Late fee of KSh [LATE_FEE] or [LATE_FEE_PERCENTAGE]% of outstanding amount</li>
+                            <li>Late fee of KSh {{ company.late_fee_fixed|default:500|intcomma }} or {{ company.late_fee_percentage|default:2.0 }}% of outstanding amount</li>
                             <li>Interest will continue to accrue on overdue amounts</li>
                             <li>Credit bureau reporting for payments overdue by more than 30 days</li>
                             <li>Collection procedures may be initiated</li>
@@ -93,7 +94,7 @@
                         <p>The Borrower may be required to obtain appropriate insurance coverage for any collateral securing the loan. Insurance costs, if applicable, will be disclosed prior to loan disbursement.</p>
 
                         <h2 class="h4 fw-bold text-dark mb-3">12. Governing Law</h2>
-                        <p>This Agreement shall be governed by the laws of Kenya. Any disputes shall be resolved through arbitration in Nairobi, Kenya, under the rules of the Kenyan Centre for Arbitration.</p>
+                        <p>This Agreement shall be governed by the {{ company.governing_law|default:"Laws of Kenya" }}. Any disputes shall be resolved through arbitration in {{ company.jurisdiction|default:"Nairobi, Kenya" }}, under the rules of the {{ company.arbitration_rules|default:"Kenyan Centre for Arbitration" }}.</p>
 
                         <h2 class="h4 fw-bold text-dark mb-3">13. Entire Agreement</h2>
                         <p>This Agreement, together with any schedules and attachments, constitutes the entire agreement between the parties and supersedes all prior negotiations, representations, or agreements.</p>
@@ -104,9 +105,9 @@
                         </div>
 
                         <div class="mt-4">
-                            <p><strong>FlexiFinance Limited</strong><br>
-                            License No: [LICENSE_NUMBER]<br>
-                            Central Bank of Kenya Registration: [CBK_REGISTRATION]</p>
+                            <p><strong>{{ company.company_name|default:"FlexiFinance Limited" }}</strong><br>
+                            License No: {{ company.license_number|default:"P05123456789" }}<br>
+                            Central Bank of Kenya Registration: {{ company.cbk_registration|default:"CBK/RG/234567" }}</p>
                         </div>
                     </div>
                 </div>

@@ -363,7 +363,30 @@ class LoanAgreementView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['last_updated'] = 'December 2025'
+        
+        # Import here to avoid circular imports
+        try:
+            from apps.core.models import Company
+            company = Company.get_default_company()
+            context['company'] = company
+            context['last_updated'] = f'{company.loan_agreement_version} - {timezone.now().strftime("%B %Y")}'
+        except ImportError:
+            # Fallback if model doesn't exist yet
+            from django.conf import settings
+            context['company'] = {
+                'company_name': getattr(settings, 'FLEXIFINANCE_CONFIG', {}).get('COMPANY_NAME', 'FlexiFinance Limited'),
+                'license_number': 'P05123456789',
+                'cbk_registration': 'CBK/RG/234567',
+                'default_interest_rate': getattr(settings, 'DEFAULT_INTEREST_RATE', 12.5),
+                'late_fee_fixed': 500.00,
+                'late_fee_percentage': 2.0,
+                'disbursement_timeframe_days': 3,
+                'arbitration_rules': 'Kenyan Centre for Arbitration Rules',
+                'governing_law': 'Laws of Kenya',
+                'jurisdiction': 'Nairobi, Kenya',
+            }
+            context['last_updated'] = 'December 2025'
+        
         return context
 
 class CareersView(TemplateView):
