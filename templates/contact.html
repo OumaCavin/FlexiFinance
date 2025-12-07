@@ -608,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const data = Object.fromEntries(formData.entries());
         
         // Submit via AJAX
-        fetch('/api/contact/', {
+        fetch('/api/contact/submit/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

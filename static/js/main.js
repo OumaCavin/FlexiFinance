@@ -393,7 +393,7 @@
     }
 
     function submitContactForm(data) {
-        fetch('/api/contact/', {
+        fetch('/api/contact/submit/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

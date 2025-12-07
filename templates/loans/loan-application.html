@@ -389,14 +389,18 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get CSRF token
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             
-            // Create FormData for submission
-            const formData = new FormData(form);
+            // Create form data object for JSON submission
+            const formDataObj = {};
+            for (let [key, value] of formData.entries()) {
+                formDataObj[key] = value;
+            }
             
-            // Submit form using fetch
+            // Submit form using fetch with JSON
             fetch('/loan-application/', {
                 method: 'POST',
-                body: formData,
+                body: JSON.stringify(formDataObj),
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRFToken': csrfToken
                 },
