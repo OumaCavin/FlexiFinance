@@ -1,0 +1,100 @@
+graph TB
+    subgraph "Frontend Layer"
+        UI[Web User Interface]
+        AdminUI[Admin Dashboard]
+        Mobile[Mobile Web App]
+    end
+    
+    subgraph "Application Layer"
+        Auth[Authentication Service]
+        UserMgmt[User Management]
+        LoanSvc[Loan Service]
+        PaymentSvc[Payment Service]
+        NotifSvc[Notification Service]
+        DocSvc[Document Service]
+        ReportSvc[Reporting Service]
+    end
+    
+    subgraph "Business Logic Layer"
+        LoanLogic[Loan Processing Logic]
+        PaymentLogic[Payment Processing Logic]
+        RiskLogic[Risk Assessment Logic]
+        NotificationLogic[Notification Logic]
+        AuditLogic[Audit & Logging Logic]
+    end
+    
+    subgraph "External Integration Layer"
+        MpesaAPI[M-Pesa API Integration]
+        EmailAPI[Email Service API]
+        SMSAPI[SMS Service API]
+        StorageAPI[File Storage API]
+    end
+    
+    subgraph "Data Access Layer"
+        UserDA[User Data Access]
+        LoanDA[Loan Data Access]
+        PaymentDA[Payment Data Access]
+        DocDA[Document Data Access]
+    end
+    
+    subgraph "Database Layer"
+        UserDB[User Database]
+        LoanDB[Loan Database]
+        PaymentDB[Payment Database]
+        DocDB[Document Storage]
+        ConfigDB[Configuration Database]
+    end
+    
+    %% Frontend to Application connections
+    UI --> Auth
+    UI --> UserMgmt
+    UI --> LoanSvc
+    UI --> PaymentSvc
+    
+    AdminUI --> UserMgmt
+    AdminUI --> LoanSvc
+    AdminUI --> ReportSvc
+    
+    Mobile --> Auth
+    Mobile --> PaymentSvc
+    
+    %% Application to Business Logic connections
+    Auth --> LoanLogic
+    UserMgmt --> RiskLogic
+    LoanSvc --> LoanLogic
+    PaymentSvc --> PaymentLogic
+    NotifSvc --> NotificationLogic
+    DocSvc --> AuditLogic
+    
+    %% Business Logic to External Integration
+    PaymentLogic --> MpesaAPI
+    NotificationLogic --> EmailAPI
+    NotificationLogic --> SMSLogic
+    DocSvc --> StorageAPI
+    
+    %% Business Logic to Data Access
+    LoanLogic --> LoanDA
+    PaymentLogic --> PaymentDA
+    UserMgmt --> UserDA
+    DocSvc --> DocDA
+    
+    %% Data Access to Database
+    UserDA --> UserDB
+    LoanDA --> LoanDB
+    PaymentDA --> PaymentDB
+    DocDA --> DocDB
+    
+    %% Styling
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef application fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef business fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef external fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef dataAccess fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef database fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    
+    class UI,AdminUI,Mobile frontend
+    class Auth,UserMgmt,LoanSvc,PaymentSvc,NotifSvc,DocSvc,ReportSvc application
+    class LoanLogic,PaymentLogic,RiskLogic,NotificationLogic,AuditLogic business
+    class MpesaAPI,EmailAPI,SMSAPI,StorageAPI external
+    class UserDA,LoanDA,PaymentDA,DocDA dataAccess
+    class UserDB,LoanDB,PaymentDB,DocDB,ConfigDB database

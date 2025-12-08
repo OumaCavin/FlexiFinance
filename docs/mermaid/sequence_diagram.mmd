@@ -1,0 +1,71 @@
+sequenceDiagram
+    participant B as Borrower
+    participant F as FlexiFinance App
+    participant A as Admin Panel
+    participant MP as M-Pesa System
+    participant E as Email Service
+    participant DB as Database
+    
+    Note over B,DB: Phase 1: User Registration and KYC
+    
+    B->>F: 1. Register Account
+    F->>DB: Save User Data
+    F->>E: Send Verification Email
+    E->>B: Email Verification
+    B->>F: Verify Email
+    F->>DB: Update User Status
+    
+    Note over B,DB: KYC Process
+    B->>F: 2. Complete KYC
+    F->>DB: Store KYC Data
+    B->>F: Upload Documents
+    F->>DB: Store Documents
+    F->>A: Notify Admin of New KYC
+    A->>F: Review KYC
+    F->>DB: Update KYC Status
+    A->>F: Approve KYC
+    F->>E: Notify KYC Approval
+    E->>B: KYC Approved Email
+    
+    Note over B,DB: Phase 2: Loan Application and Approval
+    
+    B->>F: 3. Apply for Loan
+    F->>DB: Store Loan Application
+    F->>DB: Generate Application ID
+    F->>E: Send Application Confirmation
+    E->>B: Application Received Email
+    F->>A: Notify Admin of New Application
+    A->>F: Review Loan Application
+    F->>DB: Retrieve User & KYC Data
+    A->>F: Request Additional Documents
+    B->>F: Submit Additional Docs
+    F->>A: Documents Available
+    A->>F: Make Decision (Approve/Reject)
+    
+    Note over B,DB: Loan Disbursement
+    F->>DB: Update Loan Status (APPROVED)
+    F->>MP: Initiate Disbursement
+    MP->>B: STK Push Notification
+    B->>MP: Approve Payment
+    MP->>F: Payment Confirmation
+    F->>DB: Record Transaction
+    F->>E: Send Disbursement Confirmation
+    E->>B: Money Received Email
+    F->>B: Provide Repayment Portal Access
+    
+    Note over B,DB: Phase 3: Loan Repayment
+    
+    B->>F: 4. Initiate Repayment
+    F->>DB: Calculate Outstanding Amount
+    F->>MP: STK Push for Repayment
+    MP->>B: Payment Prompt
+    B->>MP: Confirm Payment
+    MP->>F: Payment Confirmation
+    F->>DB: Update Loan Balance
+    F->>DB: Record Repayment Transaction
+    F->>E: Send Payment Receipt
+    E->>B: Payment Successful Email
+    
+    Note over B,DB: Automated Reminders
+    F->>E: Reminder Email
+    E->>B: Payment Reminder

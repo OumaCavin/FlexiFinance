@@ -1,0 +1,195 @@
+classDiagram
+    class User {
+        +UUID id
+        +string email
+        +string phone_number
+        +string first_name
+        +string last_name
+        +date date_of_birth
+        +boolean is_verified
+        +datetime last_login
+        +register()
+        +verify_email()
+        +login()
+        +logout()
+        +update_profile()
+    }
+    
+    class UserProfile {
+        +UUID id
+        +string national_id
+        +string passport_photo
+        +decimal monthly_income
+        +string employer_name
+        +integer employment_duration
+        +string emergency_contact_name
+        +string emergency_contact_phone
+        +save_profile()
+        +update_employment_info()
+    }
+    
+    class KYCStatus {
+        +UUID id
+        +string status
+        +string verification_level
+        +UUID reviewed_by
+        +text review_notes
+        +datetime review_date
+        +submit_documents()
+        +approve_kyc()
+        +reject_kyc()
+        +get_status()
+    }
+    
+    class Loan {
+        +UUID id
+        +string loan_reference
+        +decimal principal_amount
+        +decimal interest_rate
+        +integer loan_tenure
+        +decimal total_amount
+        +decimal remaining_balance
+        +integer credit_score
+        +string risk_category
+        +string status
+        +datetime approval_date
+        +datetime disbursement_date
+        +apply_loan()
+        +calculate_interest()
+        +approve_loan()
+        +disburse_loan()
+        +get_outstanding_amount()
+    }
+    
+    class LoanProduct {
+        +UUID id
+        +string product_name
+        +decimal min_amount
+        +decimal max_amount
+        +integer min_tenure
+        +integer max_tenure
+        +decimal interest_rate
+        +decimal processing_fee
+        +decimal penalty_rate
+        +json eligibility_criteria
+        +check_eligibility()
+        +calculate_total_amount()
+    }
+    
+    class RepaymentSchedule {
+        +UUID id
+        +integer installment_number
+        +date due_date
+        +decimal principal_amount
+        +decimal interest_amount
+        +decimal total_amount
+        +decimal paid_amount
+        +decimal remaining_amount
+        +string status
+        +record_payment()
+        +get_outstanding()
+        +mark_as_paid()
+    }
+    
+    class Payment {
+        +UUID id
+        +string mpesa_reference
+        +string transaction_id
+        +string payment_type
+        +string status
+        +string phone_number
+        +decimal amount
+        +string receipt_number
+        +datetime payment_date
+        +initiate_stk_push()
+        +process_payment()
+        +confirm_payment()
+        +generate_receipt()
+    }
+    
+    class MpesaTransaction {
+        +UUID id
+        +string mpesa_receipt
+        +string checkout_request_id
+        +string merchant_request_id
+        +string customer_phone
+        +decimal transaction_amount
+        +integer result_code
+        +string result_desc
+        +process_callback()
+        +validate_transaction()
+        +get_transaction_status()
+    }
+    
+    class Notification {
+        +UUID id
+        +string notification_type
+        +string title
+        +text message
+        +boolean is_read
+        +datetime read_at
+        +datetime created_at
+        +send_notification()
+        +mark_as_read()
+        +delete_notification()
+    }
+    
+    class EmailTemplate {
+        +UUID id
+        +string template_name
+        +string subject
+        +text content
+        +string template_type
+        +boolean is_active
+        +render_template()
+    }
+    
+    class Document {
+        +UUID id
+        +string document_type
+        +string file_path
+        +integer file_size
+        +string verification_status
+        +UUID verified_by
+        +datetime verified_at
+        +upload_file()
+        +verify_document()
+        +download_file()
+    }
+    
+    class AdminUser {
+        +UUID id
+        +string role
+        +json permissions
+        +boolean is_active
+        +has_permission()
+        +login()
+        +logout()
+    }
+    
+    class SystemConfig {
+        +UUID id
+        +string config_key
+        +string config_value
+        +string config_type
+        +text description
+        +get_value()
+        +set_value()
+    }
+    
+    %% Relationships
+    User ||--|| UserProfile : has
+    User ||--|| KYCStatus : has
+    User ||--o{ Loan : applies for
+    User ||--o{ Payment : makes
+    User ||--o{ Notification : receives
+    User ||--o{ Document : uploads
+    User ||--|| AdminUser : becomes
+    Loan ||--o{ RepaymentSchedule : has
+    Loan ||--o{ Payment : has
+    Loan }o--|| LoanProduct : uses
+    Loan ||--|| MpesaTransaction : triggers
+    Notification }o--|| EmailTemplate : uses
+    Document }o--|| AdminUser : verified by
+    KYCStatus }o--|| AdminUser : reviewed by
+    SystemConfig ||--o{ AdminUser : configures
