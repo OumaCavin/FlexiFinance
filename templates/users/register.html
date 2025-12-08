@@ -298,10 +298,10 @@
 const confirmPasswordField = document.getElementById('confirm_password');
 if (confirmPasswordField) {
     confirmPasswordField.addEventListener('input', function() {
-        const password = document.getElementById('password').value;
+        const password = document.getElementById('password');
         const confirmPassword = this.value;
         
-        if (password !== confirmPassword) {
+        if (password && password.value !== confirmPassword) {
             this.setCustomValidity('Passwords do not match');
         } else {
             this.setCustomValidity('');
@@ -310,19 +310,22 @@ if (confirmPasswordField) {
 }
 
 // Form submission handling
-document.querySelector('form[action*="account_signup"]').addEventListener('submit', function(e) {
-    const form = this;
-    const submitBtn = form.querySelector('button[type="submit"]');
-    
-    // Show loading state if form is valid
-    if (form.checkValidity()) {
-        submitBtn.classList.add('loading');
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Account...';
-        submitBtn.disabled = true;
-    }
-    
-    // Let the form submit normally to Django allauth
-    // If there are validation errors, Django will handle them
-});
+const signupForm = document.querySelector('form[action*="account_signup"]');
+if (signupForm) {
+    signupForm.addEventListener('submit', function(e) {
+        const form = this;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        // Show loading state if form is valid
+        if (form.checkValidity()) {
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Account...';
+            submitBtn.disabled = true;
+        }
+        
+        // Let the form submit normally to Django allauth
+        // If there are validation errors, Django will handle them
+    });
+}
 </script>
 {% endblock %}
