@@ -301,7 +301,13 @@ CORS_ALLOW_ALL_ORIGINS = False  # Set to False for production
 # =============================================================================
 # CONSOLE EMAIL BACKEND (Development)
 # =============================================================================
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# =============================================================================
+# SMTP EMAIL BACKEND (Development/Production)
+# =============================================================================
+# Use SMTP backend with configuration from environment variables
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 
 # =============================================================================
 # SMTP EMAIL BACKEND (Production)
@@ -330,6 +336,21 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = 'apikey'
 # EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY')
+
+# =============================================================================
+# MAILPIT EMAIL BACKEND (Local Development with Actual Email Sending)
+# =============================================================================
+# MAILPIT API KEY (optional, for web interface access)
+# MAILPIT_API_KEY = config('MAILPIT_API_KEY', default='')
+
+# Uncomment the following to use Mailpit for actual email sending:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', default=1025, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', default=30, cast=int)
 
 # Caching Configuration
 # =============================================================================
