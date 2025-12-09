@@ -61,26 +61,57 @@ echo "🗄️  PostgreSQL Setup"
 echo "==================="
 
 # Check if PostgreSQL is installed
-if ! command -v psql &> /dev/null; then
-    echo "📦 Installing PostgreSQL..."
+if command -v psql &> /dev/null; then
+    echo "✅ PostgreSQL is already installed!"
+    
+    # Check if service is running
+    if sudo service postgresql status &> /dev/null; then
+        echo "✅ PostgreSQL service is running"
+    else
+        echo "🔄 Starting PostgreSQL service..."
+        sudo service postgresql start
+        sudo systemctl enable postgresql
+        echo "✅ PostgreSQL service started"
+    fi
+else
+    echo "📦 PostgreSQL not found. Installing..."
+    
+    # Update packages
     sudo apt update
+    
+    # Install PostgreSQL
     sudo apt install postgresql postgresql-contrib -y
+    
+    # Start PostgreSQL service
     sudo service postgresql start
     sudo systemctl enable postgresql
+    
+    echo "✅ PostgreSQL installation complete!"
 fi
 
-# Create database and user
-echo "🔐 Creating database user and database..."
+# Create database and user (idempotent)
+echo "🔐 Setting up database user and database..."
 sudo -u postgres psql << EOF
+-- Drop existing user and database if they exist
 DROP USER IF EXISTS flexifinance_user;
-CREATE USER flexifinance_user WITH PASSWORD 'flexifinance_password';
 DROP DATABASE IF EXISTS flexifinance;
+
+-- Create user and database
+CREATE USER flexifinance_user WITH PASSWORD 'flexifinance_password';
 CREATE DATABASE flexifinance OWNER flexifinance_user;
 GRANT ALL PRIVILEGES ON DATABASE flexifinance TO flexifinance_user;
 \q
 EOF
 
 echo "✅ Database setup complete!"
+
+# Test connection
+echo "🧪 Testing database connection..."
+if psql -h localhost -U flexifinance_user -d flexifinance -c "SELECT version();" &> /dev/null; then
+    echo "✅ Database connection test successful!"
+else
+    echo "⚠️  Database connection test failed. Please check your configuration."
+fi
 
 echo ""
 echo "📝 Creating .env file"

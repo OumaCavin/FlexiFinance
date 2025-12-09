@@ -2,7 +2,31 @@
 
 This guide will help you set up PostgreSQL on WSL (Windows Subsystem for Linux) for the FlexiFinance project.
 
-## 1. Install PostgreSQL in WSL
+## 1. Check if PostgreSQL is Already Installed
+
+### Check PostgreSQL installation:
+```bash
+# Check if PostgreSQL is installed
+which psql
+dpkg -l | grep postgresql
+
+# Check if PostgreSQL service is running
+sudo service postgresql status
+```
+
+### If PostgreSQL is already installed:
+```bash
+# PostgreSQL is installed - check service status
+sudo service postgresql status
+
+# If not running, start it:
+sudo service postgresql start
+sudo systemctl enable postgresql
+
+# Skip to "Create Database User and Database" section
+```
+
+## 2. Install PostgreSQL in WSL (only if not already installed)
 
 ### Update package list:
 ```bash
@@ -128,9 +152,9 @@ sudo nano /etc/postgresql/14/main/pg_hba.conf
 sudo service postgresql restart
 ```
 
-## 7. Quick Setup Script
+## 7. Quick Setup Script (with Installation Checks)
 
-Create a script to automate the setup:
+Create a script to automate the setup with proper checks:
 
 ```bash
 # Create setup script
@@ -143,29 +167,62 @@ Add this content:
 
 echo "Setting up PostgreSQL for FlexiFinance..."
 
-# Update packages
-sudo apt update
+# Check if PostgreSQL is already installed
+if command -v psql &> /dev/null; then
+    echo "✅ PostgreSQL is already installed!"
+    
+    # Check if service is running
+    if sudo service postgresql status &> /dev/null; then
+        echo "✅ PostgreSQL service is running"
+    else
+        echo "🔄 Starting PostgreSQL service..."
+        sudo service postgresql start
+        sudo systemctl enable postgresql
+    fi
+else
+    echo "📦 PostgreSQL not found. Installing..."
+    
+    # Update packages
+    sudo apt update
+    
+    # Install PostgreSQL
+    sudo apt install postgresql postgresql-contrib -y
+    
+    # Start PostgreSQL service
+    sudo service postgresql start
+    sudo systemctl enable postgresql
+    
+    echo "✅ PostgreSQL installation complete!"
+fi
 
-# Install PostgreSQL
-sudo apt install postgresql postgresql-contrib -y
-
-# Start PostgreSQL service
-sudo service postgresql start
-sudo systemctl enable postgresql
-
-# Create user and database
+# Create user and database (idempotent)
+echo "🔐 Setting up database user and database..."
 sudo -u postgres psql << EOF
+-- Drop existing user and database if they exist
+DROP USER IF EXISTS flexifinance_user;
+DROP DATABASE IF EXISTS flexifinance;
+
+-- Create user and database
 CREATE USER flexifinance_user WITH PASSWORD 'flexifinance_password';
 CREATE DATABASE flexifinance OWNER flexifinance_user;
 GRANT ALL PRIVILEGES ON DATABASE flexifinance TO flexifinance_user;
 \q
 EOF
 
-echo "PostgreSQL setup complete!"
-echo "Database: flexifinance"
-echo "User: flexifinance_user"
-echo "Password: flexifinance_password"
-echo "Connection: postgresql://flexifinance_user:flexifinance_password@localhost:5432/flexifinance"
+echo "✅ Database setup complete!"
+echo "📋 Database Details:"
+echo "   Database: flexifinance"
+echo "   User: flexifinance_user"
+echo "   Password: flexifinance_password"
+echo "   Connection: postgresql://flexifinance_user:flexifinance_password@localhost:5432/flexifinance"
+
+# Test connection
+echo "🧪 Testing database connection..."
+if psql -h localhost -U flexifinance_user -d flexifinance -c "SELECT version();" &> /dev/null; then
+    echo "✅ Database connection test successful!"
+else
+    echo "❌ Database connection test failed. Please check your configuration."
+fi
 ```
 
 Make it executable and run:
