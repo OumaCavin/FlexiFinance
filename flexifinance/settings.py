@@ -428,8 +428,18 @@ MPESA_CONFIG = {
     'CONSUMER_SECRET': config('MPESA_CONSUMER_SECRET', default=''),
     'PASSKEY': config('MPESA_PASSKEY', default=''),
     'SHORTCODE': config('MPESA_SHORTCODE', default=''),
-    'CONFIRMATION_URL': config('MPESA_CONFIRMATION_URL', default='https://flexifinance.com/api/payments/mpesa/callback/'),
-    'VALIDATION_URL': config('MPESA_VALIDATION_URL', default='https://flexifinance.com/api/payments/mpesa/validate/'),
+    
+    # Primary Callback URLs (from settings)
+    # These URLs will be used when flexifinance.com domain is purchased and configured
+    # For now, using ngrok-free.app for development/testing
+    # 'CONFIRMATION_URL': config('MPESA_CONFIRMATION_URL', default='https://flexifinance.com/api/payments/mpesa/callback/'),
+    # 'VALIDATION_URL': config('MPESA_VALIDATION_URL', default='https://flexifinance.com/api/payments/mpesa/validate/'),
+    
+    # Development/Testing URLs using ngrok-free.app
+    # These will be replaced with actual domain URLs once flexifinance.com is purchased
+    'CONFIRMATION_URL': config('MPESA_CONFIRMATION_URL', default='https://your-app.ngrok-free.app/api/payments/mpesa/callback/'),
+    'VALIDATION_URL': config('MPESA_VALIDATION_URL', default='https://your-app.ngrok-free.app/api/payments/mpesa/validate/'),
+    
     'INITIATOR_NAME': config('MPESA_INITIATOR_NAME', default='FlexiFinance'),
     'ENVIRONMENT': config('MPESA_ENVIRONMENT', default='sandbox'),  # sandbox or production
 }
