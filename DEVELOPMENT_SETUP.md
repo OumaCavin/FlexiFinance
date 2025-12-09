@@ -29,7 +29,9 @@ SECRET_KEY=your-django-secret-key
 ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
 
 # Database Configuration (PostgreSQL)
-DATABASE_URL=postgresql://username:password@localhost:5432/flexifinance
+DATABASE_URL=postgresql://flexifinance_user:flexifinance_password@localhost:5432/flexifinance
+
+# For WSL users: See WSL_POSTGRESQL_SETUP.md for detailed PostgreSQL installation and database creation instructions
 
 # Supabase Configuration
 SUPABASE_URL=https://your-project.supabase.co
@@ -68,10 +70,34 @@ uv pip install -r requirements.txt
 
 ## 4. Database Setup
 
-```bash
-# Create database (if using PostgreSQL)
-createdb flexifinance
+### For WSL Users:
+**Follow the detailed guide in `WSL_POSTGRESQL_SETUP.md`** for:
+- Installing PostgreSQL on WSL
+- Creating the `flexifinance_user` and `flexifinance` database
+- Setting up proper permissions
 
+### Quick WSL Setup:
+```bash
+# Run the automated setup script
+chmod +x ~/setup_postgres.sh
+~/setup_postgres.sh
+```
+
+### For Other Platforms:
+```bash
+# Install PostgreSQL (Ubuntu/Debian)
+sudo apt install postgresql postgresql-contrib
+
+# Create database and user (as postgres user)
+sudo -u postgres createdb flexifinance
+sudo -u postgres createuser --interactive
+
+# Or using createdb directly
+createdb flexifinance
+```
+
+### Run Django Migrations:
+```bash
 # Run migrations
 python manage.py migrate
 
