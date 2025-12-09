@@ -2,6 +2,7 @@
 from django.db import migrations, models
 from django.core.validators import RegexValidator
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -9,13 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # First, set a temporary default value for existing NULL entries
-        migrations.RunSQL(
-            sql="UPDATE users_user SET phone_number = '+254000000000' WHERE phone_number IS NULL;",
-            reverse_sql="UPDATE users_user SET phone_number = NULL WHERE phone_number = '+254000000000';"
-        ),
-        
-        # Then alter the field to be non-nullable
         migrations.AlterField(
             model_name='user',
             name='phone_number',
