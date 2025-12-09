@@ -50,9 +50,9 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap5',
-    'celery',
+    # 'celery',  # Temporarily disabled for diagnostic
     'django_filters',
-    'import_export',
+    # 'import_export',  # Temporarily disabled for diagnostic
 ]
 
 LOCAL_APPS = [
