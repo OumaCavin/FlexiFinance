@@ -289,6 +289,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:8000",  # Django dev server
     "http://127.0.0.1:8000",
+    "https://4153fdd3df0a.ngrok-free.app",  # ngrok tunnel for development
     "https://flexifinance.com",  # Production domain
     "https://www.flexifinance.com",
 ]
@@ -460,6 +461,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+    'https://4153fdd3df0a.ngrok-free.app',  # ngrok tunnel for development
     'https://flexifinance.com',
     'https://www.flexifinance.com',
 ]
