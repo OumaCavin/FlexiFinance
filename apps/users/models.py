@@ -19,6 +19,8 @@ class User(AbstractUser):
         max_length=15,
         validators=[RegexValidator(r'^\+?1?\d{9,15}$')],
         unique=True,
+        null=True,  # Allow null temporarily for testing
+        blank=True,  # Allow blank temporarily for testing
         help_text="M-Pesa registered phone number"
     )
     

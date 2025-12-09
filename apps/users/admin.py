@@ -26,11 +26,19 @@ class UserAdmin(BaseUserAdmin):
         'date_joined', 'last_login', 'verification_date', 'email_verification_sent_at',
         'credit_score_updated', 'total_loans_taken', 'active_loans_count'
     )
+    # Override add_fieldsets to include phone_number in user creation
+    add_fieldsets = BaseUserAdmin.add_fieldsets + (
+        ('Additional Information', {
+            'classes': ('wide',),
+            'fields': ('phone_number', 'email', 'first_name', 'last_name'),
+        }),
+    )
+    
     fieldsets = BaseUserAdmin.fieldsets + (
         ('Additional Personal Information', {
             'classes': ('wide',),
             'fields': (
-                'middle_name', 'phone_number', 'date_of_birth', 'national_id',
+                'phone_number', 'middle_name', 'date_of_birth', 'national_id',
                 'email_verification_token', 'email_verification_sent_at'
             )
         }),
