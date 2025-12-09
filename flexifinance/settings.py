@@ -103,7 +103,7 @@ ASGI_APPLICATION = 'flexifinance.asgi.application'
 
 # Database configuration
 # =============================================================================
-# DEFAULT DATABASE: SQLite (for development and simple deployment)
+# DEFAULT DATABASE: SQLite (for development and testing)
 # =============================================================================
 DATABASES = {
     'default': {
@@ -113,14 +113,14 @@ DATABASES = {
 }
 
 # =============================================================================
-# POSTGRESQL CONFIGURATION (Uncomment to use PostgreSQL)
+# POSTGRESQL CONFIGURATION (Production-ready - Uncomment for production)
 # =============================================================================
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DB_NAME', default='flexifinance_db'),
+#         'NAME': config('DB_NAME', default='flexifinance'),
 #         'USER': config('DB_USER', default='flexifinance_user'),
-#         'PASSWORD': config('DB_PASSWORD', default='secure_password'),
+#         'PASSWORD': config('DB_PASSWORD', default='flexifinance_password'),
 #         'HOST': config('DB_HOST', default='localhost'),
 #         'PORT': config('DB_PORT', default='5432'),
 #         'OPTIONS': {

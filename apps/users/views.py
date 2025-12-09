@@ -37,21 +37,46 @@ def register_view(request):
     
     if request.method == 'POST':
         email = request.POST.get('email')
-        password = request.POST.get('password')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
         first_name = request.POST.get('first_name', '')
         last_name = request.POST.get('last_name', '')
-        phone_number = request.POST.get('phone_number', '')
+        phone_number = request.POST.get('phone', '')
+        id_number = request.POST.get('id_number', '')
+        terms = request.POST.get('terms', '')
+        
+        # Validate required fields
+        if not all([email, password1, password2, first_name, last_name, phone_number]):
+            messages.error(request, 'All required fields must be filled.')
+            return render(request, 'users/register.html')
+        
+        # Check if passwords match
+        if password1 != password2:
+            messages.error(request, 'Passwords do not match.')
+            return render(request, 'users/register.html')
+        
+        # Check if terms are accepted
+        if not terms:
+            messages.error(request, 'You must accept the Terms of Service and Privacy Policy.')
+            return render(request, 'users/register.html')
         
         try:
+            # Create user with all fields (username is email for simplicity)
             user = User.objects.create_user(
+                username=email,  # Use email as username
                 email=email,
-                password=password,
+                password=password1,
                 first_name=first_name,
                 last_name=last_name,
             )
+            
+            # Set additional fields if they exist
             if hasattr(user, 'phone_number'):
                 user.phone_number = phone_number
-                user.save()
+            if hasattr(user, 'national_id'):
+                user.national_id = id_number
+            
+            user.save()
             
             messages.success(request, 'Registration successful! Please log in.')
             return redirect('login')
