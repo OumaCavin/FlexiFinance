@@ -12,6 +12,7 @@ urlpatterns = [
     # Main website pages
     path('', views.HomeView.as_view(), name='home'),
     path('home/', views.HomeView.as_view(), name='home_page'),
+    path('contact/', views.ContactView.as_view(), name='contact'),
     
     # API endpoints for frontend
     path('api/contact/submit/', views.submit_contact_form, name='submit_contact'),
