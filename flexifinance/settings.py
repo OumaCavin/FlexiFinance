@@ -226,18 +226,16 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # AllAuth Configuration
-ACCOUNT_SIGNUP_PASSWORD_QUESTION = ""
-ACCOUNT_SIGNUP_PASSWORD_QUESTION_HELP_TEXT = ""
-# ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-# ACCOUNT_EMAIL_REQUIRED = True
-# Replace the old settings with the modern, dictionary-based equivalents:
-ACCOUNT_LOGIN_METHODS = ['email', 'username'] 
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}  # Use set instead of list
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
-# Updated allauth settings - using new format
 ACCOUNT_RATE_LIMITS = {
-    'confirm_email': 60,  # Replace ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN
+    'confirm_email': 60,  # Updated format
 }
 
 # CORS Configuration

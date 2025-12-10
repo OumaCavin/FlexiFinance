@@ -10,7 +10,7 @@ router = DefaultRouter()
 router.register(r'users', views.UserViewSet, basename='user')
 router.register(r'profile', views.UserProfileViewSet, basename='profile')
 
-app_name = 'users'
+app_name = 'users_api'
 
 urlpatterns = [
     # API endpoints
