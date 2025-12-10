@@ -111,6 +111,15 @@ DATABASES = {
     }
 }
 
+# SQLite Configuration (temporary fallback - not recommended for production)
+# To use SQLite temporarily for testing, uncomment the following and comment out PostgreSQL:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 # =============================================================================
 # SQLITE CONFIGURATION (Fallback - Not recommended for production)
 # =============================================================================

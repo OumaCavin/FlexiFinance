@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from allauth.account.signals import email_confirmed
 import logging
 
 User = get_user_model()
@@ -45,3 +46,26 @@ def update_user_stats(sender, instance, **kwargs):
         ).count()
         
         instance.save(update_fields=['total_loans_taken', 'active_loans_count'])
+
+
+@receiver(email_confirmed)
+def mark_user_verified_on_email_confirmation(sender, request, email_address, **kwargs):
+    """
+    Mark user as verified when email is confirmed through AllAuth
+    """
+    try:
+        user = email_address.user
+        logger.info(f"Marking user {user.username} as verified after email confirmation")
+        
+        # Update user verification status
+        user.mark_verified()  # This sets is_verified=True and verification_date
+        
+        # Also set KYC status to approved since email is verified
+        if user.kyc_status == 'PENDING':
+            user.set_kyc_status('APPROVED')
+            logger.info(f"Updated KYC status to APPROVED for user {user.username}")
+        
+        logger.info(f"User {user.username} successfully verified via email confirmation")
+        
+    except Exception as e:
+        logger.error(f"Error marking user verified on email confirmation: {e}")
