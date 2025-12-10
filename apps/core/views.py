@@ -17,7 +17,6 @@ import logging
 from datetime import datetime
 
 # Import services
-from apps.payments.services.supabase_service import SupabaseService
 from apps.payments.services.resend_email_service import ResendEmailService
 from apps.loans.models import Loan
 from apps.users.models import User
@@ -518,14 +517,29 @@ def submit_contact_form(request):
             'user_agent': request.META.get('HTTP_USER_AGENT', ''),
         }
         
-        # Try to store in Supabase first, but continue even if it fails
-        supabase_success = False
+        # Store contact form data in local database
+        # You can create a Contact model for this, for now we'll log it
         try:
-            supabase_service = SupabaseService()
-            result = supabase_service.submit_contact_form(contact_data)
-            supabase_success = result.get('success', False)
+            from apps.core.models import Contact
+            contact = Contact.objects.create(
+                name=contact_data['name'],
+                email=contact_data['email'],
+                phone=contact_data.get('phone', ''),
+                message=contact_data['message'],
+                subject=contact_data['subject'],
+                source=contact_data['source'],
+                ip_address=contact_data['ip_address'],
+                user_agent=contact_data['user_agent'],
+            )
+            logger.info(f"Contact form saved to database with ID: {contact.id}")
+            db_success = True
+        except ImportError:
+            # If Contact model doesn't exist, just log the data
+            logger.info(f"Contact form data (model not found): {contact_data}")
+            db_success = False
         except Exception as e:
-            logger.warning(f"Supabase contact form submission failed: {str(e)}")
+            logger.warning(f"Database contact form storage failed: {str(e)}")
+            db_success = False
         
         # Try to send email notification, but continue even if it fails
         email_success = False
@@ -537,7 +551,7 @@ def submit_contact_form(request):
             logger.warning(f"Email notification failed: {str(e)}")
         
         # Always return success since we've captured the data
-        logger.info(f"Contact form processed for {contact_data['email']} (Supabase: {supabase_success}, Email: {email_success})")
+        logger.info(f"Contact form processed for {contact_data['email']} (Database: {db_success}, Email: {email_success})")
         
         return JsonResponse({
             'success': True,
@@ -547,18 +561,6 @@ def submit_contact_form(request):
                 'reference_id': f'CF-{int(datetime.now().timestamp())}'  # Simple reference ID
             }
         })
-            
-    except json.JSONDecodeError:
-        return JsonResponse({
-            'success': False,
-            'error': 'Invalid JSON data'
-        }, status=400)
-    except Exception as e:
-        logger.error(f"Error processing contact form: {str(e)}")
-        return JsonResponse({
-            'success': False,
-            'error': 'An unexpected error occurred. Please try again.'
-        }, status=500)
             
     except json.JSONDecodeError:
         return JsonResponse({
@@ -581,20 +583,19 @@ def health_check(request):
         with connection.cursor() as cursor:
             cursor.execute("SELECT 1")
         
-        # Check Supabase connection
-        supabase_service = SupabaseService()
-        supabase_status = supabase_service.health_check()
-        
         # Check email service
-        resend_service = ResendEmailService()
-        email_status = resend_service.health_check()
+        email_status = False
+        try:
+            resend_service = ResendEmailService()
+            email_status = resend_service.health_check()
+        except Exception as e:
+            logger.warning(f"Email service health check failed: {str(e)}")
         
         health_data = {
             'status': 'healthy',
             'timestamp': datetime.now().isoformat(),
             'services': {
                 'database': 'connected',
-                'supabase': 'connected' if supabase_status else 'disconnected',
                 'email': 'connected' if email_status else 'disconnected',
             },
             'version': '1.0.0',

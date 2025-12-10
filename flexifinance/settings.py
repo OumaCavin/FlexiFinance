@@ -90,32 +90,35 @@ ASGI_APPLICATION = 'flexifinance.asgi.application'
 
 # Database configuration
 # =============================================================================
-# SQLITE CONFIGURATION (Development - No external dependencies)
+# POSTGRESQL CONFIGURATION (Development & Production)
 # =============================================================================
-# Using SQLite for development to avoid external database connection issues
+# Using PostgreSQL for local development and production
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME', default='flexifinance'),
+        'USER': config('DB_USER', default='postgres'),
+        'PASSWORD': config('DB_PASSWORD', default='postgres'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='5432'),
+        'OPTIONS': {
+            'sslmode': 'prefer',  # Use 'require' in production
+        },
+        'CONN_MAX_AGE': 600,
+        'TEST': {
+            'NAME': 'test_flexifinance',
+        },
     }
 }
 
 # =============================================================================
-# POSTGRESQL CONFIGURATION (Production-ready)
+# SQLITE CONFIGURATION (Fallback - Not recommended for production)
 # =============================================================================
-# To use PostgreSQL in production, uncomment the following and comment out SQLite:
+# To use SQLite temporarily for testing, uncomment the following and comment out PostgreSQL:
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DB_NAME', default='flexifinance'),
-#         'USER': config('DB_USER', default='flexifinance_user'),
-#         'PASSWORD': config('DB_PASSWORD', default='flexifinance_password'),
-#         'HOST': config('DB_HOST', default='localhost'),
-#         'PORT': config('DB_PORT', default='5432'),
-#         'OPTIONS': {
-#             'sslmode': 'require',
-#         },
-#         'CONN_MAX_AGE': 600,
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
 

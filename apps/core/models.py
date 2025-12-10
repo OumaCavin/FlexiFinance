@@ -74,3 +74,33 @@ class Company(models.Model):
                 email='info@flexifinance.co.ke'
             )
         return company
+
+
+class Contact(models.Model):
+    """
+    Contact form submissions model
+    """
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True)
+    subject = models.CharField(max_length=200, default='General Inquiry')
+    message = models.TextField()
+    source = models.CharField(max_length=100, default='website_contact_form')
+    
+    # Metadata
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(blank=True)
+    
+    # System fields
+    is_processed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        db_table = 'contact'
+        verbose_name = 'Contact Form Submission'
+        verbose_name_plural = 'Contact Form Submissions'
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.name} - {self.subject} ({self.email})"
