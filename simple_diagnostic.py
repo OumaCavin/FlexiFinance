@@ -63,7 +63,7 @@ def check_python_packages():
         'rest_framework_simplejwt', 
         'pyjwt',
         'corsheaders',           # CORRECT: Imports as 'corsheaders'
-        'django-extensions',
+        'django_extensions',      # CORRECT: Imports as 'django_extensions'
         'whitenoise',
         'django_filters',        # CORRECT: Imports as 'django_filters'
     ]
