@@ -52,20 +52,20 @@ def check_python_packages():
     
     required_packages = [
         'django',
-        'django-allauth', 
-        'django-crispy-forms',
+        'allauth',               # Import name for django-allauth
+        'crispy_forms',          # Import name for django-crispy-forms
         'crispy-bootstrap5',
-        'python-decouple',
+        'decouple',              # Import name for python-decouple
         'dj-database-url',
-        'python-dotenv',
+        'dotenv',                # Import name for python-dotenv
         'pymysql',
-        'djangorestframework',
-        'djangorestframework-simplejwt',
+        'rest_framework',        # CORRECT: Imports as 'rest_framework'
+        'rest_framework_simplejwt', 
         'pyjwt',
-        'django-cors-headers',
+        'corsheaders',           # CORRECT: Imports as 'corsheaders'
         'django-extensions',
         'whitenoise',
-        'django-filter',
+        'django_filters',        # CORRECT: Imports as 'django_filters'
     ]
     
     optional_packages = [
