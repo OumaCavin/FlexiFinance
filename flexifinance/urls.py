@@ -61,7 +61,6 @@ urlpatterns = [
     path('newsletter/subscribe/', views.newsletter_subscribe, name='newsletter_subscribe'),
     
     # API endpoints
-    path('api/v1/auth/', include('apps.users.urls')),
     path('api/v1/users/', include('apps.users.api_urls')),
     path('api/v1/loans/', include('apps.loans.urls')),
     path('api/v1/payments/', include('apps.payments.urls')),
