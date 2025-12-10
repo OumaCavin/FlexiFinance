@@ -76,7 +76,7 @@
                     <!-- Newsletter -->
                     <div class="newsletter-compact">
                         <p class="text-light mb-2">Newsletter</p>
-                        <form class="newsletter-form" action="{% url 'core:newsletter_subscribe' %}" method="post">
+                        <form class="newsletter-form" action="{% url 'newsletter_subscribe' %}" method="post">
                             {% csrf_token %}
                             <div class="input-group input-group-sm">
                                 <input type="email" class="form-control form-control-sm" name="email" placeholder="Email address" required>
