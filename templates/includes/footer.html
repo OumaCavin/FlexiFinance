@@ -33,7 +33,7 @@
                     
                     <!-- Quick Links Grid -->
                     <div class="quick-links-grid">
-                        <a href="{% url 'home' %}" class="text-light text-decoration-none">Home</a>
+                        <a href="{% url 'core:home' %}" class="text-light text-decoration-none">Home</a>
                         <a href="{% url 'loan_products' %}" class="text-light text-decoration-none">Personal Loans</a>
                         <a href="{% url 'business_loans' %}" class="text-light text-decoration-none">Business Loans</a>
                         <a href="{% url 'emergency_loans' %}" class="text-light text-decoration-none">Emergency Loans</a>
@@ -48,7 +48,7 @@
                 <div class="footer-section support-section">
                     <h6 class="text-white mb-2">Support & Help</h6>
                     <div class="links-grid">
-                        <a href="{% url 'contact' %}" class="text-light text-decoration-none">Contact Us</a>
+                        <a href="{% url 'core:contact' %}" class="text-light text-decoration-none">Contact Us</a>
                         <a href="{% url 'support' %}" class="text-light text-decoration-none">Help Center</a>
                         <a href="{% url 'faq' %}" class="text-light text-decoration-none">FAQ</a>
                         <a href="{% url 'privacy_policy' %}" class="text-light text-decoration-none">Privacy</a>
@@ -76,7 +76,7 @@
                     <!-- Newsletter -->
                     <div class="newsletter-compact">
                         <p class="text-light mb-2">Newsletter</p>
-                        <form class="newsletter-form" action="{% url 'newsletter_subscribe' %}" method="post">
+                        <form class="newsletter-form" action="{% url 'core:newsletter_subscribe' %}" method="post">
                             {% csrf_token %}
                             <div class="input-group input-group-sm">
                                 <input type="email" class="form-control form-control-sm" name="email" placeholder="Email address" required>

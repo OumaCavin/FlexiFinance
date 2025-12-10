@@ -33,7 +33,7 @@ urlpatterns = [
     # Allauth authentication URLs
     path('accounts/', include('allauth.urls')),
     
-    # Main website pages
+    # Main website pages (including contact)
     path('', include('apps.core.urls')),
     
     # Additional website pages
