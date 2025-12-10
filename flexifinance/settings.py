@@ -235,7 +235,7 @@ ACCOUNT_SIGNUP_FIELDS = ['email', 'username', 'password1', 'password2']
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_RATE_LIMITS = {
-    'confirm_email': 60,  # Updated format
+    'confirm_email': '60/m',  # 60 requests per minute
 }
 
 # CORS Configuration
@@ -576,7 +576,7 @@ HEALTH_CHECK = {
 
 # Rate limiting
 RATELIMIT_USE_CACHE = 'default'
-RATELIMIT_VIEW = 'flexifinance.utils.limit_view'
+# RATELIMIT_VIEW = 'flexifinance.utils.limit_view'  # Disabled - utils module doesn't exist
 
 # Audit logging
 AUDIT_LOG = {
