@@ -18,7 +18,7 @@
                     <h5 class="card-title">{{ user.get_full_name }}</h5>
                     <p class="text-muted">{{ user.email }}</p>
                     <div class="d-grid gap-2">
-                        <a href="{% url 'profile' %}" class="btn btn-outline-primary btn-sm">
+                        <a href="{% url 'dashboard:profile' %}" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-user-edit me-2"></i>Edit Profile
                         </a>
                     </div>
@@ -32,10 +32,10 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <a href="{% url 'loan_application' %}" class="btn btn-primary btn-sm">
+                        <a href="{% url 'core:loan_application' %}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus me-2"></i>Apply for Loan
                         </a>
-                        <a href="{% url 'my_loans' %}" class="btn btn-outline-secondary btn-sm">
+                        <a href="{% url 'dashboard:my_loans' %}" class="btn btn-outline-secondary btn-sm">
                             <i class="fas fa-list me-2"></i>My Loans
                         </a>
                     </div>
@@ -133,7 +133,7 @@
                                 <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
                                 <h6 class="text-muted">No recent activity</h6>
                                 <p class="text-muted">Your loan applications and payments will appear here</p>
-                                <a href="{% url 'loan_application' %}" class="btn btn-primary">
+                                <a href="{% url 'core:loan_application' %}" class="btn btn-primary">
                                     Apply for Your First Loan
                                 </a>
                             </div>
