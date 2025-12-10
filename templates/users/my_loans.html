@@ -18,7 +18,7 @@
                     <h5 class="card-title">{{ user.get_full_name }}</h5>
                     <p class="text-muted">{{ user.email }}</p>
                     <div class="d-grid gap-2">
-                        <a href="{% url 'users:profile' %}" class="btn btn-outline-primary btn-sm">
+                        <a href="{% url 'dashboard:profile' %}" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-user-edit me-2"></i>Edit Profile
                         </a>
                     </div>
@@ -35,7 +35,7 @@
                         <a href="{% url 'loan_application' %}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus me-2"></i>Apply for Loan
                         </a>
-                        <a href="{% url 'users:dashboard' %}" class="btn btn-outline-secondary btn-sm">
+                        <a href="{% url 'dashboard:dashboard' %}" class="btn btn-outline-secondary btn-sm">
                             <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                         </a>
                     </div>
