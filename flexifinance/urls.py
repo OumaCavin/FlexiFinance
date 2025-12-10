@@ -33,6 +33,9 @@ urlpatterns = [
     # Allauth authentication URLs
     path('accounts/', include('allauth.urls')),
     
+    # Redirect /accounts/profile/ to /dashboard/profile/ for user convenience
+    path('accounts/profile/', RedirectView.as_view(url='/dashboard/profile/', permanent=True)),
+    
     # Main website pages (including contact)
     path('', include('apps.core.urls')),
     
