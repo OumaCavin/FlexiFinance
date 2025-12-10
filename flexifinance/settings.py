@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap5',
+    'widget_tweaks',  # Form field customization
     # 'celery',  # Temporarily disabled for diagnostic
     'django_filters',
     'django_extensions',
@@ -90,33 +91,35 @@ ASGI_APPLICATION = 'flexifinance.asgi.application'
 
 # Database configuration
 # =============================================================================
-# POSTGRESQL CONFIGURATION (Development & Production)
+# SQLITE CONFIGURATION (Temporary for testing)
 # =============================================================================
-# Using PostgreSQL for local development and production
+# Temporarily using SQLite for testing authentication fix
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='flexifinance'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default='postgres'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
-        'OPTIONS': {
-            'sslmode': 'prefer',  # Use 'require' in production
-        },
-        'CONN_MAX_AGE': 600,
-        'TEST': {
-            'NAME': 'test_flexifinance',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-# SQLite Configuration (temporary fallback - not recommended for production)
-# To use SQLite temporarily for testing, uncomment the following and comment out PostgreSQL:
+# PostgreSQL Configuration (Development & Production)
+# =============================================================================
+# Using PostgreSQL for local development and production
+# To restore PostgreSQL, comment out SQLite above and uncomment the following:
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME', default='flexifinance'),
+#         'USER': config('DB_USER', default='postgres'),
+#         'PASSWORD': config('DB_PASSWORD', default='postgres'),
+#         'HOST': config('DB_HOST', default='localhost'),
+#         'PORT': config('DB_PORT', default='5432'),
+#         'OPTIONS': {
+#             'sslmode': 'prefer',  # Use 'require' in production
+#         },
+#         'CONN_MAX_AGE': 600,
+#         'TEST': {
+#             'NAME': 'test_flexifinance',
+#         },
 #     }
 # }
 
