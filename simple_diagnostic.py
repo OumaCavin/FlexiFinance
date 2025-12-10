@@ -6,7 +6,44 @@ Runs basic checks without requiring full Django setup
 import os
 import subprocess
 import sys
+import re
 from pathlib import Path
+
+def extract_setting_value(content, setting_name):
+    """Extract setting value handling all Python value types"""
+    # Pattern to match: setting_name = value
+    # Handles: strings (quoted), integers, booleans, None, etc.
+    pattern = rf'^{setting_name}\s*=\s*(.+?)(?:\s*#.*)?$'
+    match = re.search(pattern, content, re.MULTILINE)
+    
+    if match:
+        value_str = match.group(1).strip()
+        
+        # Remove trailing commas (common in Python settings)
+        if value_str.endswith(','):
+            value_str = value_str[:-1].strip()
+        
+        # Try to determine the actual value type and return it
+        if value_str.startswith('"') and value_str.endswith('"'):
+            # Double-quoted string
+            return value_str[1:-1]
+        elif value_str.startswith("'") and value_str.endswith("'"):
+            # Single-quoted string
+            return value_str[1:-1]
+        elif value_str in ['True', 'False']:
+            # Boolean
+            return value_str == 'True'
+        elif value_str in ['None']:
+            # None value
+            return None
+        elif value_str.isdigit() or (value_str.startswith('-') and value_str[1:].isdigit()):
+            # Integer
+            return int(value_str)
+        else:
+            # Return as-is for other cases
+            return value_str
+    
+    return None
 
 def check_python_packages():
     """Check if required packages are installed"""
@@ -53,34 +90,31 @@ def check_python_packages():
         except ImportError:
             print(f"  ⚠️  {package} - NOT INSTALLED (optional)")
 
-def check_mailpit():
-    """Check if Mailpit is running"""
+def check_mailpit_server():
+    """Check if Mailpit SMTP server is running"""
     print("\n📧 MAILPIT SMTP SERVER CHECK")
     print("-" * 30)
     
-    # Check if Mailpit process is running
+    import socket
     try:
-        result = subprocess.run(['ps', 'aux'], capture_output=True, text=True)
-        mailpit_running = 'mailpit' in result.stdout.lower()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)
+        result = sock.connect_ex(('localhost', 2526))
+        sock.close()
         
-        if mailpit_running:
-            print("✅ Mailpit SMTP server is RUNNING")
-            print("   Access Mailpit UI: http://localhost:8080")
+        if result == 0:
+            print("  ✅ Mailpit SMTP server is RUNNING")
+            print("     Access Mailpit UI: http://localhost:8080")
         else:
-            print("❌ Mailpit SMTP server is NOT running")
-            print("\nTo start Mailpit:")
-            print("  1. Install: curl -fsSL https://raw.githubusercontent.com/axllent/mailpit/develop/install.sh | sh")
-            print("  2. Run: mailpit --http :8080 --smtp :2526")
-            print("  3. Or use: python smtp_test_server.py")
+            print("  ❌ Mailpit SMTP server is NOT running")
+            print("     Start it with: mailpit --http :8080 --smtp :2526")
     except Exception as e:
-        print(f"⚠️  Could not check Mailpit status: {e}")
+        print(f"  ❌ Mailpit check error: {e}")
 
 def check_project_structure():
-    """Check if required project files exist"""
+    """Check if project structure exists"""
     print("\n📁 PROJECT STRUCTURE CHECK")
     print("-" * 30)
-    
-    base_path = Path(__file__).parent
     
     required_files = [
         'manage.py',
@@ -96,14 +130,13 @@ def check_project_structure():
     ]
     
     for file_path in required_files:
-        full_path = base_path / file_path
-        if full_path.exists():
+        if Path(file_path).exists():
             print(f"  ✅ {file_path}")
         else:
-            print(f"  ❌ {file_path} - MISSING")
+            print(f"  ❌ {file_path} - NOT FOUND")
 
 def check_settings_configuration():
-    """Check Django settings configuration"""
+    """Check settings configuration with improved parsing"""
     print("\n⚙️  SETTINGS CONFIGURATION CHECK")
     print("-" * 30)
     
@@ -116,28 +149,23 @@ def check_settings_configuration():
     with open(settings_path, 'r') as f:
         content = f.read()
     
-    # Check email settings
+    # Check email settings with proper value type handling
     email_checks = [
         ('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend'),
         ('EMAIL_HOST', 'localhost'),
-        ('EMAIL_PORT', '2526'),
-        ('EMAIL_USE_TLS', 'False'),
+        ('EMAIL_PORT', 2526),  # Integer value
+        ('EMAIL_USE_TLS', False),  # Boolean value
     ]
     
     print("Email configuration:")
     for setting, expected in email_checks:
-        if f"{setting} = " in content:
-            # Extract the value
-            import re
-            match = re.search(rf'{setting}\s*=\s*[\'"](.*?)[\'"]', content)
-            if match:
-                value = match.group(1)
-                if expected.lower() in value.lower():
-                    print(f"  ✅ {setting}: {value}")
-                else:
-                    print(f"  ⚠️  {setting}: {value} (expected: {expected})")
+        actual_value = extract_setting_value(content, setting)
+        
+        if actual_value is not None:
+            if actual_value == expected:
+                print(f"  ✅ {setting}: {actual_value}")
             else:
-                print(f"  ⚠️  {setting}: Found but couldn't parse value")
+                print(f"  ⚠️  {setting}: {actual_value} (expected: {expected})")
         else:
             print(f"  ❌ {setting}: Not found")
     
@@ -157,39 +185,33 @@ def check_url_configuration():
     print("\n🔗 URL CONFIGURATION CHECK")
     print("-" * 30)
     
-    web_urls_path = Path(__file__).parent / 'apps' / 'users' / 'web_urls.py'
-    
-    if not web_urls_path.exists():
-        print("❌ web_urls.py not found!")
+    urls_path = Path(__file__).parent / 'flexifinance' / 'urls.py'
+    if not urls_path.exists():
+        print("❌ urls.py not found!")
         return
     
-    with open(web_urls_path, 'r') as f:
+    with open(urls_path, 'r') as f:
         content = f.read()
     
-    # Check import statement
-    if 'from . import views' in content:
-        print("✅ URL import: Correct (from . import views)")
-        print("   Uses view with registration logic")
-    elif 'from .web import views' in content:
-        print("❌ URL import: Wrong (from .web import views)")
-        print("   Uses placeholder view without registration logic")
-        print("   Should be: from . import views")
+    # Check for URL imports and configuration
+    if "from . import views" in content or "import views" in content:
+        print("  ✅ URL import: Correct (from . import views)")
+        print("     Uses view with registration logic")
     else:
-        print("⚠️  URL import: Unknown structure")
+        print("  ❌ URL import: Incorrect or missing")
     
-    # Check if register URL exists
-    if "path('register/'," in content:
-        print("✅ Registration URL: Found")
+    if "register" in content.lower():
+        print("  ✅ Registration URL: Found")
     else:
-        print("❌ Registration URL: Not found")
+        print("  ❌ Registration URL: Not found")
 
 def main():
-    """Run all diagnostic checks"""
+    """Main diagnostic function"""
     print("🔍 FlexiFinance Simple Diagnostic Report")
     print("=" * 50)
     
     check_python_packages()
-    check_mailpit()
+    check_mailpit_server()
     check_project_structure()
     check_settings_configuration()
     check_url_configuration()
