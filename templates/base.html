@@ -116,5 +116,84 @@
         fbq('track', 'PageView');
     </script>
     {% endif %}
+    
+    <!-- FlexiFinance Core JavaScript Object -->
+    <script>
+        window.FlexiFinance = {
+            // Form validation helper
+            validateForm: function(form) {
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return false;
+                }
+                return true;
+            },
+            
+            // Get CSRF token
+            getCsrfToken: function() {
+                const cookieMatch = document.cookie.match(/csrftoken=([^;]+)/);
+                if (cookieMatch) return cookieMatch[1];
+                
+                const metaTag = document.querySelector('meta[name="csrf-token"]');
+                if (metaTag) return metaTag.getAttribute('content');
+                
+                const inputField = document.querySelector('input[name="csrfmiddlewaretoken"]');
+                if (inputField) return inputField.value;
+                
+                return '';
+            },
+            
+            // Show toast notification
+            showToast: function(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+                toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                toast.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                document.body.appendChild(toast);
+                
+                // Auto-dismiss after 5 seconds
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 5000);
+            },
+            
+            // Track events (placeholder for analytics)
+            trackEvent: function(eventName, eventData = {}) {
+                console.log('Event tracked:', eventName, eventData);
+                // Here you would typically send to analytics service
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', eventName, eventData);
+                }
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', eventName, eventData);
+                }
+            },
+            
+            // Format currency
+            formatCurrency: function(amount) {
+                return new Intl.NumberFormat('en-KE', {
+                    style: 'currency',
+                    currency: 'KES'
+                }).format(amount);
+            },
+            
+            // Format phone number
+            formatPhone: function(phone) {
+                // Simple Kenyan phone formatting
+                if (phone.startsWith('+254')) {
+                    return phone.replace(/(\+254)(\d{3})(\d{3})(\d{3})/, '$1 $2 $3 $4');
+                }
+                if (phone.startsWith('0')) {
+                    return phone.replace(/(0)(\d{3})(\d{3})(\d{3})/, '0$1 $2 $3 $4');
+                }
+                return phone;
+            }
+        };
+    </script>
 </body>
 </html>

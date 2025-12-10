@@ -27,7 +27,7 @@
                     <h5 class="mb-0">Profile Information</h5>
                 </div>
                 <div class="card-body">
-                    <form class="needs-validation" novalidate>
+                    <form id="profileForm" class="needs-validation" novalidate method="post">
                         {% csrf_token %}
                         
                         <div class="row">
@@ -60,8 +60,8 @@
                         
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" 
-                                   value="{{ user.phone }}" required>
+                            <input type="tel" class="form-control" id="phone" name="phone_number" 
+                                   value="{{ user.phone_number|default:'' }}" required>
                             <div class="invalid-feedback">
                                 Please provide your phone number.
                             </div>
@@ -69,8 +69,8 @@
                         
                         <div class="mb-3">
                             <label for="id_number" class="form-label">National ID Number</label>
-                            <input type="text" class="form-control" id="id_number" name="id_number" 
-                                   value="{{ user.id_number }}" readonly>
+                            <input type="text" class="form-control" id="id_number" name="national_id" 
+                                   value="{{ user.national_id|default:'' }}" readonly>
                             <div class="form-text">ID number cannot be changed after verification</div>
                         </div>
                         
@@ -174,6 +174,90 @@ document.getElementById('confirm_password').addEventListener('input', function()
     } else {
         this.setCustomValidity('');
     }
+});
+
+// Profile form submission
+document.getElementById('profileForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const submitBtn = document.querySelector('button[type="submit"]');
+    
+    if (!form.checkValidity()) {
+        form.classList.add('was-validated');
+        return;
+    }
+    
+    // Show loading state
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+    submitBtn.disabled = true;
+    
+    // Collect form data
+    const formData = new FormData(form);
+    const data = {};
+    for (let [key, value] of formData.entries()) {
+        if (value.trim()) { // Only include non-empty values
+            data[key] = value;
+        }
+    }
+    
+    // Submit via AJAX
+    fetch('/dashboard/profile/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // Show success message
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>
+                ${result.message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            form.parentNode.insertBefore(alertDiv, form);
+            
+            // Scroll to top to show success message
+            alertDiv.scrollIntoView({ behavior: 'smooth' });
+            
+            // Clear password fields
+            document.getElementById('current_password').value = '';
+            document.getElementById('new_password').value = '';
+            document.getElementById('confirm_password').value = '';
+        } else {
+            // Show error message
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                <i class="fas fa-exclamation-circle me-2"></i>
+                ${result.error || 'Failed to update profile. Please try again.'}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            form.parentNode.insertBefore(alertDiv, form);
+        }
+    })
+    .catch(error => {
+        console.error('Profile update error:', error);
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+        alertDiv.innerHTML = `
+            <i class="fas fa-exclamation-circle me-2"></i>
+            An error occurred while updating your profile. Please try again.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        form.parentNode.insertBefore(alertDiv, form);
+    })
+    .finally(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
 });
 </script>
 {% endblock %}

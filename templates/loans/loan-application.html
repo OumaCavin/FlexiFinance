@@ -391,12 +391,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Create form data object for JSON submission
             const formDataObj = {};
-            for (let [key, value] of formData.entries()) {
+            for (let [key, value] of new FormData(form).entries()) {
                 formDataObj[key] = value;
             }
             
             // Submit form using fetch with JSON
             fetch('/loan-application/', {
+                method: 'POST',
                 method: 'POST',
                 body: JSON.stringify(formDataObj),
                 headers: {
