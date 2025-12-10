@@ -2,7 +2,7 @@
 Stripe Payment Service for FlexiFinance
 Handles international card payments and Stripe API interactions
 """
-import stripe
+# import stripe  # Commented out for development - stripe not installed
 import logging
 from django.conf import settings
 from decimal import Decimal

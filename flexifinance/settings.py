@@ -3,9 +3,7 @@ from pathlib import Path
 from decouple import config
 from datetime import timedelta
 
-# Add PyMySQL to work with Django (alternative to mysqlclient)
-import pymysql
-pymysql.install_as_MySQLdb()
+# Using PostgreSQL as database backend (no MySQL compatibility needed)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -92,22 +90,34 @@ ASGI_APPLICATION = 'flexifinance.asgi.application'
 
 # Database configuration
 # =============================================================================
-# POSTGRESQL CONFIGURATION (Production-ready - Uncomment for production)
+# SQLITE CONFIGURATION (Development - No external dependencies)
 # =============================================================================
+# Using SQLite for development to avoid external database connection issues
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='flexifinance'),
-        'USER': config('DB_USER', default='flexifinance_user'),
-        'PASSWORD': config('DB_PASSWORD', default='flexifinance_password'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
-        'CONN_MAX_AGE': 600,
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# =============================================================================
+# POSTGRESQL CONFIGURATION (Production-ready)
+# =============================================================================
+# To use PostgreSQL in production, uncomment the following and comment out SQLite:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME', default='flexifinance'),
+#         'USER': config('DB_USER', default='flexifinance_user'),
+#         'PASSWORD': config('DB_PASSWORD', default='flexifinance_password'),
+#         'HOST': config('DB_HOST', default='localhost'),
+#         'PORT': config('DB_PORT', default='5432'),
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#         },
+#         'CONN_MAX_AGE': 600,
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -255,16 +265,22 @@ CORS_ALLOW_ALL_ORIGINS = False  # Set to False for production
 
 # Email Configuration
 # =============================================================================
-# MAILPIT EMAIL CONFIGURATION (Local Development)
+# CONSOLE EMAIL CONFIGURATION (Local Development)
 # =============================================================================
-# Direct Mailpit SMTP configuration - no environment variable dependency
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 2526
-EMAIL_USE_TLS = False
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_TIMEOUT = 30
+# Using console backend to avoid external SMTP connection issues
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# =============================================================================
+# MAILPIT EMAIL CONFIGURATION (Alternative - Uncomment to use)
+# =============================================================================
+# To use Mailpit SMTP, uncomment the following:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 2526
+# EMAIL_USE_TLS = False
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_TIMEOUT = 30
 
 # Caching Configuration
 # =============================================================================
