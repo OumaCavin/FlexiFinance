@@ -4,95 +4,30 @@ Django template-based views for user authentication and dashboard
 """
 
 import logging
-from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate
 from .models import User
 
 logger = logging.getLogger(__name__)
 
 
-def login_view(request):
-    """User login view"""
-    if request.user.is_authenticated:
-        return redirect('dashboard')
-    
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        user = authenticate(request, username=email, password=password)
-        
-        if user is not None:
-            login(request, user)
-            return redirect('dashboard')
-        else:
-            messages.error(request, 'Invalid credentials')
-    
-    return render(request, 'users/login.html')
+# def login_view(request):
+#     """User login view - DISABLED: Using AllAuth defaults"""
+#     # This view is disabled to use AllAuth default authentication
+#     pass
 
 
-def register_view(request):
-    """User registration view"""
-    if request.user.is_authenticated:
-        return redirect('dashboard')
-    
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-        first_name = request.POST.get('first_name', '')
-        last_name = request.POST.get('last_name', '')
-        phone_number = request.POST.get('phone', '')
-        id_number = request.POST.get('id_number', '')
-        terms = request.POST.get('terms', '')
-        
-        # Validate required fields
-        if not all([email, password1, password2, first_name, last_name, phone_number]):
-            messages.error(request, 'All required fields must be filled.')
-            return render(request, 'users/register.html')
-        
-        # Check if passwords match
-        if password1 != password2:
-            messages.error(request, 'Passwords do not match.')
-            return render(request, 'users/register.html')
-        
-        # Check if terms are accepted
-        if not terms:
-            messages.error(request, 'You must accept the Terms of Service and Privacy Policy.')
-            return render(request, 'users/register.html')
-        
-        try:
-            # Create user with all fields (username is email for simplicity)
-            user = User.objects.create_user(
-                username=email,  # Use email as username
-                email=email,
-                password=password1,
-                first_name=first_name,
-                last_name=last_name,
-            )
-            
-            # Set additional fields if they exist
-            if hasattr(user, 'phone_number'):
-                user.phone_number = phone_number
-            if hasattr(user, 'national_id'):
-                user.national_id = id_number
-            
-            user.save()
-            
-            messages.success(request, 'Registration successful! Please log in.')
-            return redirect('login')
-        except Exception as e:
-            messages.error(request, f'Registration failed: {str(e)}')
-    
-    return render(request, 'users/register.html')
+# def register_view(request):
+#     """User registration view - DISABLED: Using AllAuth defaults"""
+#     # This view is disabled to use AllAuth default authentication
+#     pass
 
 
-def logout_view(request):
-    """User logout view"""
-    logout(request)
-    return redirect('login')
+# def logout_view(request):
+#     """User logout view - DISABLED: Using AllAuth defaults"""
+#     # This view is disabled to use AllAuth default authentication
+#     pass
 
 
 @login_required
