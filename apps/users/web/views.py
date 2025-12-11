@@ -25,6 +25,66 @@ def dashboard(request):
 @login_required
 def profile(request):
     """User profile view"""
+    if request.method == 'POST':
+        form_type = request.POST.get('form_type')
+        
+        if form_type == 'personal':
+            # Handle personal information update
+            first_name = request.POST.get('first_name', '').strip()
+            last_name = request.POST.get('last_name', '').strip()
+            phone_number = request.POST.get('phone_number', '').strip()
+            
+            # Validation
+            if not first_name or not last_name:
+                messages.error(request, 'First name and last name are required.')
+            else:
+                # Update user fields
+                user = request.user
+                user.first_name = first_name
+                user.last_name = last_name
+                
+                # Handle phone_number (it's optional)
+                if phone_number:
+                    user.phone_number = phone_number
+                else:
+                    user.phone_number = None
+                
+                try:
+                    user.save()
+                    messages.success(request, 'Personal information updated successfully!')
+                except Exception as e:
+                    messages.error(request, f'Error updating profile: {str(e)}')
+            
+        elif form_type == 'password':
+            # Handle password update
+            current_password = request.POST.get('current_password', '')
+            new_password = request.POST.get('new_password', '')
+            confirm_password = request.POST.get('confirm_password', '')
+            
+            # Validation
+            if not current_password:
+                messages.error(request, 'Current password is required.')
+            elif not new_password:
+                messages.error(request, 'New password is required.')
+            elif new_password != confirm_password:
+                messages.error(request, 'New passwords do not match.')
+            elif len(new_password) < 8:
+                messages.error(request, 'Password must be at least 8 characters long.')
+            elif not current_password or not request.user.check_password(current_password):
+                messages.error(request, 'Current password is incorrect.')
+            else:
+                # Update password
+                try:
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    messages.success(request, 'Password updated successfully!')
+                except Exception as e:
+                    messages.error(request, f'Error updating password: {str(e)}')
+        
+        # Redirect to prevent form resubmission
+        return redirect('dashboard:profile')
+    
+    # GET request - just show the profile page
     context = {
         'user': request.user,
         'page_title': 'Profile'

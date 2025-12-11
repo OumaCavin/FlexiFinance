@@ -129,15 +129,14 @@
                                 </div>
                             </div>
                             
-                            {% if user.phone_number %}
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="phone_number" class="form-label">Phone Number</label>
                                     <input type="tel" class="form-control" id="phone_number" name="phone_number" 
-                                           value="{{ user.phone_number }}">
+                                           value="{{ user.phone_number|default:'' }}" placeholder="+254700000000">
+                                    <div class="form-text">Your M-Pesa registered phone number (optional)</div>
                                 </div>
                             </div>
-                            {% endif %}
                             
                             <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">
