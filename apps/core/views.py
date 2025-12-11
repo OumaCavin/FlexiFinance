@@ -233,8 +233,9 @@ class LoanApplicationView(TemplateView):
         try:
             # Parse JSON data from request
             data = json.loads(request.body)
+            logger.info(f"Received loan application data: {data.keys()}")  # Debug logging
             
-            # Validate required fields
+            # Validate required fields (using actual form field names)
             required_fields = ['first_name', 'last_name', 'email', 'phone', 'loan_amount', 'loan_purpose']
             missing_fields = []
             for field in required_fields:
@@ -249,20 +250,21 @@ class LoanApplicationView(TemplateView):
             
             # Check if user exists or create new user
             email = data.get('email', '').strip().lower()
-            phone = data.get('phone', '').strip()
+            phone = data.get('phone', '').strip()  # Form field name
+            id_number = data.get('id_number', '').strip()  # Form field name
             
             try:
                 user = User.objects.get(email=email)
                 # Update existing user with new information
                 user.first_name = data.get('first_name', user.first_name)
                 user.last_name = data.get('last_name', user.last_name)
-                user.phone_number = phone
+                user.phone_number = phone  # Map form field 'phone' to User field 'phone_number'
                 
                 # Update additional fields if provided
                 if data.get('date_of_birth'):
                     user.date_of_birth = data.get('date_of_birth')
-                if data.get('national_id'):
-                    user.national_id = data.get('national_id')
+                if id_number:  # Map form field 'id_number' to User field 'national_id'
+                    user.national_id = id_number
                 if data.get('employer_name'):
                     user.employer_name = data.get('employer_name')
                 if data.get('monthly_income'):
@@ -292,14 +294,14 @@ class LoanApplicationView(TemplateView):
                         password=secrets.token_urlsafe(16),  # Generate random password
                         first_name=data.get('first_name', ''),
                         last_name=data.get('last_name', ''),
-                        phone_number=phone,
+                        phone_number=phone,  # Map form field 'phone' to User field 'phone_number'
                     )
                     
                     # Set additional fields
                     if data.get('date_of_birth'):
                         user.date_of_birth = data.get('date_of_birth')
-                    if data.get('national_id'):
-                        user.national_id = data.get('national_id')
+                    if id_number:  # Map form field 'id_number' to User field 'national_id'
+                        user.national_id = id_number
                     if data.get('employer_name'):
                         user.employer_name = data.get('employer_name')
                     if data.get('monthly_income'):

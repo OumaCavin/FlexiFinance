@@ -405,14 +405,20 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const form = this;
         
+        console.log('Form submission started'); // Debug logging
+        
         if (form.checkValidity()) {
+            console.log('Form is valid, preparing to submit'); // Debug logging
+            
             // Show loading state
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
             submitBtn.disabled = true;
             
             // Get CSRF token
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const csrfTokenInput = document.querySelector('[name=csrfmiddlewaretoken]');
+            const csrfToken = csrfTokenInput ? csrfTokenInput.value : '';
+            console.log('CSRF Token:', csrfToken ? 'Found' : 'Not found'); // Debug logging
             
             // Create form data object for JSON submission
             const formDataObj = {};
@@ -424,6 +430,8 @@ document.addEventListener('DOMContentLoaded', function() {
             formDataObj['terms_consent'] = document.getElementById('termsConsent').checked;
             formDataObj['credit_check'] = document.getElementById('creditCheck').checked;
             formDataObj['marketing_consent'] = document.getElementById('marketingConsent').checked;
+            
+            console.log('Form data to submit:', formDataObj); // Debug logging
 
             // Submit form using fetch with JSON
             fetch('{% url "loan_application" %}', {
@@ -436,6 +444,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 credentials: 'same-origin'
             })
+            .then(response => {
+                console.log('Response received:', response.status, response.statusText); // Debug logging
+                console.log('Response headers:', response.headers); // Debug logging
+                
+                if (response.headers.get('content-type').includes('application/json')) {
+                    return response.json();
+                } else {
+                    // If not JSON, assume it's a redirect or HTML response
+                    return { success: true, redirect: '/' };
+                }
+            })
+            .then(data => {
+                console.log('Response data:', data); // Debug logging
             .then(response => {
                 if (response.headers.get('content-type').includes('application/json')) {
                     return response.json();
@@ -468,8 +489,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while submitting the application. Please try again.');
+                console.error('Form submission error:', error);
+                console.error('Error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
+                alert('An error occurred while submitting the application. Please try again. Check console for details.');
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Application';
                 submitBtn.disabled = false;
             });
