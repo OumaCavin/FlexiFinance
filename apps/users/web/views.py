@@ -32,15 +32,25 @@ def profile(request):
     profile_form = UserProfileForm(instance=user)
 
     if request.method == 'POST':
+        logger.info(f"Profile form submitted with method: {request.method}")
+        logger.info(f"POST data: {dict(request.POST)}")
+        
         form_type = request.POST.get('form_type')
+        logger.info(f"Form type from POST: {form_type}")
         
         if form_type == 'personal':
+            logger.info("Processing personal profile form")
             # Bind POST data to the form
             profile_form = UserProfileForm(request.POST, instance=user)
             
+            logger.info(f"Form errors: {profile_form.errors}")
+            logger.info(f"Form is valid: {profile_form.is_valid()}")
+            
             if profile_form.is_valid():
                 try:
+                    logger.info("Form is valid, saving profile...")
                     profile_form.save()
+                    logger.info("Profile saved successfully")
                     messages.success(request, 'Profile information updated successfully!')
                     return redirect('dashboard:profile')
                 except Exception as e:
@@ -48,6 +58,7 @@ def profile(request):
                     messages.error(request, 'An error occurred while saving your profile.')
             else:
                 # If invalid, the form with errors will be rendered below
+                logger.info("Form validation failed, errors will be displayed")
                 messages.error(request, 'Please correct the errors below.')
         
         elif form_type == 'password':

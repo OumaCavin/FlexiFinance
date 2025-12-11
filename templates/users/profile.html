@@ -354,17 +354,50 @@
             }
         }
 
-        // Form validation feedback
+        // Form validation feedback with debugging
         const forms = document.querySelectorAll('form');
         forms.forEach(form => {
             form.addEventListener('submit', function(e) {
+                console.log('Form submitted:', form.action);
+                console.log('Form data:', new FormData(form));
+                
+                // Get form type for debugging
+                const formType = form.querySelector('input[name="form_type"]')?.value || 'unknown';
+                console.log('Form type:', formType);
+                
                 const submitBtn = form.querySelector('button[type="submit"]');
                 if (submitBtn) {
+                    console.log('Updating submit button...');
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
                     submitBtn.disabled = true;
                 }
             });
         });
+        
+        // Additional debugging for profile form specifically
+        const profileForm = document.querySelector('form[action*="profile"]');
+        if (profileForm) {
+            console.log('Profile form found:', profileForm);
+            
+            profileForm.addEventListener('submit', function(e) {
+                console.log('Profile form submit triggered');
+                
+                // Validate form data
+                const formData = new FormData(this);
+                console.log('Profile form fields:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`  ${key}: ${value}`);
+                }
+                
+                // Check CSRF token
+                const csrfToken = this.querySelector('input[name="csrfmiddlewaretoken"]');
+                if (csrfToken) {
+                    console.log('CSRF token present:', csrfToken.value ? 'Yes' : 'No');
+                } else {
+                    console.log('WARNING: No CSRF token found!');
+                }
+            });
+        }
     });
 </script>
 {% endblock %}
