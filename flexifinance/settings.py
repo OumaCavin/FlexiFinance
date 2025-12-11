@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap5',
+    'widget_tweaks',
 
     # 'celery',  # Temporarily disabled for diagnostic
     'django_filters',
