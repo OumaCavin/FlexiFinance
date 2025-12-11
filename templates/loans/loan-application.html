@@ -354,16 +354,41 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('submitBtn').classList.toggle('d-none', step !== totalSteps);
     }
     
-    // Next button
+    // --- FIXED NEXT BUTTON LOGIC ---
     document.getElementById('nextBtn').addEventListener('click', function() {
         const form = document.getElementById('loanApplicationForm');
-        if (form.checkValidity()) {
+        
+        // 1. Get the container for the current visible step
+        const currentStepDiv = document.getElementById(`step${currentStep}`);
+        
+        // 2. Select only the inputs/selects in this specific step
+        const currentInputs = currentStepDiv.querySelectorAll('input, select, textarea');
+        
+        // 3. Check validity ONLY for these inputs
+        let isStepValid = true;
+        currentInputs.forEach(input => {
+            if (!input.checkValidity()) {
+                isStepValid = false;
+            }
+        });
+
+        if (isStepValid) {
+            // Remove validation styling from previous attempts
+            form.classList.remove('was-validated');
+            
             if (currentStep < totalSteps) {
                 currentStep++;
                 showStep(currentStep);
+                // Scroll to top of form smoothly
+                document.getElementById('progressBar').scrollIntoView({ behavior: 'smooth' });
             }
         } else {
+            // Trigger browser validation UI (red borders)
             form.classList.add('was-validated');
+            
+            // Optional: Find the first invalid input and focus it
+            const firstInvalid = Array.from(currentInputs).find(input => !input.checkValidity());
+            if (firstInvalid) firstInvalid.focus();
         }
     });
     
@@ -395,9 +420,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 formDataObj[key] = value;
             }
             
+            // Handle checkboxes specifically (FormData only sends them if checked)
+            formDataObj['terms_consent'] = document.getElementById('termsConsent').checked;
+            formDataObj['credit_check'] = document.getElementById('creditCheck').checked;
+            formDataObj['marketing_consent'] = document.getElementById('marketingConsent').checked;
+
             // Submit form using fetch with JSON
-            fetch('/loan-application/', {
-                method: 'POST',
+            fetch('{% url "loan_application" %}', {
                 method: 'POST',
                 body: JSON.stringify(formDataObj),
                 headers: {
@@ -417,16 +446,25 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 if (data.success) {
-                    alert('Application submitted successfully! You will receive a confirmation email shortly.');
-                    if (data.redirect) {
-                        window.location.href = data.redirect;
-                    } else {
-                        window.location.href = '/';
-                    }
+                    // Success handling
+                    const container = document.querySelector('.bg-white');
+                    container.innerHTML = `
+                        <div class="text-center py-5">
+                            <i class="fas fa-check-circle text-success fa-5x mb-4"></i>
+                            <h2 class="mb-3">Application Submitted!</h2>
+                            <p class="lead mb-4">${data.message || 'We have received your loan application.'}</p>
+                            <div class="alert alert-light border">
+                                Reference ID: <strong>${data.data ? data.data.loan_reference : 'N/A'}</strong>
+                            </div>
+                            <div class="mt-4">
+                                <a href="/dashboard/" class="btn btn-primary">Go to Dashboard</a>
+                            </div>
+                        </div>
+                    `;
+                    // Scroll to top
+                    container.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    alert('Error: ' + (data.message || 'Please check your information and try again.'));
-                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Application';
-                    submitBtn.disabled = false;
+                    throw new Error(data.error || 'Submission failed');
                 }
             })
             .catch(error => {

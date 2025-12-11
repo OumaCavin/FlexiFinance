@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
+import random
 
 User = get_user_model()
 
@@ -50,7 +51,9 @@ class Loan(models.Model):
     principal_amount = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(1)])
     interest_rate = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0)])
     loan_tenure = models.PositiveIntegerField(help_text="Tenure in months")
-    total_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    
+    # FIX: Added null=True, blank=True because these are calculated automatically
+    total_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     
     # Loan reference and status
     loan_reference = models.CharField(max_length=20, unique=True)
@@ -101,10 +104,10 @@ class Loan(models.Model):
     def save(self, *args, **kwargs):
         # Generate loan reference if not exists
         if not self.loan_reference:
-            from django.utils import timezone
             timestamp = timezone.now().strftime('%Y%m%d')
-            loan_count = Loan.objects.filter(application_date__date=timezone.now().date()).count() + 1
-            self.loan_reference = f"LF{timestamp}{loan_count:03d}"
+            # FIX: Added random component to prevent duplicates (Race Condition)
+            unique_suffix = random.randint(1000, 9999) 
+            self.loan_reference = f"LF{timestamp}{unique_suffix}"
         
         # Calculate total amount if not set
         if not self.total_amount or self.total_amount == 0:
