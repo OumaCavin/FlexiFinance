@@ -4,7 +4,7 @@ URL patterns for user authentication and dashboard
 """
 
 from django.urls import path
-from . import views
+from apps.users.web import views
 
 app_name = 'dashboard'
 

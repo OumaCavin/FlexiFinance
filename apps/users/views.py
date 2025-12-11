@@ -79,7 +79,7 @@ def profile(request):
                     })
                 else:
                     messages.success(request, 'Personal information updated successfully!')
-                    return redirect('profile')
+                    return redirect('dashboard:profile')
                     
             elif form_type == 'password':
                 # Handle password change
@@ -96,7 +96,7 @@ def profile(request):
                         }, status=400)
                     else:
                         messages.error(request, 'Passwords do not match.')
-                        return redirect('profile')
+                        return redirect('dashboard:profile')
                 
                 if not current_password:
                     if request.headers.get('content-type', '').startswith('application/json'):
@@ -107,7 +107,7 @@ def profile(request):
                         }, status=400)
                     else:
                         messages.error(request, 'Current password is required to set a new password.')
-                        return redirect('profile')
+                        return redirect('dashboard:profile')
                 
                 # Verify current password
                 if not request.user.check_password(current_password):
@@ -119,7 +119,7 @@ def profile(request):
                         }, status=400)
                     else:
                         messages.error(request, 'Current password is incorrect.')
-                        return redirect('profile')
+                        return redirect('dashboard:profile')
                 
                 # Set new password
                 request.user.set_password(new_password)
@@ -133,7 +133,7 @@ def profile(request):
                     })
                 else:
                     messages.success(request, 'Password updated successfully!')
-                    return redirect('profile')
+                    return redirect('dashboard:profile')
             else:
                 logger.error(f"Unknown form_type: {form_type}")
                 if request.headers.get('content-type', '').startswith('application/json'):
@@ -144,7 +144,7 @@ def profile(request):
                     }, status=400)
                 else:
                     messages.error(request, 'Invalid form submission.')
-                    return redirect('profile')
+                    return redirect('dashboard:profile')
                 
         except Exception as e:
             logger.error(f"Profile update error: {str(e)}", exc_info=True)

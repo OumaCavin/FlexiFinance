@@ -106,7 +106,7 @@ def logout_view(request):
 def login_view(request):
     """User login view"""
     if request.user.is_authenticated:
-        return redirect('users:dashboard')
+        return redirect('dashboard:dashboard')
     
     context = {
         'page_title': 'Login'
@@ -116,7 +116,7 @@ def login_view(request):
 def register_view(request):
     """User registration view"""
     if request.user.is_authenticated:
-        return redirect('users:dashboard')
+        return redirect('dashboard:dashboard')
     
     context = {
         'page_title': 'Register'
