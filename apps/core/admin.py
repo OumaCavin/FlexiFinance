@@ -3,7 +3,7 @@ Admin configuration for Core app
 """
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Company
+from .models import Company, Contact
 
 
 @admin.register(Company)
@@ -105,3 +105,20 @@ class CompanyAdmin(admin.ModelAdmin):
             'all': ('admin/css/admin.css',),
         }
         js = ('admin/js/admin.js',)
+
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    """Contact Form Submission Admin"""
+    list_display = ['name', 'email', 'subject', 'source', 'is_processed', 'created_at']
+    list_filter = ['is_processed', 'source', 'created_at', 'subject']
+    search_fields = ['name', 'email', 'message', 'phone']
+    readonly_fields = ['created_at', 'updated_at', 'ip_address', 'user_agent']
+    
+    actions = ['mark_as_processed']
+
+    def mark_as_processed(self, request, queryset):
+        """Mark selected contact messages as processed"""
+        updated = queryset.update(is_processed=True)
+        self.message_user(request, f'{updated} messages marked as processed.')
+    mark_as_processed.short_description = "Mark selected messages as processed"
