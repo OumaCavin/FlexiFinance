@@ -598,7 +598,10 @@ document.addEventListener('DOMContentLoaded', function() {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
+        console.log('Contact form submission started'); // Debug logging
+        
         if (!FlexiFinance.validateForm(this)) {
+            console.log('Contact form validation failed'); // Debug logging
             return;
         }
         
@@ -612,19 +615,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
         
+        console.log('Contact form data to submit:', data); // Debug logging
+        
         // Submit via AJAX
         fetch('/api/contact/submit/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
                 'X-CSRFToken': FlexiFinance.getCsrfToken()
             },
             body: JSON.stringify(data)
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Contact form response received:', response.status, response.statusText); // Debug logging
+            return response.json();
+        })
         .then(result => {
+            console.log('Contact form result:', result); // Debug logging
+            
             if (result.success) {
-                showResponse('success', 'Thank you for your message! We\'ll get back to you within 24 hours.');
+                showResponse('success', result.message || 'Thank you for your message! We\'ll get back to you within 24 hours.');
                 contactForm.reset();
                 FlexiFinance.trackEvent('contact_form_submit', {
                     subject: data.subject,

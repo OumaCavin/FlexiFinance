@@ -496,11 +496,13 @@ def submit_contact_form(request):
     try:
         # Parse JSON data
         data = json.loads(request.body)
+        logger.info(f"Contact form submission received: {list(data.keys())}")  # Debug logging
         
         # Validate required fields
         required_fields = ['name', 'email', 'message']
         for field in required_fields:
             if not data.get(field):
+                logger.warning(f"Missing required field: {field}")  # Debug logging
                 return JsonResponse({
                     'success': False,
                     'error': f'{field.capitalize()} is required'
@@ -555,16 +557,19 @@ def submit_contact_form(request):
         # Always return success since we've captured the data
         logger.info(f"Contact form processed for {contact_data['email']} (Database: {db_success}, Email: {email_success})")
         
-        return JsonResponse({
+        response_data = {
             'success': True,
             'message': 'Thank you for your message. We will get back to you within 24 hours.',
             'data': {
                 'submitted_at': contact_data['created_at'],
                 'reference_id': f'CF-{int(datetime.now().timestamp())}'  # Simple reference ID
             }
-        })
+        }
+        logger.info(f"Sending success response: {response_data}")  # Debug logging
+        return JsonResponse(response_data)
             
     except json.JSONDecodeError:
+        logger.error("Contact form: Invalid JSON data received")  # Debug logging
         return JsonResponse({
             'success': False,
             'error': 'Invalid JSON data'

@@ -312,22 +312,74 @@ document.getElementById('supportForm').addEventListener('submit', function(e) {
     
     const submitBtn = this.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
+    const resultDiv = document.getElementById('formResult');
+    
+    // Prevent default submission
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Basic validation
+    if (!this.checkValidity()) {
+        this.classList.add('was-validated');
+        return;
+    }
+    
+    console.log('Support form submission started'); // Debug logging
+    
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
     submitBtn.disabled = true;
+    resultDiv.style.display = 'none';
     
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-        const resultDiv = document.getElementById('formResult');
+    // Get form data
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    console.log('Support form data:', data); // Debug logging
+    
+    // Submit via AJAX to contact endpoint
+    fetch('/api/contact/submit/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        console.log('Support form response:', response.status, response.statusText); // Debug logging
+        return response.json();
+    })
+    .then(result => {
+        console.log('Support form result:', result); // Debug logging
+        
+        if (result.success) {
+            resultDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle me-2"></i>
+                    ${result.message || 'Thank you for your message! We\'ll get back to you within 2 hours.'}
+                    ${result.data && result.data.reference_id ? `<br><small>Reference ID: ${result.data.reference_id}</small>` : ''}
+                </div>
+            `;
+            this.reset();
+            this.classList.remove('was-validated');
+        } else {
+            throw new Error(result.error || 'Submission failed');
+        }
+    })
+    .catch(error => {
+        console.error('Support form error:', error); // Debug logging
         resultDiv.innerHTML = `
-            <div class="alert alert-success">
-                <i class="fas fa-check-circle me-2"></i>
-                Thank you for your message! We'll get back to you within 2 hours.
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                Failed to send message: ${error.message}. Please try again.
             </div>
         `;
+    })
+    .finally(() => {
         resultDiv.style.display = 'block';
-        this.reset();
-        this.classList.remove('was-validated');
-        
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }, 2000);
