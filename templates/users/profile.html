@@ -18,12 +18,54 @@
         border-radius: 50%;
         border: 4px solid white;
         margin-bottom: 1rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .profile-form {
         background: white;
         border-radius: 15px;
         padding: 2rem;
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .section-title {
+        color: #667eea;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    .form-label {
+        font-weight: 500;
+        color: #4a5568;
+    }
+    .nav-pills .nav-link {
+        color: #666;
+        border-radius: 50px;
+        padding: 0.75rem 1.5rem;
+        margin-right: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    .nav-pills .nav-link:hover {
+        background-color: #f8f9fa;
+        color: #667eea;
+    }
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 6px rgba(102, 126, 234, 0.25);
+    }
+    /* Style for form errors rendered by Django */
+    .errorlist {
+        color: #dc3545;
+        list-style: none;
+        padding: 0;
+        margin-top: 0.25rem;
+        font-size: 0.875em;
     }
     .form-control:focus {
         border-color: #667eea;
@@ -36,149 +78,245 @@
         border-radius: 25px;
         font-weight: 600;
     }
-    .nav-pills .nav-link {
-        color: #666;
-        border-radius: 25px;
-        padding: 0.75rem 1.5rem;
-        margin-right: 1rem;
-    }
-    .nav-pills .nav-link.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container-fluid">
-    <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
             <li class="breadcrumb-item active" aria-current="page">Profile</li>
         </ol>
     </nav>
 
     <div class="row">
-        <!-- Profile Header -->
         <div class="col-12">
             <div class="profile-card text-center" data-aos="fade-up">
-                <div class="profile-avatar mx-auto d-flex align-items-center justify-content-center bg-light">
-                    <i class="fas fa-user fa-3x text-muted"></i>
+                <div class="profile-avatar mx-auto">
+                    <i class="fas fa-user fa-3x text-white"></i>
                 </div>
-                <h2 class="mb-2">{{ user.get_full_name|default:user.username }}</h2>
-                <p class="mb-0 opacity-75">{{ user.email }}</p>
-                <small class="opacity-75">Member since {{ user.date_joined|date:"M Y" }}</small>
+                <h2 class="mb-1">{{ user.get_full_name|default:user.username }}</h2>
+                <p class="mb-2 opacity-75">{{ user.email }}</p>
+                
+                <div class="d-flex justify-content-center gap-2 mt-3">
+                    <span class="badge bg-white text-primary rounded-pill px-3 py-2">
+                        {% if user.is_verified %}
+                            <i class="fas fa-check-circle me-1"></i> Verified
+                        {% else %}
+                            <i class="fas fa-hourglass-half me-1"></i> Pending Verification
+                        {% endif %}
+                    </span>
+                    <span class="badge bg-white text-dark rounded-pill px-3 py-2">
+                        Member since {{ user.date_joined|date:"M Y" }}
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Profile Content -->
     <div class="row">
         <div class="col-12">
-            <div class="profile-form" data-aos="fade-up" data-aos-delay="200">
-                <!-- Navigation Pills -->
+            <div class="profile-form" data-aos="fade-up" data-aos-delay="100">
                 <ul class="nav nav-pills nav-fill mb-4" id="profileTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="personal-tab" data-bs-toggle="pill" 
                                 data-bs-target="#personal" type="button" role="tab">
-                            <i class="fas fa-user me-2"></i>Personal Info
+                            <i class="fas fa-user-edit me-2"></i>Personal Info
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="security-tab" data-bs-toggle="pill" 
                                 data-bs-target="#security" type="button" role="tab">
-                            <i class="fas fa-lock me-2"></i>Security
+                            <i class="fas fa-shield-alt me-2"></i>Security
                         </button>
                     </li>
                 </ul>
 
-                <!-- Tab Content -->
                 <div class="tab-content" id="profileTabContent">
-                    <!-- Personal Information Tab -->
+                    
                     <div class="tab-pane fade show active" id="personal" role="tabpanel">
                         <form method="POST" action="{% url 'dashboard:profile' %}">
                             {% csrf_token %}
                             <input type="hidden" name="form_type" value="personal">
+
+                            {% if profile_form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {{ profile_form.non_field_errors }}
+                                </div>
+                            {% endif %}
                             
+                            <div class="section-title"><i class="fas fa-id-card me-2"></i>Identity Details</div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">First Name *</label>
+                                    {{ profile_form.first_name }}
+                                    {{ profile_form.first_name.errors }}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Middle Name</label>
+                                    {{ profile_form.middle_name }}
+                                    {{ profile_form.middle_name.errors }}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Last Name *</label>
+                                    {{ profile_form.last_name }}
+                                    {{ profile_form.last_name.errors }}
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="first_name" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="first_name" name="first_name" 
-                                           value="{{ user.first_name }}" required>
+                                    <label class="form-label">Date of Birth</label>
+                                    {{ profile_form.date_of_birth }}
+                                    {{ profile_form.date_of_birth.errors }}
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="last_name" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name" 
-                                           value="{{ user.last_name }}" required>
+                                    <label class="form-label">National ID / Passport</label>
+                                    {{ profile_form.national_id }}
+                                    {{ profile_form.national_id.errors }}
+                                </div>
+                            </div>
+
+                            <div class="section-title"><i class="fas fa-map-marker-alt me-2"></i>Contact Information</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Phone Number (M-Pesa)</label>
+                                    {{ profile_form.phone_number }}
+                                    {{ profile_form.phone_number.errors }}
+                                    <div class="form-text">Format: +254... Used for loan disbursements.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="text" class="form-control bg-light" value="{{ user.email }}" readonly>
+                                    <div class="form-text">Contact support to change email.</div>
                                 </div>
                             </div>
                             
                             <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username" 
-                                           value="{{ user.username }}" readonly>
-                                    <div class="form-text">Username cannot be changed</div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="email" 
-                                           value="{{ user.email }}" readonly>
-                                    <div class="form-text">Email cannot be changed</div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Physical Address</label>
+                                    {{ profile_form.address }}
+                                    {{ profile_form.address.errors }}
                                 </div>
                             </div>
                             
                             <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">City/Town</label>
+                                    {{ profile_form.city }}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">County</label>
+                                    {{ profile_form.county }}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Country</label>
+                                    {{ profile_form.country }}
+                                </div>
+                            </div>
+
+                            <div class="section-title"><i class="fas fa-briefcase me-2"></i>Employment & Financials</div>
+                            <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="phone_number" class="form-label">Phone Number</label>
-                                    <input type="tel" class="form-control" id="phone_number" name="phone_number" 
-                                           value="{{ user.phone_number|default:'' }}" placeholder="+254700000000">
-                                    <div class="form-text">Your M-Pesa registered phone number (optional)</div>
+                                    <label class="form-label">Occupation</label>
+                                    {{ profile_form.occupation }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Employer Name</label>
+                                    {{ profile_form.employer_name }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Monthly Income (KES)</label>
+                                    {{ profile_form.monthly_income }}
+                                    {{ profile_form.monthly_income.errors }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Employment Duration (Months)</label>
+                                    {{ profile_form.employment_duration }}
+                                </div>
+                            </div>
+
+                            <div class="section-title"><i class="fas fa-phone-alt me-2"></i>Emergency Contact</div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Full Name</label>
+                                    {{ profile_form.emergency_contact_name }}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Relationship</label>
+                                    {{ profile_form.emergency_contact_relationship }}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Phone Number</label>
+                                    {{ profile_form.emergency_contact_phone }}
                                 </div>
                             </div>
                             
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                                <button type="button" class="btn btn-outline-secondary me-2" onclick="window.history.back()">Cancel</button>
+                                <button type="submit" class="btn btn-primary px-4">
                                     <i class="fas fa-save me-2"></i>Save Changes
                                 </button>
                             </div>
                         </form>
                     </div>
 
-                    <!-- Security Tab -->
                     <div class="tab-pane fade" id="security" role="tabpanel">
                         <form method="POST" action="{% url 'dashboard:profile' %}">
                             {% csrf_token %}
                             <input type="hidden" name="form_type" value="password">
                             
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle me-2"></i>
-                                Leave password fields empty if you don't want to change your password.
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="current_password" class="form-label">Current Password</label>
-                                    <input type="password" class="form-control" id="current_password" 
-                                           name="current_password">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="new_password" class="form-label">New Password</label>
-                                    <input type="password" class="form-control" id="new_password" 
-                                           name="new_password">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="confirm_password" class="form-label">Confirm New Password</label>
-                                    <input type="password" class="form-control" id="confirm_password" 
-                                           name="confirm_password">
+                            <div class="alert alert-info border-0 bg-light-info">
+                                <div class="d-flex">
+                                    <i class="fas fa-info-circle fa-2x me-3 text-info"></i>
+                                    <div>
+                                        <h6 class="alert-heading fw-bold">Password Management</h6>
+                                        <p class="mb-0">Only fill these fields if you want to change your password. Otherwise, leave them blank.</p>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-key me-2"></i>Update Password
-                                </button>
+                            <div class="row justify-content-center mt-4">
+                                <div class="col-md-8">
+                                    <div class="mb-4">
+                                        <label for="current_password" class="form-label">Current Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                                            <input type="password" class="form-control" id="current_password" name="current_password">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="new_password" class="form-label">New Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="fas fa-key"></i></span>
+                                            <input type="password" class="form-control" id="new_password" name="new_password">
+                                        </div>
+                                        <div class="form-text">Must be at least 8 characters long.</div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="confirm_password" class="form-label">Confirm New Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="fas fa-check-double"></i></span>
+                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                                        </div>
+                                    </div>
+
+                                    <div class="d-grid gap-2 mt-5">
+                                        <button type="submit" class="btn btn-primary py-3">
+                                            <i class="fas fa-shield-alt me-2"></i>Update Password
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -188,17 +326,45 @@
     </div>
 </div>
 
-<!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- AOS Animation -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    // Initialize AOS
-    AOS.init({
-        duration: 800,
-        easing: 'ease-in-out',
-        once: true
+    // Keep the active tab open on refresh if hash is present
+    document.addEventListener("DOMContentLoaded", function(){
+        // Initialize AOS
+        if(typeof AOS !== 'undefined') {
+            AOS.init({ duration: 800, easing: 'ease-in-out', once: true });
+        }
+
+        // Tab persistence logic
+        var triggerTabList = [].slice.call(document.querySelectorAll('#profileTabs button'));
+        triggerTabList.forEach(function(triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl);
+            triggerEl.addEventListener('click', function(event) {
+                // Save tab ID to localStorage
+                localStorage.setItem('activeProfileTab', event.target.id);
+            });
+        });
+
+        // Restore active tab
+        var activeTabId = localStorage.getItem('activeProfileTab');
+        if(activeTabId) {
+            var triggerEl = document.querySelector('#' + activeTabId);
+            if(triggerEl) {
+                bootstrap.Tab.getInstance(triggerEl) || new bootstrap.Tab(triggerEl).show();
+            }
+        }
+
+        // Form validation feedback
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+                    submitBtn.disabled = true;
+                }
+            });
+        });
     });
 </script>
 {% endblock %}

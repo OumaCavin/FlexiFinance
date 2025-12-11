@@ -6,9 +6,10 @@ User dashboard and authentication views
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import logout
+from django.contrib.auth import logout, update_session_auth_hash
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from apps.users.forms import UserProfileForm
 import logging
 
 logger = logging.getLogger(__name__)
@@ -24,39 +25,33 @@ def dashboard(request):
 
 @login_required
 def profile(request):
-    """User profile view"""
+    """User profile view with comprehensive form handling"""
+    user = request.user
+    
+    # Initialize the form with user instance
+    profile_form = UserProfileForm(instance=user)
+
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
         
         if form_type == 'personal':
-            # Handle personal information update
-            first_name = request.POST.get('first_name', '').strip()
-            last_name = request.POST.get('last_name', '').strip()
-            phone_number = request.POST.get('phone_number', '').strip()
+            # Bind POST data to the form
+            profile_form = UserProfileForm(request.POST, instance=user)
             
-            # Validation
-            if not first_name or not last_name:
-                messages.error(request, 'First name and last name are required.')
-            else:
-                # Update user fields
-                user = request.user
-                user.first_name = first_name
-                user.last_name = last_name
-                
-                # Handle phone_number (it's optional)
-                if phone_number:
-                    user.phone_number = phone_number
-                else:
-                    user.phone_number = None
-                
+            if profile_form.is_valid():
                 try:
-                    user.save()
-                    messages.success(request, 'Personal information updated successfully!')
+                    profile_form.save()
+                    messages.success(request, 'Profile information updated successfully!')
+                    return redirect('dashboard:profile')
                 except Exception as e:
-                    messages.error(request, f'Error updating profile: {str(e)}')
-            
+                    logger.error(f"Error updating profile: {str(e)}")
+                    messages.error(request, 'An error occurred while saving your profile.')
+            else:
+                # If invalid, the form with errors will be rendered below
+                messages.error(request, 'Please correct the errors below.')
+        
         elif form_type == 'password':
-            # Handle password update
+            # Handle password change
             current_password = request.POST.get('current_password', '')
             new_password = request.POST.get('new_password', '')
             confirm_password = request.POST.get('confirm_password', '')
@@ -70,23 +65,23 @@ def profile(request):
                 messages.error(request, 'New passwords do not match.')
             elif len(new_password) < 8:
                 messages.error(request, 'Password must be at least 8 characters long.')
-            elif not current_password or not request.user.check_password(current_password):
+            elif not user.check_password(current_password):
                 messages.error(request, 'Current password is incorrect.')
             else:
-                # Update password
                 try:
-                    request.user.set_password(new_password)
-                    request.user.save()
+                    user.set_password(new_password)
+                    user.save()
+                    # Important: Keep the user logged in after password change
+                    update_session_auth_hash(request, user)
                     messages.success(request, 'Password updated successfully!')
+                    return redirect('dashboard:profile')
                 except Exception as e:
+                    logger.error(f"Error updating password: {str(e)}")
                     messages.error(request, f'Error updating password: {str(e)}')
-        
-        # Redirect to prevent form resubmission
-        return redirect('dashboard:profile')
     
-    # GET request - just show the profile page
     context = {
-        'user': request.user,
+        'user': user,
+        'profile_form': profile_form,  # Pass the form to the template
         'page_title': 'Profile'
     }
     return render(request, 'users/profile.html', context)
