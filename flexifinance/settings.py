@@ -284,19 +284,19 @@ CORS_ALLOW_ALL_ORIGINS = False  # Set to False for production
 # CONSOLE EMAIL CONFIGURATION (Local Development)
 # =============================================================================
 # Using console backend to avoid external SMTP connection issues
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # =============================================================================
-# MAILPIT EMAIL CONFIGURATION (Alternative - Uncomment to use)
+# MAILPIT EMAIL CONFIGURATION (Active - Emails go to Mailpit)
 # =============================================================================
 # To use Mailpit SMTP, uncomment the following:
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'localhost'
-# EMAIL_PORT = 2526
-# EMAIL_USE_TLS = False
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_TIMEOUT = 30
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 2526
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_TIMEOUT = 30
 
 # Caching Configuration
 # =============================================================================
