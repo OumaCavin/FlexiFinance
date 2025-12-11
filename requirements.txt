@@ -86,7 +86,7 @@ django-compressor==4.4  # Static file compression (Python 3.12 compatible)
 # Forms and Validation
 django-formtools==2.5.1 # Form utilities (latest in 2.5 series)
 django-choices==1.7.2   # Choice field utilities
-django-widget-tweaks==1.5.0  # Form field customization and CSS classes
+
 
 # Pagination and Filtering
 django-filter==24.2     # Filtering functionality (Python 3.12 compatible)
