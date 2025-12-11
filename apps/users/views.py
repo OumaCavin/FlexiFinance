@@ -51,21 +51,42 @@ def profile(request):
             else:
                 data = request.POST
             
-            first_name = data.get('first_name', '')
-            last_name = data.get('last_name', '')
-            phone_number = data.get('phone_number', '')
-            current_password = data.get('current_password', '')
-            new_password = data.get('new_password', '')
-            confirm_password = data.get('confirm_password', '')
+            form_type = data.get('form_type', 'personal')
+            logger.info(f"Profile update request - form_type: {form_type}")
             
-            # Update basic information
-            request.user.first_name = first_name
-            request.user.last_name = last_name
-            if hasattr(request.user, 'phone_number'):
-                request.user.phone_number = phone_number
-            
-            # Handle password change
-            if new_password:
+            if form_type == 'personal':
+                # Update personal information only
+                first_name = data.get('first_name', '')
+                last_name = data.get('last_name', '')
+                phone_number = data.get('phone_number', '')
+                
+                logger.info(f"Updating personal info - first_name: {first_name}, last_name: {last_name}, phone: {phone_number}")
+                
+                # Update basic information
+                request.user.first_name = first_name
+                request.user.last_name = last_name
+                if hasattr(request.user, 'phone_number'):
+                    request.user.phone_number = phone_number
+                
+                request.user.save()
+                
+                logger.info("Personal info updated successfully")
+                if request.headers.get('content-type', '').startswith('application/json'):
+                    from django.http import JsonResponse
+                    return JsonResponse({
+                        'success': True,
+                        'message': 'Personal information updated successfully!'
+                    })
+                else:
+                    messages.success(request, 'Personal information updated successfully!')
+                    return redirect('profile')
+                    
+            elif form_type == 'password':
+                # Handle password change
+                current_password = data.get('current_password', '')
+                new_password = data.get('new_password', '')
+                confirm_password = data.get('confirm_password', '')
+                
                 if new_password != confirm_password:
                     if request.headers.get('content-type', '').startswith('application/json'):
                         from django.http import JsonResponse
@@ -102,21 +123,31 @@ def profile(request):
                 
                 # Set new password
                 request.user.set_password(new_password)
-            
-            request.user.save()
-            
-            if request.headers.get('content-type', '').startswith('application/json'):
-                from django.http import JsonResponse
-                return JsonResponse({
-                    'success': True,
-                    'message': 'Profile updated successfully!'
-                })
+                request.user.save()
+                
+                if request.headers.get('content-type', '').startswith('application/json'):
+                    from django.http import JsonResponse
+                    return JsonResponse({
+                        'success': True,
+                        'message': 'Password updated successfully!'
+                    })
+                else:
+                    messages.success(request, 'Password updated successfully!')
+                    return redirect('profile')
             else:
-                messages.success(request, 'Profile updated successfully!')
-                return redirect('profile')
+                logger.error(f"Unknown form_type: {form_type}")
+                if request.headers.get('content-type', '').startswith('application/json'):
+                    from django.http import JsonResponse
+                    return JsonResponse({
+                        'success': False,
+                        'error': 'Invalid form type'
+                    }, status=400)
+                else:
+                    messages.error(request, 'Invalid form submission.')
+                    return redirect('profile')
                 
         except Exception as e:
-            logger.error(f"Profile update error: {str(e)}")
+            logger.error(f"Profile update error: {str(e)}", exc_info=True)
             if request.headers.get('content-type', '').startswith('application/json'):
                 from django.http import JsonResponse
                 return JsonResponse({
