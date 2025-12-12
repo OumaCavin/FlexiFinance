@@ -327,16 +327,19 @@ class LoanApplicationView(TemplateView):
                         'error': 'Failed to create user account. Please try again.'
                     }, status=500)
             
-            # Determine loan type based on amount or purpose
+            # Determine loan type based on purpose FIRST, then amount
             loan_amount = float(data.get('loan_amount', 0))
             loan_purpose = data.get('loan_purpose', '').lower()
             
-            if loan_amount <= 50000:
-                loan_type = 'QUICK_CASH'
-            elif 'business' in loan_purpose:
+            # Priority 1: Business loans (any amount)
+            if 'business' in loan_purpose:
                 loan_type = 'BUSINESS'
+            # Priority 2: Emergency loans
             elif 'emergency' in loan_purpose:
                 loan_type = 'EMERGENCY'
+            # Priority 3: Amount-based classification
+            elif loan_amount <= 50000:
+                loan_type = 'QUICK_CASH'
             else:
                 loan_type = 'PERSONAL'
             
