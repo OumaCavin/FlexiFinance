@@ -378,7 +378,7 @@ class LoanApplicationView(TemplateView):
                         'status': loan.get_status_display(),
                         'application_date': loan.application_date.isoformat(),
                     },
-                    'redirect_url': f"/dashboard/applications/{loan.id}/"
+                    'redirect_url': f"/loans/application/{loan.id}/"
                 })
                 
             except Exception as e:
