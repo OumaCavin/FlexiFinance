@@ -46,6 +46,7 @@ urlpatterns = [
     path('faq/', views.FAQView.as_view(), name='faq'),
     path('products/', views.LoanProductsView.as_view(), name='loan_products'),
     path('personal-loans/', views.PersonalLoansView.as_view(), name='personal_loans'),
+    path('quick-cash-loans/', views.QuickCashLoansView.as_view(), name='quick_cash_loans'),
     path('business-loans/', views.BusinessLoansView.as_view(), name='business_loans'),
     path('emergency-loans/', views.EmergencyLoansView.as_view(), name='emergency_loans'),
     path('education-loans/', views.EducationLoansView.as_view(), name='education_loans'),

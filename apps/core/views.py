@@ -259,6 +259,14 @@ class EmergencyLoansView(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
+class QuickCashLoansView(TemplateView):
+    """Quick Cash Loans page view"""
+    template_name = 'products/quick-cash-loans.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 class PersonalLoansView(TemplateView):
     """Personal Loans page view"""
     template_name = 'products/personal-loans.html'
