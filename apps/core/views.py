@@ -228,6 +228,7 @@ class LoanApplicationView(TemplateView):
         })
         return context
     
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
         """Handle loan application form submission"""
         try:
