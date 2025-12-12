@@ -20,6 +20,7 @@ def dashboard(request):
     """User dashboard view"""
     from apps.loans.models import Loan
     from apps.payments.models import Payment
+    from django.utils import timezone
     
     # Get user's loans
     user_loans = Loan.objects.filter(user=request.user)
@@ -51,6 +52,88 @@ def dashboard(request):
     
     credit_score_percentage = round((score - 300) / 550 * 100)
     
+    # Get recent activities (last 5 loan activities)
+    recent_activities = []
+    
+    # Recent loan applications
+    recent_loans = user_loans.order_by('-created_at')[:3]
+    for loan in recent_loans:
+        time_diff = timezone.now() - loan.created_at
+        if time_diff.days == 0:
+            time_str = f"{time_diff.seconds // 3600}h ago" if time_diff.seconds >= 3600 else f"{time_diff.seconds // 60}m ago"
+        else:
+            time_str = f"{time_diff.days}d ago"
+        
+        recent_activities.append({
+            'type': 'loan_application',
+            'title': f'Loan Application {loan.get_status_display()}',
+            'description': f'Applied for KES {loan.principal_amount} - {loan.loan_product.name if loan.loan_product else "Unknown Product"}',
+            'time': time_str,
+            'icon': 'fa-file-alt' if loan.status == 'SUBMITTED' else 'fa-check-circle' if loan.status in ['APPROVED', 'DISBURSED'] else 'fa-times-circle',
+            'color': 'primary' if loan.status == 'SUBMITTED' else 'success' if loan.status in ['APPROVED', 'DISBURSED'] else 'danger'
+        })
+    
+    # Recent payments
+    recent_payments = Payment.objects.filter(user=request.user).order_by('-created_at')[:2]
+    for payment in recent_payments:
+        time_diff = timezone.now() - payment.created_at
+        if time_diff.days == 0:
+            time_str = f"{time_diff.seconds // 3600}h ago" if time_diff.seconds >= 3600 else f"{time_diff.seconds // 60}m ago"
+        else:
+            time_str = f"{time_diff.days}d ago"
+        
+        recent_activities.append({
+            'type': 'payment',
+            'title': f'Payment {payment.get_status_display()}',
+            'description': f'Paid KES {payment.amount} - {payment.payment_method}',
+            'time': time_str,
+            'icon': 'fa-credit-card',
+            'color': 'success' if payment.status == 'COMPLETED' else 'warning'
+        })
+    
+    # Sort all activities by time
+    recent_activities = sorted(recent_activities, key=lambda x: x['time'], reverse=True)[:5]
+    
+    # Generate notifications
+    notifications = []
+    
+    # Loan status notifications
+    pending_loans = user_loans.filter(status__in=['SUBMITTED', 'UNDER_REVIEW'])
+    if pending_loans.exists():
+        notifications.append({
+            'type': 'info',
+            'title': 'Loan Under Review',
+            'message': f'You have {pending_loans.count()} loan application(s) under review',
+            'time': 'Recently',
+            'icon': 'fa-info-circle'
+        })
+    
+    # Payment reminders for overdue schedules
+    from apps.payments.models import PaymentSchedule
+    overdue_schedules = PaymentSchedule.objects.filter(
+        payment__user=request.user,
+        status='PENDING',
+        due_date__lt=timezone.now().date()
+    )
+    if overdue_schedules.exists():
+        notifications.append({
+            'type': 'warning',
+            'title': 'Overdue Payment',
+            'message': f'You have {overdue_schedules.count()} overdue payment(s)',
+            'time': 'Today',
+            'icon': 'fa-exclamation-triangle'
+        })
+    
+    # Welcome notification for new users with no activity
+    if not recent_loans.exists() and not recent_payments.exists():
+        notifications.append({
+            'type': 'success',
+            'title': 'Welcome to FlexiFinance',
+            'message': 'Start your first loan application today!',
+            'time': 'Today',
+            'icon': 'fa-star'
+        })
+    
     context = {
         'user': request.user,
         'page_title': 'Dashboard',
@@ -59,7 +142,9 @@ def dashboard(request):
             'credit_score': credit_score_percentage,
             'total_borrowed': total_borrowed,
             'active_loans': active_loans
-        }
+        },
+        'recent_activities': recent_activities,
+        'notifications': notifications
     }
     return render(request, 'users/dashboard.html', context)
 
