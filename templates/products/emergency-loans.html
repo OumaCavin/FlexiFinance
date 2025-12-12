@@ -175,6 +175,10 @@
                             <a href="{% url 'loans:loan_application' %}" class="btn btn-danger">
                                 <i class="fas fa-heartbeat me-2"></i>Apply Now
                             </a>
+                            <button type="button" class="btn btn-outline-danger btn-sm" 
+                                    onclick="showLoanDetails('Medical Emergency Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -248,6 +252,10 @@
                             <a href="{% url 'loans:loan_application' %}" class="btn btn-info">
                                 <i class="fas fa-home me-2"></i>Apply Now
                             </a>
+                            <button type="button" class="btn btn-outline-info btn-sm" 
+                                    onclick="showLoanDetails('Family Emergency Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -321,6 +329,10 @@
                             <a href="{% url 'loans:loan_application' %}" class="btn btn-warning">
                                 <i class="fas fa-coins me-2"></i>Apply Now
                             </a>
+                            <button type="button" class="btn btn-outline-warning btn-sm" 
+                                    onclick="showLoanDetails('Daily Expense Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -628,4 +640,133 @@
         </div>
     </div>
 </div>
+
+<!-- Loan Details Modal -->
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loanModalTitle">Loan Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="loanModalContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                    <i class="fas fa-paper-plane me-2"></i>Apply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoanDetails(loanName) {
+    const modalContent = document.getElementById('loanModalContent');
+    const modalTitle = document.getElementById('loanModalTitle');
+    
+    modalTitle.textContent = loanName + ' - Detailed Information';
+    
+    let loanDetails = '';
+    
+    // Customize content based on loan type
+    if (loanName === 'Medical Emergency Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Immediate approval within minutes</li>
+                        <li>No collateral required</li>
+                        <li>Direct hospital/clinic payments</li>
+                        <li>Flexible repayment terms</li>
+                        <li>24/7 application support</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Medical emergency proof</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa account</li>
+                        <li>Minimum income: KSh 20,000</li>
+                        <li>Emergency contact details</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-danger">
+                <i class="fas fa-heartbeat me-2"></i>
+                Get the medical care you need without financial stress.
+            </div>
+        `;
+    } else if (loanName === 'Family Emergency Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Quick family support funding</li>
+                        <li>No questions asked policy</li>
+                        <li>Same-day disbursement</li>
+                        <li>Extended family eligible</li>
+                        <li>Confidential service</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Family relationship proof</li>
+                        <li>Emergency situation details</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa number</li>
+                        <li>Employment or income proof</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <i class="fas fa-home me-2"></i>
+                Support your family through unexpected situations and challenges.
+            </div>
+        `;
+    } else if (loanName === 'Daily Expense Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Cover essential daily needs</li>
+                        <li>Small amounts available</li>
+                        <li>Quick approval process</li>
+                        <li>Flexible daily payments</li>
+                        <li>No hidden fees</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa account</li>
+                        <li>Source of income</li>
+                        <li>Minimum age: 18 years</li>
+                        <li>Kenyan resident</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <i class="fas fa-coins me-2"></i>
+                Bridge the gap during temporary financial difficulties.
+            </div>
+        `;
+    }
+    
+    modalContent.innerHTML = loanDetails;
+    
+    const modal = new bootstrap.Modal(document.getElementById('loanModal'));
+    modal.show();
+}
+</script>
 {% endblock %}

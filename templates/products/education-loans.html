@@ -60,10 +60,14 @@
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 12-48 months</li>
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Grace period: 6 months after graduation</li>
                         </ul>
-                        <div class="d-grid">
+                        <div class="d-grid gap-2">
                             <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
                                 <i class="fas fa-paper-plane me-2"></i>Apply Now
                             </a>
+                            <button type="button" class="btn btn-outline-primary btn-sm" 
+                                    onclick="showLoanDetails('University Tuition Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -90,10 +94,14 @@
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 6-24 months</li>
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Fast approval for skill development</li>
                         </ul>
-                        <div class="d-grid">
+                        <div class="d-grid gap-2">
                             <a href="{% url 'loans:loan_application' %}" class="btn btn-success">
                                 <i class="fas fa-paper-plane me-2"></i>Apply Now
                             </a>
+                            <button type="button" class="btn btn-outline-success btn-sm" 
+                                    onclick="showLoanDetails('Professional Course Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -120,10 +128,14 @@
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 3-18 months</li>
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No collateral required</li>
                         </ul>
-                        <div class="d-grid">
+                        <div class="d-grid gap-2">
                             <a href="{% url 'loans:loan_application' %}" class="btn btn-info">
                                 <i class="fas fa-paper-plane me-2"></i>Apply Now
                             </a>
+                            <button type="button" class="btn btn-outline-info btn-sm" 
+                                    onclick="showLoanDetails('Vocational Training Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -314,4 +326,133 @@
         </div>
     </div>
 </div>
+
+<!-- Loan Details Modal -->
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loanModalTitle">Loan Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="loanModalContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                    <i class="fas fa-paper-plane me-2"></i>Apply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoanDetails(loanName) {
+    const modalContent = document.getElementById('loanModalContent');
+    const modalTitle = document.getElementById('loanModalTitle');
+    
+    modalTitle.textContent = loanName + ' - Detailed Information';
+    
+    let loanDetails = '';
+    
+    // Customize content based on loan type
+    if (loanName === 'University Tuition Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Cover full tuition fees</li>
+                        <li>6-month grace period after graduation</li>
+                        <li>Low interest rates for students</li>
+                        <li>Flexible repayment plans</li>
+                        <li>No co-signer required</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>University acceptance letter</li>
+                        <li>Academic transcripts</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Guardian details (for students under 21)</li>
+                        <li>Minimum age: 18 years</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-primary">
+                <i class="fas fa-university me-2"></i>
+                Invest in your future with comprehensive university funding.
+            </div>
+        `;
+    } else if (loanName === 'Professional Course Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Fast approval for skill development</li>
+                        <li>Competitive rates for professionals</li>
+                        <li>Short repayment periods</li>
+                        <li>Course-specific funding</li>
+                        <li>Career advancement support</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Course enrollment confirmation</li>
+                        <li>Employment or income proof</li>
+                        <li>Professional certification goals</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa account</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-success">
+                <i class="fas fa-graduation-cap me-2"></i>
+                Advance your career with professional development courses.
+            </div>
+        `;
+    } else if (loanName === 'Vocational Training Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Affordable vocational training funding</li>
+                        <li>No collateral required</li>
+                        <li>Quick approval process</li>
+                        <li>Practical skills focus</li>
+                        <li>Employment placement support</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Training program acceptance</li>
+                        <li>Basic education proof</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Age: 18-35 years</li>
+                        <li>Commitment to complete training</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <i class="fas fa-tools me-2"></i>
+                Learn practical skills that lead to immediate employment opportunities.
+            </div>
+        `;
+    }
+    
+    modalContent.innerHTML = loanDetails;
+    
+    const modal = new bootstrap.Modal(document.getElementById('loanModal'));
+    modal.show();
+}
+</script>
 {% endblock %}

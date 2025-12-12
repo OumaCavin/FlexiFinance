@@ -60,10 +60,14 @@
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 3-12 months</li>
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Approval: Within 24 hours</li>
                         </ul>
-                        <div class="d-grid">
+                        <div class="d-grid gap-2">
                             <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
                                 <i class="fas fa-paper-plane me-2"></i>Apply Now
                             </a>
+                            <button type="button" class="btn btn-outline-primary btn-sm" 
+                                    onclick="showLoanDetails('Quick Cash Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -90,10 +94,14 @@
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 6-24 months</li>
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No collateral required</li>
                         </ul>
-                        <div class="d-grid">
+                        <div class="d-grid gap-2">
                             <a href="{% url 'loans:loan_application' %}" class="btn btn-success">
                                 <i class="fas fa-paper-plane me-2"></i>Apply Now
                             </a>
+                            <button type="button" class="btn btn-outline-success btn-sm" 
+                                    onclick="showLoanDetails('Home Improvement Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -120,10 +128,14 @@
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 12-36 months</li>
                             <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Lower monthly payments</li>
                         </ul>
-                        <div class="d-grid">
+                        <div class="d-grid gap-2">
                             <a href="{% url 'loans:loan_application' %}" class="btn btn-info">
                                 <i class="fas fa-paper-plane me-2"></i>Apply Now
                             </a>
+                            <button type="button" class="btn btn-outline-info btn-sm" 
+                                    onclick="showLoanDetails('Debt Consolidation Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -293,4 +305,133 @@
         </div>
     </div>
 </div>
+
+<!-- Loan Details Modal -->
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loanModalTitle">Loan Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="loanModalContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                    <i class="fas fa-paper-plane me-2"></i>Apply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoanDetails(loanName) {
+    const modalContent = document.getElementById('loanModalContent');
+    const modalTitle = document.getElementById('loanModalTitle');
+    
+    modalTitle.textContent = loanName + ' - Detailed Information';
+    
+    let loanDetails = '';
+    
+    // Customize content based on loan type
+    if (loanName === 'Quick Cash Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Instant approval within 24 hours</li>
+                        <li>No collateral required</li>
+                        <li>Direct M-Pesa disbursement</li>
+                        <li>Flexible repayment terms</li>
+                        <li>No hidden processing fees</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa account</li>
+                        <li>Minimum income: KSh 25,000</li>
+                        <li>Age: 21-65 years</li>
+                        <li>Employment history: 3+ months</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Perfect for urgent expenses like medical bills, car repairs, or household emergencies.
+            </div>
+        `;
+    } else if (loanName === 'Home Improvement Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Competitive interest rates from 2.0%</li>
+                        <li>Long repayment periods up to 24 months</li>
+                        <li>No collateral required</li>
+                        <li>Direct contractor payments available</li>
+                        <li>Progress-based disbursement</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Property ownership proof</li>
+                        <li>Project estimates/quotes</li>
+                        <li>Minimum income: KSh 50,000</li>
+                        <li>Stable employment or business</li>
+                        <li>Credit history assessment</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-success">
+                <i class="fas fa-home me-2"></i>
+                Transform your home with renovations, extensions, or modern upgrades.
+            </div>
+        `;
+    } else if (loanName === 'Debt Consolidation Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Combine multiple debts into one payment</li>
+                        <li>Lower interest rates available</li>
+                        <li>Extended repayment periods</li>
+                        <li>Improved credit score potential</li>
+                        <li>Financial counseling included</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Details of existing debts</li>
+                        <li>Current payment statements</li>
+                        <li>Minimum income: KSh 40,000</li>
+                        <li>Debt-to-income ratio assessment</li>
+                        <li>Commitment to single payment plan</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <i class="fas fa-chart-line me-2"></i>
+                Simplify your finances and potentially save money on interest payments.
+            </div>
+        `;
+    }
+    
+    modalContent.innerHTML = loanDetails;
+    
+    const modal = new bootstrap.Modal(document.getElementById('loanModal'));
+    modal.show();
+}
+</script>
 {% endblock %}
