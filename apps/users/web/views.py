@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import logout, update_session_auth_hash
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.db import models
 from apps.users.forms import UserProfileForm
 import logging
 
