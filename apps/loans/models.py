@@ -34,6 +34,7 @@ class Loan(models.Model):
         ('BUSINESS', 'Business Loan'),
         ('EMERGENCY', 'Emergency Loan'),
         ('PERSONAL', 'Personal Loan'),
+        ('EDUCATION', 'Education Loan'),
     ]
     
     RISK_CATEGORIES = [

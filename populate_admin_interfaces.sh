@@ -285,6 +285,23 @@ class Command(BaseCommand):
                 'min_credit_score': 550,
                 'is_active': True,
                 'requires_documents': False
+            },
+            {
+                'product_code': 'EDUCATION_25K_300K',
+                'name': 'Education Loan',
+                'description': 'Student loans for tuition, courses, and educational expenses up to KSh 300,000',
+                'min_amount': 25000,
+                'max_amount': 300000,
+                'min_tenure': 6,
+                'max_tenure': 48,
+                'interest_rate': 9.0,
+                'processing_fee': 1500.0,
+                'late_fee_rate': 1.5,
+                'min_income': 20000,
+                'min_employment_duration': 0,
+                'min_credit_score': 500,
+                'is_active': True,
+                'requires_documents': True
             }
         ]
 
@@ -424,11 +441,12 @@ echo
 echo "📋 Expected Results:"
 echo "- 1 Company record created"
 echo "- 10 Notification templates created"
-echo "- 4 Loan Products created:"
+echo "- 5 Loan Products created:"
 echo "  • Quick Cash: KSh 5,000 - KSh 25,000"
 echo "  • Personal Loan: KSh 5,000 - KSh 100,000"
 echo "  • Business Loan: KSh 50,000 - KSh 500,000"
 echo "  • Emergency Loan: KSh 5,000 - KSh 50,000"
+echo "  • Education Loan: KSh 25,000 - KSh 300,000"
 echo "- Repayment schedules generated for approved loans"
 echo ""
 echo "✅ Complete admin setup: Company + Templates + Products + Schedules"
