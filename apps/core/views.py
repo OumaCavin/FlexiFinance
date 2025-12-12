@@ -490,6 +490,7 @@ class PartnersView(TemplateView):
         context['company_name'] = settings.FLEXIFINANCE_CONFIG['COMPANY_NAME']
         return context
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def submit_contact_form(request):
     """Handle contact form submission with fallback mechanism"""
@@ -641,6 +642,7 @@ def get_public_config(request):
             'error': 'Failed to get configuration'
         }, status=500)
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def newsletter_subscribe(request):
     """Handle newsletter subscription"""
