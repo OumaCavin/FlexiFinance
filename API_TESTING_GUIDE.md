@@ -74,7 +74,9 @@ curl -X POST $BASE_URL/newsletter/subscribe/ \
 **Method**: POST  
 **Purpose**: Test complete loan application
 
-### 3a. Business Loan Application
+> **✅ UPDATE**: CSRF protection has been removed from loan applications (2025-12-12). All loan types now work via API.
+
+### 3a. Business Loan Application (✅ NOW WORKING)
 ```bash
 curl -X POST $BASE_URL/loan-application/ \
   -H "Content-Type: application/json" \
@@ -93,7 +95,27 @@ curl -X POST $BASE_URL/loan-application/ \
   }'
 ```
 
-### 3b. Emergency Loan Application  
+**Expected Success Response**:
+```json
+{
+  "success": true,
+  "message": "Your loan application has been submitted successfully!",
+  "data": {
+    "loan_reference": "LN-20241212134423",
+    "loan_type": "Business",
+    "principal_amount": "75000.00",
+    "interest_rate": "12.50",
+    "loan_tenure": 12,
+    "total_amount": "88750.00",
+    "monthly_payment": "7395.83",
+    "status": "Submitted",
+    "application_date": "2025-12-12T13:44:23.531176",
+  },
+  "redirect_url": "/dashboard/applications/1/"
+}
+```
+
+### 3b. Emergency Loan Application (✅ NOW WORKING)  
 ```bash
 curl -X POST $BASE_URL/loan-application/ \
   -H "Content-Type: application/json" \
@@ -111,7 +133,9 @@ curl -X POST $BASE_URL/loan-application/ \
   }'
 ```
 
-### 3c. Quick Cash Loan (Amount ≤ 50,000)
+**Expected Success Response**: Similar format with `"loan_type": "Emergency"`
+
+### 3c. Quick Cash Loan (Amount ≤ 50,000) (✅ NOW WORKING)
 ```bash
 curl -X POST $BASE_URL/loan-application/ \
   -H "Content-Type: application/json" \
@@ -127,6 +151,8 @@ curl -X POST $BASE_URL/loan-application/ \
     "monthly_income": "60000"
   }'
 ```
+
+**Expected Success Response**: Similar format with `"loan_type": "Quick Cash"`
 
 ---
 
@@ -223,6 +249,14 @@ The system automatically determines loan types based on:
 ### If tests fail, check:
 
 1. **Django Server**: Is it running?
+
+2. **Loan Application 403 Errors**: If you get 403 Forbidden on loan applications, restart Django server:
+   ```bash
+   # The @csrf_exempt fix requires server restart to take effect
+   python manage.py runserver
+   ```
+
+3. **Database**: Are migrations applied?
    ```bash
    python manage.py runserver
    ```
