@@ -308,8 +308,11 @@ class RepaymentSchedule(models.Model):
         return f"{self.loan.loan_reference} - Installment {self.installment_number} - KES {self.total_amount}"
     
     def save(self, *args, **kwargs):
-        # Calculate remaining amount
-        self.remaining_amount = self.total_amount - self.paid_amount
+        # Calculate remaining amount (ensure both are Decimal objects)
+        from decimal import Decimal
+        total_amount = Decimal(str(self.total_amount)) if self.total_amount else Decimal('0.00')
+        paid_amount = Decimal(str(self.paid_amount)) if self.paid_amount else Decimal('0.00')
+        self.remaining_amount = total_amount - paid_amount
         
         # Update status
         from django.utils import timezone
