@@ -109,18 +109,25 @@ class LoanAdmin(admin.ModelAdmin):
     
     def remaining_balance_display(self, obj):
         """Display remaining balance with color coding"""
-        # FIX: Explicitly cast to float to prevent 'SafeString' format errors
+        # 1. Force conversion to string first to strip wrapper
+        raw_val = str(obj.remaining_balance if obj.remaining_balance is not None else 0)
+        
+        # 2. Convert to float safely
         try:
-            balance = float(obj.remaining_balance)
+            balance = float(raw_val)
         except (ValueError, TypeError):
             balance = 0.0
 
+        # 3. Format using f-string (Calculates string HERE, not inside format_html)
+        formatted_money = f"KES {balance:,.2f}"
+
+        # 4. Pass the plain string to format_html
         if balance <= 0:
-            return format_html('<span style="color: green;">KES {:,.2f}</span>', balance)
+            return format_html('<span style="color: green;">{}</span>', formatted_money)
         elif obj.is_overdue:
-            return format_html('<span style="color: red;">KES {:,.2f}</span>', balance)
+            return format_html('<span style="color: red;">{}</span>', formatted_money)
         else:
-            return format_html('<span style="color: orange;">KES {:,.2f}</span>', balance)
+            return format_html('<span style="color: orange;">{}</span>', formatted_money)
     remaining_balance_display.short_description = 'Remaining Balance'
     
     def approve_selected_loans(self, request, queryset):
