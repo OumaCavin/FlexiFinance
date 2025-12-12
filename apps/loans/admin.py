@@ -109,7 +109,12 @@ class LoanAdmin(admin.ModelAdmin):
     
     def remaining_balance_display(self, obj):
         """Display remaining balance with color coding"""
-        balance = float(obj.remaining_balance) if obj.remaining_balance else 0.0
+        # FIX: Explicitly cast to float to prevent 'SafeString' format errors
+        try:
+            balance = float(obj.remaining_balance)
+        except (ValueError, TypeError):
+            balance = 0.0
+
         if balance <= 0:
             return format_html('<span style="color: green;">KES {:,.2f}</span>', balance)
         elif obj.is_overdue:
