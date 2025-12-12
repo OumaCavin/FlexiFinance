@@ -323,6 +323,9 @@ class PaymentSchedule(models.Model):
     @property
     def is_overdue(self):
         from django.utils import timezone
+        # Handle case where due_date is None
+        if not self.due_date:
+            return False
         return timezone.now().date() > self.due_date and self.status != 'PAID'
     
     def mark_as_paid(self, amount_paid):
