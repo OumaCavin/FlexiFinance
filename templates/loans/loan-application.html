@@ -457,15 +457,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 console.log('Response data:', data); // Debug logging
-            .then(response => {
-                if (response.headers.get('content-type').includes('application/json')) {
-                    return response.json();
-                } else {
-                    // If not JSON, assume it's a redirect or HTML response
-                    return { success: true, redirect: '/' };
-                }
-            })
-            .then(data => {
                 if (data.success) {
                     // Success handling
                     const container = document.querySelector('.bg-white');
