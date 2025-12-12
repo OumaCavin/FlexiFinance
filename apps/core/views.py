@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.contrib import messages
 from django.conf import settings
@@ -213,6 +214,7 @@ class LoanCalculatorView(TemplateView):
         context['loan_products'] = settings.LOAN_PRODUCTS
         return context
 
+@method_decorator(csrf_exempt, name='dispatch')
 class LoanApplicationView(TemplateView):
     """Loan Application page view"""
     template_name = 'loans/loan-application.html'
@@ -228,7 +230,6 @@ class LoanApplicationView(TemplateView):
         })
         return context
     
-    @csrf_exempt
     def post(self, request, *args, **kwargs):
         """Handle loan application form submission"""
         try:
