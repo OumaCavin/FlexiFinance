@@ -164,11 +164,5 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
-@login_required
-def my_loans(request):
-    """User loans view"""
-    context = {
-        'user': request.user,
-        'loans': []  # TODO: Fetch user's loans from database
-    }
-    return render(request, 'users/my_loans.html', context)
+# NOTE: my_loans view moved to apps/users/web/views.py
+# This API view is deprecated - use the web view instead

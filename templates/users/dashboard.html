@@ -83,7 +83,7 @@
                 <div class="stat-icon">
                     <i class="fas fa-wallet"></i>
                 </div>
-                <div class="stat-number">KES 0</div>
+                <div class="stat-number">{{ stats.active_loans }}</div>
                 <div class="stat-label">Active Loans</div>
             </div>
         </div>
@@ -92,7 +92,7 @@
                 <div class="stat-icon">
                     <i class="fas fa-chart-line"></i>
                 </div>
-                <div class="stat-number">0%</div>
+                <div class="stat-number">{{ stats.credit_score }}%</div>
                 <div class="stat-label">Credit Score</div>
             </div>
         </div>
@@ -101,7 +101,7 @@
                 <div class="stat-icon">
                     <i class="fas fa-piggy-bank"></i>
                 </div>
-                <div class="stat-number">KES 0</div>
+                <div class="stat-number">KES {{ stats.total_borrowed|floatformat:0 }}</div>
                 <div class="stat-label">Total Borrowed</div>
             </div>
         </div>
@@ -110,8 +110,8 @@
                 <div class="stat-icon">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="stat-number">0</div>
-                <div class="stat-label">Days to Repay</div>
+                <div class="stat-number">KES {{ stats.current_balance|floatformat:0 }}</div>
+                <div class="stat-label">Current Balance</div>
             </div>
         </div>
     </div>

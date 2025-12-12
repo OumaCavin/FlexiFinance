@@ -15,4 +15,5 @@ urlpatterns = [
     
     # Loan-related URLs
     path('my-loans/', views.my_loans, name='my_loans'),
+    path('payment-history/', views.payment_history, name='payment_history'),
 ]

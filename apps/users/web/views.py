@@ -17,9 +17,48 @@ logger = logging.getLogger(__name__)
 @login_required
 def dashboard(request):
     """User dashboard view"""
+    from apps.loans.models import Loan
+    from apps.payments.models import Payment
+    
+    # Get user's loans
+    user_loans = Loan.objects.filter(user=request.user)
+    
+    # Calculate dashboard statistics
+    active_loans = user_loans.filter(status__in=['APPROVED', 'DISBURSED', 'ACTIVE']).count()
+    total_borrowed = user_loans.filter(status__in=['APPROVED', 'DISBURSED', 'ACTIVE', 'COMPLETED']).aggregate(
+        total=models.Sum('principal_amount')
+    )['total'] or 0
+    
+    # Calculate current balance (total borrowed - total paid)
+    total_paid = Payment.objects.filter(
+        user=request.user,
+        status='COMPLETED'
+    ).aggregate(paid=models.Sum('amount'))['paid'] or 0
+    
+    current_balance = max(0, total_borrowed - total_paid)
+    
+    # Calculate credit score (simplified logic)
+    approved_loans = user_loans.filter(status__in=['APPROVED', 'DISBURSED', 'ACTIVE', 'COMPLETED']).count()
+    rejected_loans = user_loans.filter(status='REJECTED').count()
+    
+    # Simple credit score calculation (300-850 range)
+    base_score = 300
+    if approved_loans > 0:
+        score = min(850, base_score + (approved_loans * 100) - (rejected_loans * 50))
+    else:
+        score = base_score + 100  # New user gets base score
+    
+    credit_score_percentage = round((score - 300) / 550 * 100)
+    
     context = {
         'user': request.user,
-        'page_title': 'Dashboard'
+        'page_title': 'Dashboard',
+        'stats': {
+            'current_balance': current_balance,
+            'credit_score': credit_score_percentage,
+            'total_borrowed': total_borrowed,
+            'active_loans': active_loans
+        }
     }
     return render(request, 'users/dashboard.html', context)
 
@@ -123,6 +162,33 @@ def my_loans(request):
         }
     }
     return render(request, 'users/my_loans.html', context)
+
+@login_required
+def payment_history(request):
+    """User payment history view"""
+    from apps.payments.models import Payment
+    
+    # Get user's payments
+    user_payments = Payment.objects.filter(user=request.user).order_by('-created_at')
+    
+    # Calculate statistics
+    total_payments = user_payments.count()
+    successful_payments = user_payments.filter(status='COMPLETED').count()
+    total_amount = user_payments.filter(status='COMPLETED').aggregate(
+        total=models.Sum('amount')
+    )['total'] or 0
+    
+    context = {
+        'user': request.user,
+        'page_title': 'Payment History',
+        'payments': user_payments[:20],  # Show last 20 payments
+        'stats': {
+            'total_payments': total_payments,
+            'successful_payments': successful_payments,
+            'total_amount': total_amount
+        }
+    }
+    return render(request, 'users/payment_history.html', context)
 
 @require_http_methods(["POST"])
 def logout_view(request):
