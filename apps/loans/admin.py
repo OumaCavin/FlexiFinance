@@ -109,12 +109,13 @@ class LoanAdmin(admin.ModelAdmin):
     
     def remaining_balance_display(self, obj):
         """Display remaining balance with color coding"""
-        if obj.remaining_balance <= 0:
-            return format_html('<span style="color: green;">KES {:,.2f}</span>', obj.remaining_balance)
+        balance = float(obj.remaining_balance) if obj.remaining_balance else 0.0
+        if balance <= 0:
+            return format_html('<span style="color: green;">KES {:,.2f}</span>', balance)
         elif obj.is_overdue:
-            return format_html('<span style="color: red;">KES {:,.2f}</span>', obj.remaining_balance)
+            return format_html('<span style="color: red;">KES {:,.2f}</span>', balance)
         else:
-            return format_html('<span style="color: orange;">KES {:,.2f}</span>', obj.remaining_balance)
+            return format_html('<span style="color: orange;">KES {:,.2f}</span>', balance)
     remaining_balance_display.short_description = 'Remaining Balance'
     
     def approve_selected_loans(self, request, queryset):
