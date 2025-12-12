@@ -67,7 +67,7 @@ def dashboard(request):
         recent_activities.append({
             'type': 'loan_application',
             'title': f'Loan Application {loan.get_status_display()}',
-            'description': f'Applied for KES {loan.principal_amount} - {loan.loan_product.name if loan.loan_product else "Unknown Product"}',
+            'description': f'Applied for KES {loan.principal_amount} - {loan.get_loan_type_display()}',
             'time': time_str,
             'icon': 'fa-file-alt' if loan.status == 'SUBMITTED' else 'fa-check-circle' if loan.status in ['APPROVED', 'DISBURSED'] else 'fa-times-circle',
             'color': 'primary' if loan.status == 'SUBMITTED' else 'success' if loan.status in ['APPROVED', 'DISBURSED'] else 'danger'
