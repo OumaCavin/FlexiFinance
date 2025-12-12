@@ -19,7 +19,7 @@ from datetime import datetime
 
 # Import services
 from apps.payments.services.resend_email_service import ResendEmailService
-from apps.loans.models import Loan
+from apps.loans.models import Loan, LoanProduct
 from apps.users.models import User
 
 logger = logging.getLogger(__name__)
@@ -133,61 +133,115 @@ class LoanProductsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # Get loan products from settings or use default
-        loan_products = getattr(settings, 'LOAN_PRODUCTS', [])
+        # Get loan products from database
+        try:
+            db_products = LoanProduct.objects.filter(is_active=True).order_by('name')
+            
+            # Transform database products to template format
+            loan_products = []
+            for product in db_products:
+                # Map database fields to template format
+                loan_product = {
+                    'name': product.name,
+                    'description': product.description or f"Flexible {product.name.lower()} for your financial needs",
+                    'icon': self._get_icon_for_product(product.product_code),
+                    'min_amount': int(product.min_amount),
+                    'max_amount': int(product.max_amount),
+                    'interest_rate': self._format_interest_rate(product.interest_rate),
+                    'max_term': product.max_tenure,
+                    'features': self._get_features_for_product(product.product_code),
+                    'product_code': product.product_code,
+                    'processing_fee': int(product.processing_fee),
+                    'min_income': int(product.min_income),
+                    'requirements': product.requires_documents,
+                }
+                loan_products.append(loan_product)
+                
+        except Exception as e:
+            # Log error and use fallback
+            logger.error(f"Error querying loan products from database: {str(e)}")
+            loan_products = []
         
-        # Default loan products if not configured
+        # If no database products, provide a meaningful fallback
         if not loan_products:
             loan_products = [
                 {
-                    'name': 'Personal Loan',
-                    'description': 'Flexible personal loans for any purpose - emergencies, education, home improvements, or debt consolidation.',
-                    'icon': 'user',
-                    'min_amount': 5000,
+                    'name': 'Education Loan',
+                    'description': 'Invest in your future with student-friendly financing for education and skill development',
+                    'icon': 'graduation-cap',
+                    'min_amount': 25000,
                     'max_amount': 300000,
-                    'interest_rate': '12-18',
-                    'max_term': 24,
+                    'interest_rate': '9-12',
+                    'max_term': 48,
                     'features': [
-                        'No collateral required',
-                        'Quick approval process',
-                        'Flexible repayment terms',
-                        'Direct M-Pesa disbursement'
-                    ]
-                },
-                {
-                    'name': 'Emergency Loan',
-                    'description': 'Fast cash for urgent situations when you need money immediately.',
-                    'icon': 'exclamation-triangle',
-                    'min_amount': 2000,
-                    'max_amount': 100000,
-                    'interest_rate': '15-20',
-                    'max_term': 12,
-                    'features': [
-                        'Same-day approval',
-                        'Instant M-Pesa transfer',
-                        'Minimal documentation',
-                        '24/7 application process'
-                    ]
-                },
-                {
-                    'name': 'Business Loan',
-                    'description': 'Grow your business with flexible financing for equipment, inventory, or expansion.',
-                    'icon': 'briefcase',
-                    'min_amount': 50000,
-                    'max_amount': 500000,
-                    'interest_rate': '10-15',
-                    'max_term': 36,
-                    'features': [
-                        'Lower interest rates',
-                        'Longer repayment terms',
-                        'Business plan assistance',
-                        'Financial advisory support'
+                        'Grace period after graduation',
+                        'Low interest rates for students',
+                        'No co-signer required',
+                        'Career development support'
                     ]
                 }
             ]
         
         context['loan_products'] = loan_products
         return context
+    
+    def _get_icon_for_product(self, product_code):
+        """Map product code to appropriate icon"""
+        icon_mapping = {
+            'PERSONAL': 'user',
+            'EMERGENCY': 'exclamation-triangle',
+            'BUSINESS': 'briefcase',
+            'EDUCATION': 'graduation-cap',
+            'QUICK_CASH': 'bolt',
+        }
+        return icon_mapping.get(product_code.upper(), 'money-bill-wave')
+    
+    def _format_interest_rate(self, rate):
+        """Format interest rate for display"""
+        if rate:
+            return f"{float(rate):.1f}"
+        return "12.0"
+    
+    def _get_features_for_product(self, product_code):
+        """Get features based on product type"""
+        features_mapping = {
+            'PERSONAL': [
+                'No collateral required',
+                'Quick approval process',
+                'Flexible repayment terms',
+                'Direct M-Pesa disbursement'
+            ],
+            'EMERGENCY': [
+                'Same-day approval',
+                'Instant M-Pesa transfer',
+                'Minimal documentation',
+                '24/7 application process'
+            ],
+            'BUSINESS': [
+                'Lower interest rates',
+                'Longer repayment terms',
+                'Business plan assistance',
+                'Financial advisory support'
+            ],
+            'EDUCATION': [
+                'Grace period after graduation',
+                'Low interest rates for students',
+                'No co-signer required',
+                'Career development support'
+            ],
+            'QUICK_CASH': [
+                'Instant approval',
+                'Quick M-Pesa transfer',
+                'Minimal requirements',
+                'Short-term solution'
+            ]
+        }
+        return features_mapping.get(product_code.upper(), [
+            'Flexible financing',
+            'Quick approval',
+            'Competitive rates',
+            'M-Pesa disbursement'
+        ])
 
 class BusinessLoansView(TemplateView):
     """Business Loans page view"""
