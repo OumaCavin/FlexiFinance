@@ -156,7 +156,7 @@ def profile(request):
                 }, status=500)
             else:
                 messages.error(request, 'An error occurred while updating your profile.')
-                return redirect('profile')
+                return redirect('dashboard:profile')
     
     context = {
         'user': request.user,

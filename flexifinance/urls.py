@@ -48,7 +48,7 @@ urlpatterns = [
     path('business-loans/', views.BusinessLoansView.as_view(), name='business_loans'),
     path('emergency-loans/', views.EmergencyLoansView.as_view(), name='emergency_loans'),
     path('loan-calculator/', views.LoanCalculatorView.as_view(), name='loan_calculator'),
-    path('loan-application/', views.LoanApplicationView.as_view(), name='loan_application'),
+
     
     # Legal and company pages
     path('privacy-policy/', views.PrivacyPolicyView.as_view(), name='privacy_policy'),
