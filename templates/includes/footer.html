@@ -121,18 +121,22 @@
                 <div class="footer-section links-section">
                     <h6 class="footer-title">Quick Links</h6>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="links-grid-split">
                                 <a href="{% url 'core:home' %}" class="footer-link">Home</a>
                                 <a href="{% url 'loan_products' %}" class="footer-link">All Products</a>
                                 <a href="{% url 'personal_loans' %}" class="footer-link">Personal Loans</a>
-                                <a href="{% url 'quick_cash_loans' %}" class="footer-link">Quick Cash</a>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="links-grid-split">
+                                <a href="{% url 'quick_cash_loans' %}" class="footer-link">Quick Cash</a>
                                 <a href="{% url 'business_loans' %}" class="footer-link">Business Loans</a>
                                 <a href="{% url 'emergency_loans' %}" class="footer-link">Emergency Loans</a>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="links-grid-split">
                                 <a href="{% url 'education_loans' %}" class="footer-link">Education Loans</a>
                                 <a href="{% url 'loan_calculator' %}" class="footer-link">Calculator</a>
                             </div>
@@ -330,7 +334,7 @@
 /* Modern Footer Styles */
 .footer-modern {
     position: relative;
-    background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #374151 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
     color: white;
     overflow: hidden;
     margin-top: 4rem;
@@ -338,9 +342,9 @@
 
 /* Features Banner */
 .features-banner {
-    background: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(55, 65, 81, 0.8) 100%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(26, 26, 26, 0.9) 100%);
     padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
 }
 
@@ -494,7 +498,7 @@
 
 .contact-details p {
     margin: 0;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     font-size: 0.8rem;
     line-height: 1.4;
 }
@@ -530,7 +534,7 @@
 }
 
 .footer-link {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.95);
     text-decoration: none;
     font-size: 0.9rem;
     padding: 0.5rem 0;
@@ -561,7 +565,7 @@
 
 /* Enhanced Newsletter */
 .newsletter-description {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     margin-bottom: 1rem;
     line-height: 1.6;
 }
@@ -627,7 +631,7 @@
     padding: 0.5rem 0.75rem;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 0.5rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     text-decoration: none;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -754,7 +758,7 @@
 }
 
 .copyright-text {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.95);
     font-size: 0.85rem;
     line-height: 1.5;
 }
@@ -944,6 +948,15 @@
     
     .footer-main-content {
         padding: 1.5rem 0;
+    }
+    
+    .links-grid-split {
+        gap: 0.4rem;
+    }
+    
+    .footer-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 0;
     }
     
     .social-links-enhanced {
