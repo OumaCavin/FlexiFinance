@@ -520,8 +520,11 @@ class LoanApplicationView(TemplateView):
             # Priority 2: Emergency loans
             elif 'emergency' in loan_purpose:
                 loan_type = 'EMERGENCY'
-            # Priority 3: Amount-based classification
-            elif loan_amount <= 50000:
+            # Priority 3: Education loans (education-related purposes)
+            elif any(keyword in loan_purpose for keyword in ['education', 'school', 'tuition', 'student', 'course', 'training']):
+                loan_type = 'EDUCATION'
+            # Priority 4: Amount-based classification (Quick Cash for smaller amounts)
+            elif loan_amount <= 25000:
                 loan_type = 'QUICK_CASH'
             else:
                 loan_type = 'PERSONAL'
