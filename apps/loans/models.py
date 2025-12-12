@@ -111,12 +111,21 @@ class Loan(models.Model):
         
         # Calculate total amount if not set
         if not self.total_amount or self.total_amount == 0:
-            interest_amount = (self.principal_amount * self.interest_rate * self.loan_tenure) / (100 * 12)
-            self.total_amount = self.principal_amount + interest_amount + self.processing_fee
+            from decimal import Decimal
+            principal_amount = Decimal(str(self.principal_amount)) if self.principal_amount else Decimal('0.00')
+            interest_rate = Decimal(str(self.interest_rate)) if self.interest_rate else Decimal('0.00')
+            loan_tenure = Decimal(str(self.loan_tenure)) if self.loan_tenure else Decimal('0.00')
+            processing_fee = Decimal(str(self.processing_fee)) if self.processing_fee else Decimal('0.00')
+            
+            interest_amount = (principal_amount * interest_rate * loan_tenure) / (Decimal('100') * Decimal('12'))
+            self.total_amount = principal_amount + interest_amount + processing_fee
         
         # Calculate monthly payment
         if self.total_amount and self.loan_tenure:
-            self.monthly_payment = self.total_amount / self.loan_tenure
+            from decimal import Decimal
+            total_amount = Decimal(str(self.total_amount)) if self.total_amount else Decimal('0.00')
+            loan_tenure = Decimal(str(self.loan_tenure)) if self.loan_tenure else Decimal('0.00')
+            self.monthly_payment = total_amount / loan_tenure
         
         # Set remaining balance
         if self.status in ['APPROVED', 'DISBURSED', 'ACTIVE'] and self.remaining_balance == 0:
@@ -183,7 +192,11 @@ class Loan(models.Model):
     
     def calculate_interest(self):
         """Calculate total interest amount"""
-        return self.total_amount - self.principal_amount - self.processing_fee
+        from decimal import Decimal
+        total_amount = Decimal(str(self.total_amount)) if self.total_amount else Decimal('0.00')
+        principal_amount = Decimal(str(self.principal_amount)) if self.principal_amount else Decimal('0.00')
+        processing_fee = Decimal(str(self.processing_fee)) if self.processing_fee else Decimal('0.00')
+        return total_amount - principal_amount - processing_fee
 
 
 class LoanProduct(models.Model):
@@ -246,21 +259,31 @@ class LoanProduct(models.Model):
     
     def calculate_loan_amount(self, requested_amount, tenure_months):
         """Calculate loan details based on requested amount and tenure"""
-        if requested_amount < self.min_amount or requested_amount > self.max_amount:
+        from decimal import Decimal
+        
+        # Convert inputs to Decimal for safe calculations
+        requested_amount_decimal = Decimal(str(requested_amount)) if requested_amount else Decimal('0.00')
+        tenure_months_decimal = Decimal(str(tenure_months)) if tenure_months else Decimal('0.00')
+        min_amount = Decimal(str(self.min_amount)) if self.min_amount else Decimal('0.00')
+        max_amount = Decimal(str(self.max_amount)) if self.max_amount else Decimal('0.00')
+        interest_rate = Decimal(str(self.interest_rate)) if self.interest_rate else Decimal('0.00')
+        processing_fee = Decimal(str(self.processing_fee)) if self.processing_fee else Decimal('0.00')
+        
+        if requested_amount_decimal < min_amount or requested_amount_decimal > max_amount:
             return None
         
-        if tenure_months < self.min_tenure or tenure_months > self.max_tenure:
+        if Decimal(str(tenure_months)) < self.min_tenure or Decimal(str(tenure_months)) > self.max_tenure:
             return None
         
         # Calculate interest
-        interest_amount = (requested_amount * self.interest_rate * tenure_months) / (100 * 12)
-        total_amount = requested_amount + interest_amount + self.processing_fee
-        monthly_payment = total_amount / tenure_months
+        interest_amount = (requested_amount_decimal * interest_rate * tenure_months_decimal) / (Decimal('100') * Decimal('12'))
+        total_amount = requested_amount_decimal + interest_amount + processing_fee
+        monthly_payment = total_amount / tenure_months_decimal
         
         return {
-            'principal_amount': requested_amount,
+            'principal_amount': requested_amount_decimal,
             'interest_amount': interest_amount,
-            'processing_fee': self.processing_fee,
+            'processing_fee': processing_fee,
             'total_amount': total_amount,
             'monthly_payment': monthly_payment,
             'tenure_months': tenure_months

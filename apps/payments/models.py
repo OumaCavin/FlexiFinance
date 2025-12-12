@@ -315,7 +315,10 @@ class PaymentSchedule(models.Model):
     
     @property
     def amount_remaining(self):
-        return self.amount_due - self.amount_paid
+        from decimal import Decimal
+        amount_due = Decimal(str(self.amount_due)) if self.amount_due else Decimal('0.00')
+        amount_paid = Decimal(str(self.amount_paid)) if self.amount_paid else Decimal('0.00')
+        return amount_due - amount_paid
     
     @property
     def is_overdue(self):
@@ -324,7 +327,14 @@ class PaymentSchedule(models.Model):
     
     def mark_as_paid(self, amount_paid):
         """Mark schedule item as paid"""
-        self.amount_paid += amount_paid
+        from decimal import Decimal
+        
+        # Ensure amount_paid is a Decimal for safe operations
+        amount_paid_decimal = Decimal(str(amount_paid)) if amount_paid else Decimal('0.00')
+        
+        # Ensure current amount_paid is also a Decimal before adding
+        current_paid = Decimal(str(self.amount_paid)) if self.amount_paid else Decimal('0.00')
+        self.amount_paid = current_paid + amount_paid_decimal
         
         if self.amount_paid >= self.amount_due:
             self.status = 'PAID'
