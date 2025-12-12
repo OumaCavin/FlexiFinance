@@ -331,9 +331,9 @@ class LoanApplicationView(TemplateView):
             
             if loan_amount <= 50000:
                 loan_type = 'QUICK_CASH'
-            elif 'business' in loan_purpose or 'business' in loan_type:
+            elif 'business' in loan_purpose:
                 loan_type = 'BUSINESS'
-            elif 'emergency' in loan_purpose or 'emergency' in loan_type:
+            elif 'emergency' in loan_purpose:
                 loan_type = 'EMERGENCY'
             else:
                 loan_type = 'PERSONAL'
@@ -373,7 +373,7 @@ class LoanApplicationView(TemplateView):
                         'status': loan.get_status_display(),
                         'application_date': loan.application_date.isoformat(),
                     },
-                    'redirect_url': f"/dashboard/applications/{loan.id}/"  # You might want to create this page
+                    'redirect_url': f"/dashboard/applications/{loan.id}/"
                 })
                 
             except Exception as e:
