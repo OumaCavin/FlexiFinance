@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Form data to submit:', formDataObj); // Debug logging
 
             // Submit form using fetch with JSON
-            fetch('{% url "loan_application" %}', {
+            fetch('{% url "loans:loan_application" %}', {
                 method: 'POST',
                 body: JSON.stringify(formDataObj),
                 headers: {

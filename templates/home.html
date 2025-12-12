@@ -543,7 +543,7 @@ function applyForLoan() {
     
     // You can implement actual application form logic here
     setTimeout(() => {
-        window.location.href = '{% url "loan_application" %}';
+        window.location.href = '{% url "loans:loan_application" %}';
     }, 1500);
 }
 </script>

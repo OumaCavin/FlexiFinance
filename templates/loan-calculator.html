@@ -152,7 +152,7 @@
                         </div>
                         
                         <div class="d-grid gap-2">
-                            <a href="{% url 'loan_application' %}" class="btn btn-success btn-lg">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-success btn-lg">
                                 <i class="fas fa-rocket me-2"></i>Apply for This Loan
                             </a>
                             <button type="button" class="btn btn-outline-primary" onclick="shareCalculation()">
@@ -324,7 +324,7 @@
                     <h2 class="mb-3">Ready to Apply?</h2>
                     <p class="mb-4 lead">Based on your calculation, you can now apply for your loan with confidence.</p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
-                        <a href="{% url 'loan_application' %}" class="btn btn-light btn-lg">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
                             <i class="fas fa-rocket me-2"></i>Apply for Loan
                         </a>
                         <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg">

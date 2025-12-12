@@ -118,7 +118,7 @@
                             <small class="text-muted">Interest Rate</small>
                             <div class="fw-bold text-primary">{{ product.interest_rate|default:'12-24' }}% per month</div>
                         </div>
-                        <a href="{% url 'loan_application' %}" class="btn btn-outline-primary btn-sm">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-outline-primary btn-sm">
                             Apply Now
                         </a>
                     </div>
@@ -298,7 +298,7 @@
                     <h2 class="mb-3">Ready to Get Started?</h2>
                     <p class="mb-4 lead">Join thousands of satisfied customers who have improved their financial situation with FlexiFinance.</p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
-                        <a href="{% url 'loan_application' %}" class="btn btn-light btn-lg">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
                             <i class="fas fa-rocket me-2"></i>Apply Now
                         </a>
                         <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg">

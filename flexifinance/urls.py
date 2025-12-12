@@ -49,8 +49,7 @@ urlpatterns = [
     path('emergency-loans/', views.EmergencyLoansView.as_view(), name='emergency_loans'),
     path('loan-calculator/', views.LoanCalculatorView.as_view(), name='loan_calculator'),
     
-    # Loan application alias for backward compatibility
-    path('loan-application/', views.LoanApplicationView.as_view(), name='loan_application'),
+
 
     
     # Legal and company pages

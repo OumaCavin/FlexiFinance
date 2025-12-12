@@ -24,7 +24,7 @@
                             <p class="mb-0">Apply for your loan in minutes and get approved the same day</p>
                         </div>
                         <div class="col-md-4 text-md-end">
-                            <a href="{% url 'loan_application' %}" class="btn btn-light btn-lg">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
                                 <i class="fas fa-rocket me-2"></i>Apply Now
                             </a>
                         </div>
@@ -93,7 +93,7 @@
                     
                     <div class="mt-auto">
                         <div class="d-grid gap-2">
-                            <a href="{% url 'loan_application' %}" class="btn btn-primary">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
                                 <i class="fas fa-paper-plane me-2"></i>Apply Now
                             </a>
                             <button type="button" class="btn btn-outline-primary btn-sm" 
@@ -168,7 +168,7 @@
                     
                     <div class="mt-auto">
                         <div class="d-grid gap-2">
-                            <a href="{% url 'loan_application' %}" class="btn btn-primary">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
                                 <i class="fas fa-paper-plane me-2"></i>Apply Now
                             </a>
                             <a href="{% url 'loan_calculator' %}" class="btn btn-outline-primary btn-sm">
@@ -241,7 +241,7 @@
                     
                     <div class="mt-auto">
                         <div class="d-grid gap-2">
-                            <a href="{% url 'loan_application' %}" class="btn btn-warning">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-warning">
                                 <i class="fas fa-bolt me-2"></i>Apply Now
                             </a>
                             <a href="{% url 'loan_calculator' %}" class="btn btn-outline-warning btn-sm">
@@ -317,7 +317,7 @@
                             <a href="{% url 'business_loans' %}" class="btn btn-success">
                                 <i class="fas fa-building me-2"></i>Learn More
                             </a>
-                            <a href="{% url 'loan_application' %}" class="btn btn-outline-success btn-sm">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-outline-success btn-sm">
                                 <i class="fas fa-paper-plane me-2"></i>Apply Now
                             </a>
                         </div>
@@ -503,7 +503,7 @@
                     <h2 class="mb-3">Ready to Apply?</h2>
                     <p class="mb-4 lead">Choose the loan that fits your needs and apply in minutes</p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
-                        <a href="{% url 'loan_application' %}" class="btn btn-light btn-lg">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
                             <i class="fas fa-rocket me-2"></i>Start Application
                         </a>
                         <a href="{% url 'loan_calculator' %}" class="btn btn-outline-light btn-lg">
@@ -534,7 +534,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="{% url 'loan_application' %}" class="btn btn-primary">
+                <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
                     <i class="fas fa-paper-plane me-2"></i>Apply Now
                 </a>
             </div>
