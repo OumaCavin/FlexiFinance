@@ -331,11 +331,19 @@ class RepaymentSchedule(models.Model):
     
     def record_payment(self, amount):
         """Record a payment for this installment"""
-        self.paid_amount += amount
+        from decimal import Decimal
+        
+        # Ensure amount is a Decimal for safe operations
+        amount_decimal = Decimal(str(amount)) if amount else Decimal('0.00')
+        
+        # Ensure paid_amount is also a Decimal before adding
+        current_paid = Decimal(str(self.paid_amount)) if self.paid_amount else Decimal('0.00')
+        self.paid_amount = current_paid + amount_decimal
+        
         self.save()
         
         # Update loan remaining balance
-        self.loan.remaining_balance -= amount
+        self.loan.remaining_balance -= amount_decimal
         self.loan.save(update_fields=['remaining_balance'])
         
         # Check if loan is fully paid
