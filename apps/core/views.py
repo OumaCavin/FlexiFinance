@@ -188,11 +188,11 @@ class LoanProductsView(TemplateView):
     def _get_icon_for_product(self, product_code):
         """Map product code to appropriate icon"""
         icon_mapping = {
-            'PERSONAL': 'user',
-            'EMERGENCY': 'exclamation-triangle',
-            'BUSINESS': 'briefcase',
-            'EDUCATION': 'graduation-cap',
-            'QUICK_CASH': 'bolt',
+            'PERSONAL_5K_100K': 'user',
+            'EMERGENCY_5K_50K': 'exclamation-triangle',
+            'BUSINESS_50K_500K': 'briefcase',
+            'EDUCATION_25K_300K': 'graduation-cap',
+            'QUICK_CASH_5K_25K': 'bolt',
         }
         return icon_mapping.get(product_code.upper(), 'money-bill-wave')
     
@@ -205,31 +205,31 @@ class LoanProductsView(TemplateView):
     def _get_features_for_product(self, product_code):
         """Get features based on product type"""
         features_mapping = {
-            'PERSONAL': [
+            'PERSONAL_5K_100K': [
                 'No collateral required',
                 'Quick approval process',
                 'Flexible repayment terms',
                 'Direct M-Pesa disbursement'
             ],
-            'EMERGENCY': [
+            'EMERGENCY_5K_50K': [
                 'Same-day approval',
                 'Instant M-Pesa transfer',
                 'Minimal documentation',
                 '24/7 application process'
             ],
-            'BUSINESS': [
+            'BUSINESS_50K_500K': [
                 'Lower interest rates',
                 'Longer repayment terms',
                 'Business plan assistance',
                 'Financial advisory support'
             ],
-            'EDUCATION': [
+            'EDUCATION_25K_300K': [
                 'Grace period after graduation',
                 'Low interest rates for students',
                 'No co-signer required',
                 'Career development support'
             ],
-            'QUICK_CASH': [
+            'QUICK_CASH_5K_25K': [
                 'Instant approval',
                 'Quick M-Pesa transfer',
                 'Minimal requirements',
