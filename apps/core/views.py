@@ -205,6 +205,22 @@ class EmergencyLoansView(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
+class PersonalLoansView(TemplateView):
+    """Personal Loans page view"""
+    template_name = 'products/personal-loans.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class EducationLoansView(TemplateView):
+    """Education Loans page view"""
+    template_name = 'products/education-loans.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 class LoanCalculatorView(TemplateView):
     """Loan Calculator page view"""
     template_name = 'loan-calculator.html'
