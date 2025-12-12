@@ -100,10 +100,27 @@ def profile(request):
 @login_required
 def my_loans(request):
     """User loans view"""
+    from apps.loans.models import Loan
+    
+    # Query loans for the current user
+    user_loans = Loan.objects.filter(user=request.user).order_by('-created_at')
+    
+    # Calculate statistics
+    total_applications = user_loans.count()
+    approved = user_loans.filter(status__in=['APPROVED', 'DISBURSED', 'ACTIVE', 'COMPLETED']).count()
+    pending = user_loans.filter(status__in=['DRAFT', 'SUBMITTED', 'UNDER_REVIEW']).count()
+    rejected = user_loans.filter(status='REJECTED').count()
+    
     context = {
         'user': request.user,
         'page_title': 'My Loans',
-        'loans': []  # Empty for now, will be populated when loan models are implemented
+        'loans': user_loans,
+        'stats': {
+            'total_applications': total_applications,
+            'approved': approved,
+            'pending': pending,
+            'rejected': rejected
+        }
     }
     return render(request, 'users/my_loans.html', context)
 
