@@ -342,33 +342,6 @@ class LoanCalculatorView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        # Get loan products from database
-        try:
-            db_products = LoanProduct.objects.filter(is_active=True).order_by('name')
-            
-            # Transform database products to template format
-            loan_products = []
-            for product in db_products:
-                loan_product = {
-                    'name': product.name,
-                    'description': product.description or f"Flexible {product.name.lower()} for your financial needs",
-                    'icon': self._get_icon_for_product(product.product_code),
-                    'min_amount': int(product.min_amount),
-                    'max_amount': int(product.max_amount),
-                    'interest_rate': product.interest_rate,
-                    'max_term': product.max_tenure,
-                    'min_term': product.min_tenure,
-                    'processing_fee': product.processing_fee,
-                    'product_code': product.product_code,
-                    'features': self._get_features_for_product(product.product_code)
-                }
-                loan_products.append(loan_product)
-        except Exception as e:
-            loan_products = []
-            logger.error(f"Error fetching loan products: {e}")
-        
-        context['loan_products'] = loan_products
         return context
 
 @method_decorator(csrf_exempt, name='dispatch')
