@@ -120,27 +120,19 @@
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="footer-section links-section">
                     <h6 class="footer-title">Quick Links</h6>
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="links-grid-split">
-                                <a href="{% url 'core:home' %}" class="footer-link">Home</a>
-                                <a href="{% url 'loan_products' %}" class="footer-link">All Products</a>
-                                <a href="{% url 'personal_loans' %}" class="footer-link">Personal Loans</a>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="links-grid-split">
-                                <a href="{% url 'quick_cash_loans' %}" class="footer-link">Quick Cash</a>
-                                <a href="{% url 'business_loans' %}" class="footer-link">Business Loans</a>
-                                <a href="{% url 'emergency_loans' %}" class="footer-link">Emergency Loans</a>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="links-grid-split">
-                                <a href="{% url 'education_loans' %}" class="footer-link">Education Loans</a>
-                                <a href="{% url 'loan_calculator' %}" class="footer-link">Calculator</a>
-                            </div>
-                        </div>
+                    <div class="quick-links-grid">
+                        <a href="{% url 'core:home' %}" class="footer-link">Home</a>
+                        <a href="{% url 'loan_products' %}" class="footer-link">All Products</a>
+                        <a href="{% url 'personal_loans' %}" class="footer-link">Personal Loans</a>
+                        <a href="{% url 'quick_cash_loans' %}" class="footer-link">Quick Cash</a>
+                        <a href="{% url 'business_loans' %}" class="footer-link">Business Loans</a>
+                        <a href="{% url 'emergency_loans' %}" class="footer-link">Emergency Loans</a>
+                        <a href="{% url 'education_loans' %}" class="footer-link">Education Loans</a>
+                        <a href="{% url 'loan_calculator' %}" class="footer-link">Calculator</a>
+                        <a href="{% url 'investors' %}" class="footer-link">Investors</a>
+                        <a href="{% url 'press' %}" class="footer-link">Press</a>
+                        <a href="{% url 'partners' %}" class="footer-link">Partners</a>
+                        <a href="{% url 'careers' %}" class="footer-link">Careers</a>
                     </div>
                 </div>
             </div>
@@ -334,7 +326,7 @@
 /* Modern Footer Styles */
 .footer-modern {
     position: relative;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+    background: var(--gray-400, #9ca3af);
     color: white;
     overflow: hidden;
     margin-top: 4rem;
@@ -530,6 +522,12 @@
 .links-grid-split {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
+}
+
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
 }
 
