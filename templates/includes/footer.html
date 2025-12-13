@@ -66,40 +66,42 @@
                     
                     <!-- Enhanced Contact Info -->
                     <div class="contact-info-enhanced">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-row">
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <strong>Headquarters</strong>
+                                    <p>Westlands Business Park<br>Ring Road, Nairobi, Kenya</p>
+                                </div>
                             </div>
-                            <div class="contact-details">
-                                <strong>Headquarters</strong>
-                                <p>Westlands Business Park<br>Ring Road, Nairobi, Kenya</p>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <strong>Call Us</strong>
+                                    <p>
+                                        <a href="tel:{{ BUSINESS_PHONE|default:"+254708101604" }}" class="text-light text-decoration-none">
+                                            {{ BUSINESS_PHONE|default:"+254 708 101 604" }}
+                                        </a>
+                                        <br><small class="text-muted">Available 24/7</small>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="contact-details">
-                                <strong>Call Us</strong>
-                                <p>
-                                    <a href="tel:{{ BUSINESS_PHONE|default:"+254708101604" }}" class="text-light text-decoration-none">
-                                        {{ BUSINESS_PHONE|default:"+254 708 101 604" }}
-                                    </a>
-                                    <br><small class="text-muted">Available 24/7</small>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-details">
-                                <strong>Email Us</strong>
-                                <p>
-                                    <a href="mailto:{{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}" class="text-light text-decoration-none">
-                                        {{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}
-                                    </a>
-                                </p>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <strong>Email Us</strong>
+                                    <p>
+                                        <a href="mailto:{{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}" class="text-light text-decoration-none">
+                                            {{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -451,21 +453,28 @@
     margin-bottom: 2rem;
 }
 
+.contact-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
 .contact-item {
     display: flex;
     align-items: flex-start;
     gap: 0.75rem;
-    margin-bottom: 1rem;
     padding: 0.75rem;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
+    flex: 1;
+    min-width: 200px;
 }
 
 .contact-item:hover {
     background: rgba(255, 255, 255, 0.08);
-    transform: translateX(5px);
+    transform: translateY(-2px);
 }
 
 .contact-icon {
@@ -997,6 +1006,16 @@
     
     .floating-shape {
         display: none;
+    }
+    
+    .contact-row {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .contact-item {
+        min-width: unset;
+        flex: unset;
     }
 }
 
