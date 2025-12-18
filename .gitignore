@@ -5,6 +5,28 @@
 # Generated patterns use ** to match any subdirectory depth
 
 # ==============================================================================
+# ENVIRONMENT VARIABLES & SECRETS
+# ==============================================================================
+# Environment configuration files - CRITICAL: Never commit secrets!
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.env
+secrets.json
+secrets.py
+config/local_settings.py
+
+# ==============================================================================
+# USER INPUT FILES
+# ==============================================================================
+# User uploaded files and temporary inputs
+user_input_files/
+uploads/
+temp_files/
+
+# ==============================================================================
 # PYTHON
 # ==============================================================================
 **/__pycache__/
