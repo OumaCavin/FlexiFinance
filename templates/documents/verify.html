@@ -1,0 +1,327 @@
+{% extends 'admin/base_site.html' %}
+{% load static %}
+
+{% block title %}Document Verification - FlexiFinance Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .verification-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .document-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+    
+    .status-badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    .status-pending { background: #ffc107; color: #212529; }
+    .status-approved { background: #28a745; color: white; }
+    .status-rejected { background: #dc3545; color: white; }
+    .status-expired { background: #6c757d; color: white; }
+    .status-auto_approved { background: #17a2b8; color: white; }
+    
+    .file-preview {
+        text-align: center;
+        padding: 40px;
+        border: 2px dashed #dee2e6;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        background: #f8f9fa;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    .user-info {
+        background: #e9ecef;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .verification-history {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 25px;
+        margin-top: 20px;
+    }
+    
+    .risk-indicator {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .risk-low { background: #28a745; color: white; }
+    .risk-medium { background: #ffc107; color: #212529; }
+    .risk-high { background: #fd7e14; color: white; }
+    .risk-critical { background: #dc3545; color: white; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="verification-container">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Document Verification</h2>
+        <a href="{% url 'admin:documents_document_changelist' %}" class="btn btn-outline-primary">
+            <i class="fas fa-list"></i> All Documents
+        </a>
+    </div>
+
+    <!-- Document Details -->
+    <div class="document-card">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+                <h3 class="mb-2">{{ document.document_type.name }}</h3>
+                <p class="text-muted mb-0">
+                    {{ document.user.get_full_name }} ({{ document.user.email }})
+                </p>
+                <p class="text-muted mb-0">
+                    {{ document.original_filename }} • 
+                    {{ document.file_size|filesizeformat }} • 
+                    {{ document.uploaded_at|date:"F d, Y \a\t g:i A" }}
+                </p>
+            </div>
+            <span class="status-badge status-{{ document.status|lower }}">
+                {{ document.get_status_display }}
+            </span>
+        </div>
+        
+        {% if document.document_type.description %}
+        <p class="text-muted">{{ document.document_type.description }}</p>
+        {% endif %}
+    </div>
+
+    <!-- User Information -->
+    <div class="user-info">
+        <h5 class="mb-3">User Information</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Name:</strong> {{ document.user.get_full_name }}</p>
+                <p><strong>Email:</strong> {{ document.user.email }}</p>
+                <p><strong>Phone:</strong> {{ document.user.phone_number|default:"Not provided" }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Registration Date:</strong> {{ document.user.date_joined|date:"F d, Y" }}</p>
+                <p><strong>KYC Status:</strong> {{ document.user.kyc_status|default:"Not set" }}</p>
+                <p><strong>Verification Status:</strong> {{ document.user.is_verified|yesno:"Verified,Not verified" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Preview -->
+    <div class="document-card">
+        <h4 class="mb-3">Document Preview</h4>
+        <div class="file-preview">
+            {% if document.get_file_extension == '.pdf' %}
+                <i class="fas fa-file-pdf fa-5x text-danger mb-3"></i>
+                <p class="text-muted">PDF Document</p>
+            {% elif document.get_file_extension in '.jpg,.jpeg,.png' %}
+                <i class="fas fa-file-image fa-5x text-primary mb-3"></i>
+                <p class="text-muted">Image Document</p>
+            {% else %}
+                <i class="fas fa-file fa-5x text-secondary mb-3"></i>
+                <p class="text-muted">Document File</p>
+            {% endif %}
+            
+            <p><strong>{{ document.original_filename }}</strong></p>
+            <p class="text-muted">{{ document.file_size|filesizeformat }}</p>
+            
+            {% if document.status in 'APPROVED AUTO_APPROVED' %}
+            <a href="{% url 'documents:download' document.id %}" class="btn btn-primary">
+                <i class="fas fa-download"></i> Download for Review
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Verification Form -->
+    {% if document.status == 'PENDING' %}
+    <div class="document-card">
+        <h4 class="mb-3">Verification Decision</h4>
+        <form id="verificationForm" method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="action">Action *</label>
+                <select class="form-control" id="action" name="action" required>
+                    <option value="">Select action...</option>
+                    <option value="approve">Approve Document</option>
+                    <option value="reject">Reject Document</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="4" 
+                         placeholder="Add any notes about this verification decision..."></textarea>
+                <small class="form-text text-muted">
+                    Notes will be visible to the user and included in audit logs.
+                </small>
+            </div>
+            
+            <div class="form-group" id="rejectionReasonGroup" style="display: none;">
+                <label for="reason">Rejection Reason *</label>
+                <select class="form-control" id="reason" name="reason">
+                    <option value="">Select reason...</option>
+                    <option value="Unclear image quality">Unclear image quality</option>
+                    <option value="Document expired">Document expired</option>
+                    <option value="Document type mismatch">Document type mismatch</option>
+                    <option value="Personal information mismatch">Personal information mismatch</option>
+                    <option value="Document tampered">Document appears tampered</option>
+                    <option value="Incomplete document">Incomplete document</option>
+                    <option value="Other">Other (specify in notes)</option>
+                </select>
+            </div>
+            
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-success btn-lg" id="approveBtn" style="display: none;">
+                    <i class="fas fa-check"></i> Approve Document
+                </button>
+                <button type="submit" class="btn btn-danger btn-lg" id="rejectBtn" style="display: none;">
+                    <i class="fas fa-times"></i> Reject Document
+                </button>
+                <a href="{% url 'admin:documents_document_changelist' %}" class="btn btn-outline-secondary btn-lg">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- Previous Verification Details -->
+    {% if document.verified_by %}
+    <div class="verification-history">
+        <h4 class="mb-3">Verification History</h4>
+        <div class="alert alert-info" role="alert">
+            <strong>Last Verified:</strong> {{ document.verified_at|date:"F d, Y \a\t g:i A" }}<br>
+            <strong>Verified By:</strong> {{ document.verified_by.get_full_name }}<br>
+            {% if document.admin_notes %}
+            <strong>Notes:</strong> {{ document.admin_notes }}
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Document Metadata -->
+    <div class="verification-history">
+        <h4 class="mb-3">Technical Information</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-sm">
+                    <tr>
+                        <td><strong>Document ID:</strong></td>
+                        <td>{{ document.id }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Upload IP:</strong></td>
+                        <td>{{ document.metadata.upload_ip|default:"Not recorded" }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>File Hash:</strong></td>
+                        <td><small>{{ document.metadata.file_hash|default:"Not calculated" }}</small></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-sm">
+                    <tr>
+                        <td><strong>Download Count:</strong></td>
+                        <td>{{ document.download_count }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Last Accessed:</strong></td>
+                        <td>{{ document.last_accessed|date:"F d, Y \a\t g:i A"|default:"Never" }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Expires:</strong></td>
+                        <td>{{ document.expires_at|date:"F d, Y"|default:"Never" }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Handle verification form
+    document.getElementById('action').addEventListener('change', function() {
+        const approveBtn = document.getElementById('approveBtn');
+        const rejectBtn = document.getElementById('rejectBtn');
+        const rejectionGroup = document.getElementById('rejectionReasonGroup');
+        const reasonSelect = document.getElementById('reason');
+        
+        if (this.value === 'approve') {
+            approveBtn.style.display = 'inline-block';
+            rejectBtn.style.display = 'none';
+            rejectionGroup.style.display = 'none';
+            reasonSelect.required = false;
+        } else if (this.value === 'reject') {
+            approveBtn.style.display = 'none';
+            rejectBtn.style.display = 'inline-block';
+            rejectionGroup.style.display = 'block';
+            reasonSelect.required = true;
+        } else {
+            approveBtn.style.display = 'none';
+            rejectBtn.style.display = 'none';
+            rejectionGroup.style.display = 'none';
+            reasonSelect.required = false;
+        }
+    });
+    
+    // Form submission
+    document.getElementById('verificationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const action = formData.get('action');
+        
+        if (action === 'reject' && !formData.get('reason')) {
+            alert('Please select a rejection reason.');
+            return;
+        }
+        
+        // Submit via AJAX
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Document ' + action + 'ed successfully!');
+                window.location.reload();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    });
+</script>
+{% endblock %}

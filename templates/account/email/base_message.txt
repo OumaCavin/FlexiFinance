@@ -1,0 +1,8 @@
+Hello from FlexiFinance,
+
+{{ body }}
+
+If you didn't request this, please ignore this email.
+
+Best regards,
+The FlexiFinance Team

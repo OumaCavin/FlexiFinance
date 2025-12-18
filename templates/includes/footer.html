@@ -1,0 +1,1431 @@
+{% load static %}
+<footer class="footer-modern">
+    <div class="features-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="features-grid">
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+                            <div class="feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>Instant Approval</h6>
+                                <p>Get approved in minutes</p>
+                            </div>
+                        </div>
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>M-Pesa Integration</h6>
+                                <p>Direct to your phone</p>
+                            </div>
+                        </div>
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>Bank-Level Security</h6>
+                                <p>256-bit SSL encryption</p>
+                            </div>
+                        </div>
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+                            <div class="feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>24/7 Support</h6>
+                                <p>Always here to help</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container footer-main-content">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="footer-section company-section">
+                    <div class="footer-brand mb-4">
+                        <div class="brand-logo">
+                            <img src="{% static 'images/logo-white.svg' %}" alt="FlexiFinance" height="40" class="me-3">
+                            <div class="brand-text">
+                                <h4 class="text-white mb-0">FlexiFinance</h4>
+                                <small class="text-primary">Kenya's #1 MicroFinance Platform</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info-enhanced">
+                        <div class="contact-row">
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <strong>Headquarters</strong>
+                                    <p>Westlands Business Park<br>Ring Road, Nairobi, Kenya</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <strong>Call Us</strong>
+                                    <p>
+                                        <a href="tel:{{ BUSINESS_PHONE|default:"+254708101604" }}" class="text-light text-decoration-none">
+                                            {{ BUSINESS_PHONE|default:"+254 708 101 604" }}
+                                        </a>
+                                        <br><small class="text-muted">Available 24/7</small>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <strong>Email Us</strong>
+                                    <p>
+                                        <a href="mailto:{{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}" class="text-light text-decoration-none">
+                                            {{ BUSINESS_EMAIL|default:"info@flexifinance.com" }}
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline-primary btn-sm me-2">
+                            <i class="fas fa-comment me-1"></i>Live Chat
+                        </a>
+                        <a href="tel:+254708101604" class="btn btn-success btn-sm">
+                            <i class="fas fa-phone me-1"></i>Call Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 mb-4">
+                <div class="footer-main-links-row">
+                    <div class="quick-links-section">
+                        <h6 class="footer-title">Quick Links</h6>
+                        <div class="quick-links-grid">
+                            <a href="{% url 'core:home' %}" class="footer-link">Home</a>
+                            <a href="{% url 'loan_products' %}" class="footer-link">All Products</a>
+                            <a href="{% url 'personal_loans' %}" class="footer-link">Personal Loans</a>
+                            <a href="{% url 'quick_cash_loans' %}" class="footer-link">Quick Cash</a>
+                            <a href="{% url 'business_loans' %}" class="footer-link">Business Loans</a>
+                            <a href="{% url 'emergency_loans' %}" class="footer-link">Emergency Loans</a>
+                            <a href="{% url 'education_loans' %}" class="footer-link">Education Loans</a>
+                            <a href="{% url 'loan_calculator' %}" class="footer-link">Calculator</a>
+                            <a href="{% url 'investors' %}" class="footer-link">Investors</a>
+                            <a href="{% url 'press' %}" class="footer-link">Press</a>
+                            <a href="{% url 'partners' %}" class="footer-link">Partners</a>
+                            <a href="{% url 'careers' %}" class="footer-link">Careers</a>
+                        </div>
+                    </div>
+                    
+                    <div class="support-section">
+                        <h6 class="footer-title">Support</h6>
+                        <div class="links-grid-enhanced">
+                            <a href="{% url 'core:contact' %}" class="footer-link">Contact Us</a>
+                            <a href="{% url 'support' %}" class="footer-link">Help Center</a>
+                            <a href="{% url 'faq' %}" class="footer-link">FAQ</a>
+                            <a href="{% url 'how_it_works' %}" class="footer-link">How It Works</a>
+                            <a href="{% url 'blog' %}" class="footer-link">Blog</a>
+                        </div>
+                    </div>
+                    
+                    <div class="legal-section">
+                        <h6 class="footer-title">Legal</h6>
+                        <div class="links-grid-enhanced">
+                            <a href="{% url 'privacy_policy' %}" class="footer-link">Privacy Policy</a>
+                            <a href="{% url 'terms_of_service' %}" class="footer-link">Terms of Service</a>
+                            <a href="{% url 'loan_agreement' %}" class="footer-link">Loan Agreement</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="newsletter-section-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 mx-auto text-center">
+                    <h6 class="footer-title">Stay Updated</h6>
+                    <p class="newsletter-description">
+                        Get the latest news on loan offers, financial tips, and platform updates.
+                    </p>
+                    <div class="newsletter-enhanced">
+                        <form class="newsletter-form-modern" action="{% url 'newsletter_subscribe' %}" method="post">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="email" class="form-control" name="email" placeholder="Enter your email" autocomplete="email" required>
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="btn-text">Subscribe</span>
+                                    <i class="fas fa-paper-plane btn-icon"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted">We respect your privacy. Unsubscribe anytime.</small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="payment-trust-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 col-md-7">
+                    <div class="payment-methods-enhanced">
+                        <span class="payment-label">
+                            <i class="fas fa-credit-card me-2"></i>Secure Payments:
+                        </span>
+                        <div class="payment-badges-enhanced">
+                            <div class="payment-method">
+                                <i class="fab fa-cc-visa"></i>
+                                <span>Visa</span>
+                            </div>
+                            <div class="payment-method">
+                                <i class="fab fa-cc-mastercard"></i>
+                                <span>Mastercard</span>
+                            </div>
+                            <div class="payment-method">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>M-Pesa</span>
+                            </div>
+                            <div class="payment-method">
+                                <i class="fab fa-paypal"></i>
+                                <span>PayPal</span>
+                            </div>
+                            <div class="payment-method">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>SSL Secured</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-5">
+                    <div class="trust-indicators">
+                        <div class="trust-item">
+                            <img src="{% static 'images/cbk-logo.svg' %}" alt="CBK Licensed" height="30" class="trust-logo">
+                            <div class="trust-text">
+                                <strong>CBK Licensed</strong>
+                                <small>Regulated by Central Bank</small>
+                            </div>
+                        </div>
+                        <div class="trust-item">
+                            <img src="{% static 'images/icta-logo.svg' %}" alt="ICTA Compliant" height="30" class="trust-logo">
+                            <div class="trust-text">
+                                <strong>ICTA Compliant</strong>
+                                <small>Data Protection</small>
+                            </div>
+                        </div>
+                </div>
+            </div>
+                    </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom-bar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="copyright-section">
+                        <p class="copyright-text mb-0">
+                            &copy; 2025 <strong>FlexiFinance</strong>. All rights reserved.
+                            <span class="separator">|</span>
+                            <span class="license-text text-primary">CBK Licensed MicroFinance Institution</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="footer-meta text-md-end">
+                        <div class="meta-links">
+                            <a href="{% url 'privacy_policy' %}" class="meta-link">Privacy</a>
+                            <a href="{% url 'terms_of_service' %}" class="meta-link">Terms</a>
+                            <a href="{% url 'core:contact' %}" class="meta-link">Contact</a>
+                        </div>
+                        <div class="app-downloads">
+                            <span class="download-label">Download App:</span>
+                            <a href="#" class="app-badge google-play">
+                                <i class="fab fa-google-play"></i>
+                                <span>Google Play</span>
+                            </a>
+                            <a href="#" class="app-badge app-store">
+                                <i class="fab fa-app-store"></i>
+                                <span>App Store</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="floating-elements">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </div>
+    
+    <button id="footer-scroll-top" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+</footer>
+
+<style>
+/* Modern Footer Styles */
+.footer-modern {
+    position: relative;
+    background: var(--gray-400, #9ca3af);
+    color: white;
+    overflow: hidden;
+    margin-top: 4rem;
+}
+
+/* Features Banner */
+.features-banner {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(26, 26, 26, 0.9) 100%);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.feature-content h6 {
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.feature-content p {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+/* Main Footer Content */
+.footer-main-content {
+    padding: 1rem 0;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-section {
+    height: 100%;
+}
+
+.footer-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.25rem;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+/* Company Section */
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.brand-logo img {
+    filter: brightness(0) invert(1);
+}
+
+.brand-text h4 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.brand-text small {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+/* Enhanced Contact Info */
+.contact-info-enhanced {
+    margin-bottom: 2rem;
+}
+
+.contact-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 200px;
+}
+
+.contact-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+.contact-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+}
+
+.contact-details strong {
+    color: #ffffff;
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.contact-details p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.contact-details a {
+    color: #667eea;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-details a:hover {
+    color: #764ba2;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Enhanced Links */
+.links-grid-enhanced {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.links-grid-split {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+/* Main Links Row Layout */
+.footer-main-links-row {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.quick-links-section {
+    flex: 2;
+}
+
+.support-section,
+.legal-section {
+    flex: 1;
+}
+
+/* Newsletter Section Footer */
+.newsletter-section-footer {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Support & Legal Individual Sections */
+.support-section,
+.legal-section {
+    /* No special styling needed - handled by Bootstrap columns */
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transition: width 0.3s ease;
+}
+
+.footer-link:hover {
+    color: white;
+    padding-left: 1rem;
+}
+
+.footer-link:hover::before {
+    width: 100%;
+}
+
+/* Enhanced Newsletter */
+.newsletter-description {
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.newsletter-enhanced {
+    margin-bottom: 2rem;
+}
+
+.newsletter-form-modern .input-group {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 0.5rem;
+}
+
+.newsletter-form-modern .form-control {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+.newsletter-form-modern .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.newsletter-form-modern .form-control:focus {
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.newsletter-form-modern .btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 1rem 1.5rem;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.newsletter-form-modern .btn:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Enhanced Social Links */
+.social-links-enhanced {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.8rem;
+}
+
+.social-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.social-link i {
+    font-size: 0.9rem;
+    width: 16px;
+    text-align: center;
+}
+
+/* Payment & Trust Section */
+.payment-trust-section {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.payment-methods-enhanced {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.payment-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.payment-badges-enhanced {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.payment-method {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.payment-method:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.payment-method i {
+    font-size: 1.2rem;
+    color: #667eea;
+}
+
+.payment-method span {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+/* Trust Indicators */
+.trust-indicators {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.trust-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.trust-logo {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+.trust-text strong {
+    color: white;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.trust-text small {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.75rem;
+}
+
+/* Footer Bottom Bar */
+.footer-bottom-bar {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1rem 0;
+}
+
+.copyright-section {
+    display: flex;
+    align-items: center;
+}
+
+.copyright-text {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.separator {
+    margin: 0 0.5rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.license-text {
+    font-weight: 600;
+}
+
+/* Footer Meta */
+.footer-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.meta-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.meta-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.3s ease;
+}
+
+.meta-link:hover {
+    color: white;
+}
+
+.app-downloads {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.download-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+}
+
+.app-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.app-badge:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Floating Elements */
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    animation: float 6s ease-in-out infinite;
+}
+
+.shape-1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: -100px;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: -75px;
+    animation-delay: 2s;
+}
+
+.shape-3 {
+    width: 100px;
+    height: 100px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
+}
+
+/* Scroll to Top Button */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-top-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 991.98px) {
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .feature-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .trust-indicators {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    .footer-meta {
+        align-items: center;
+        text-align: center;
+    }
+    
+    .copyright-section {
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .features-banner {
+        padding: 1rem 0;
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .footer-main-content {
+        padding: 1.5rem 0;
+    }
+    
+    .links-grid-split {
+        gap: 0.4rem;
+    }
+    
+    .footer-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 0;
+    }
+    
+    .social-links-enhanced {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .social-link {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.75rem;
+        gap: 0.25rem;
+    }
+    
+    .social-link i {
+        font-size: 0.8rem;
+        width: 14px;
+    }
+    
+    .payment-methods-enhanced {
+        justify-content: center;
+    }
+    
+    .payment-trust-section {
+        padding: 1rem 0;
+    }
+    
+    .footer-bottom-bar {
+        padding: 0.75rem 0;
+    }
+    
+    .meta-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .app-downloads {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .floating-shape {
+        display: none;
+    }
+    
+    .contact-row {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .contact-item {
+        min-width: unset;
+        flex: unset;
+    }
+    
+    .footer-main-links-row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .quick-links-section,
+    .support-section,
+    .legal-section {
+        flex: unset;
+    }
+}
+
+/* Animation States */
+.footer-section {
+    animation: fadeInUp 0.8s ease-out;
+    animation-fill-mode: backwards;
+}
+
+.footer-section:nth-child(1) { animation-delay: 0.1s; }
+.footer-section:nth-child(2) { animation-delay: 0.2s; }
+.footer-section:nth-child(3) { animation-delay: 0.3s; }
+.footer-section:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading States */
+.newsletter-form-modern.loading .btn {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.newsletter-form-modern.loading .btn-icon {
+    animation: spin 1s linear infinite;
+}
+
+/* Dark mode compatibility */
+@media (prefers-color-scheme: light) {
+    .footer-modern {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
+        color: #333;
+    }
+    
+    .footer-title {
+        color: #333;
+    }
+    
+    .footer-link {
+        color: #666;
+    }
+    
+    .footer-link:hover {
+        color: #333;
+    }
+    
+    .contact-item {
+        background: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    .contact-details strong {
+        color: #333;
+    }
+    
+    .contact-details p {
+        color: #666;
+    }
+    
+    .payment-method {
+        background: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    .trust-item {
+        background: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    .trust-text strong {
+        color: #333;
+    }
+    
+    .copyright-text {
+        color: #666;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Enhanced Newsletter form submission
+    const newsletterForm = document.querySelector('.newsletter-form-modern');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = this.querySelector('input[name="email"]').value;
+            const button = this.querySelector('button');
+            const originalContent = button.innerHTML;
+            
+            // Validate email
+            if (!isValidEmail(email)) {
+                FlexiFinance.showToast('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Show loading state
+            this.classList.add('loading');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin btn-icon"></i><span class="btn-text">Subscribing...</span>';
+            button.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                FlexiFinance.showToast('Thank you for subscribing to our newsletter! You\'ll receive updates on loan offers and financial tips.', 'success');
+                this.reset();
+                this.classList.remove('loading');
+                button.innerHTML = originalContent;
+                button.disabled = false;
+                
+                // Track subscription event
+                if (typeof FlexiFinance !== 'undefined') {
+                    FlexiFinance.trackEvent('newsletter_subscription', {
+                        email: email,
+                        page_location: window.location.href
+                    });
+                }
+            }, 2000);
+        });
+    }
+    
+    // Enhanced Scroll to top functionality
+    const scrollTopBtn = document.querySelector('.scroll-top-btn');
+    if (scrollTopBtn) {
+        function toggleScrollTopBtn() {
+            if (window.pageYOffset > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        }
+        
+        window.addEventListener('scroll', throttle(toggleScrollTopBtn, 100));
+        
+        // Scroll to top when clicked
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Track scroll to top event
+            if (typeof FlexiFinance !== 'undefined') {
+                FlexiFinance.trackEvent('scroll_to_top', {
+                    page_location: window.location.href
+                });
+            }
+        });
+    }
+    
+    // Enhanced footer animations
+    const footerSections = document.querySelectorAll('.footer-section');
+    const footerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    footerSections.forEach((section, index) => {
+        section.style.animationDelay = `${index * 0.1}s`;
+        footerObserver.observe(section);
+    });
+    
+    // Feature banner animation
+    const featureItems = document.querySelectorAll('.feature-item');
+    const featureObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+    
+    featureItems.forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.1}s`;
+        featureObserver.observe(item);
+    });
+    
+    // Enhanced Social media tracking and interactions
+    const socialLinks = document.querySelectorAll('.social-link');
+    socialLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const platform = this.querySelector('span').textContent;
+            const isExternal = this.href && this.href.startsWith('http') && !this.href.includes(window.location.hostname);
+            
+            // Track social media click
+            if (typeof FlexiFinance !== 'undefined') {
+                FlexiFinance.trackEvent('social_media_click', {
+                    platform: platform.toLowerCase(),
+                    is_external: isExternal,
+                    page_location: window.location.href
+                });
+            }
+            
+            // Open external links in new tab
+            if (isExternal) {
+                e.preventDefault();
+                window.open(this.href, '_blank', 'noopener,noreferrer');
+            }
+        });
+    });
+    
+    // Enhanced Payment method tracking
+    const paymentMethods = document.querySelectorAll('.payment-method');
+    paymentMethods.forEach(method => {
+        method.addEventListener('mouseenter', function() {
+            const methodName = this.querySelector('span').textContent;
+            
+            // Track payment method hover
+            if (typeof FlexiFinance !== 'undefined') {
+                FlexiFinance.trackEvent('payment_method_hover', {
+                    method: methodName,
+                    page_location: window.location.href
+                });
+            }
+        });
+    });
+    
+    // Enhanced contact item interactions
+    const contactItems = document.querySelectorAll('.contact-item');
+    contactItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const link = this.querySelector('a');
+            if (link) {
+                link.click();
+            }
+        });
+    });
+    
+    // Trust indicator interactions
+    const trustItems = document.querySelectorAll('.trust-item');
+    trustItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const trustText = this.querySelector('strong').textContent;
+            
+            // Track trust indicator click
+            if (typeof FlexiFinance !== 'undefined') {
+                FlexiFinance.trackEvent('trust_indicator_click', {
+                    indicator: trustText,
+                    page_location: window.location.href
+                });
+            }
+        });
+    });
+    
+    // Quick actions tracking
+    const quickActionButtons = document.querySelectorAll('.quick-actions .btn');
+    quickActionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const action = this.textContent.trim();
+            
+            // Track quick action click
+            if (typeof FlexiFinance !== 'undefined') {
+                FlexiFinance.trackEvent('quick_action_click', {
+                    action: action.toLowerCase(),
+                    page_location: window.location.href
+                });
+            }
+        });
+    });
+    
+    // App download tracking
+    const appBadges = document.querySelectorAll('.app-badge');
+    appBadges.forEach(badge => {
+        badge.addEventListener('click', function(e) {
+            const store = this.querySelector('span').textContent;
+            
+            // Track app download click
+            if (typeof FlexiFinance !== 'undefined') {
+                FlexiFinance.trackEvent('app_download_click', {
+                    store: store.toLowerCase(),
+                    page_location: window.location.href
+                });
+            }
+            
+            // Prevent default for demo purposes
+            e.preventDefault();
+            FlexiFinance.showToast(`${store} download coming soon!`, 'info');
+        });
+    });
+    
+    // Enhanced newsletter email validation
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    // Parallax effect for floating shapes
+    const floatingShapes = document.querySelectorAll('.floating-shape');
+    if (floatingShapes.length > 0) {
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            floatingShapes.forEach((shape, index) => {
+                const speed = 0.2 + (index * 0.1);
+                shape.style.transform = `translateY(${rate * speed}px) rotate(${scrolled * 0.05}deg)`;
+            });
+        }
+        
+        window.addEventListener('scroll', throttle(updateParallax, 16));
+    }
+    
+    // Add hover effects to feature items
+    featureItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+    
+    // Dynamic copyright year
+    const copyrightText = document.querySelector('.copyright-text');
+    if (copyrightText) {
+        const currentYear = new Date().getFullYear();
+        copyrightText.innerHTML = copyrightText.innerHTML.replace('2025', currentYear);
+    }
+    
+    // Performance optimization: Lazy load footer content
+    const footerLazyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Load any additional footer content if needed
+                console.log('Footer loaded and visible');
+                footerLazyObserver.unobserve(entry.target);
+            }
+        });
+    });
+    
+    const footerElement = document.querySelector('.footer-modern');
+    if (footerElement) {
+        footerLazyObserver.observe(footerElement);
+    }
+});
+
+// Enhanced utility function for throttling
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
+// Add smooth scroll behavior for anchor links within footer
+document.addEventListener('click', function(e) {
+    // Use closest() to find the anchor tag, handling clicks on nested elements like icons
+    const link = e.target.closest('a[href^="#"]');
+    
+    if (link) {
+        const href = link.getAttribute('href');
+        
+        // CRITICAL FIX: Ignore exactly '#' (used for dropdowns) or empty links
+        if (href === '#' || href.length < 2) {
+            return; // Let Bootstrap or other scripts handle this
+        }
+
+        e.preventDefault();
+        
+        try {
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        } catch (error) {
+            // Ignore invalid selectors to prevent crashing
+            console.debug('Smooth scroll target not found or invalid:', href);
+        }
+    }
+});
+
+// Add keyboard navigation support
+document.addEventListener('keydown', function(e) {
+    // ESC key to close any modals or focused elements
+    if (e.key === 'Escape') {
+        const activeElement = document.activeElement;
+        if (activeElement && activeElement.blur) {
+            activeElement.blur();
+        }
+    }
+    
+    // Enter key on social links
+    if (e.key === 'Enter' && e.target.matches('.social-link')) {
+        e.target.click();
+    }
+});
+</script>

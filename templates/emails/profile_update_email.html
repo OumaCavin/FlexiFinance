@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Updated - FlexiFinance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 0 0 8px 8px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+        .highlight {
+            background-color: #e8f5e8;
+            padding: 15px;
+            border-left: 4px solid #28a745;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>FlexiFinance</h1>
+        <p>Your Profile Has Been Updated</p>
+    </div>
+    
+    <div class="content">
+        <h2>Hello {{ user.get_full_name|default:user.username }},</h2>
+        
+        <p>We're pleased to inform you that your FlexiFinance profile has been successfully updated.</p>
+        
+        <div class="highlight">
+            <h3>Update Summary:</h3>
+            <ul>
+                {% for field_name, field_value in updated_fields.items %}
+                <li><strong>{{ field_name|title }}:</strong> {{ field_value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <p>If you did not make these changes, please contact our support team immediately at <a href="mailto:support@flexifinance.com">support@flexifinance.com</a>.</p>
+        
+        <p>Your updated profile information is now available in your dashboard. You can access it by logging into your account.</p>
+        
+        <p>Thank you for keeping your profile information up to date.</p>
+        
+        <p>Best regards,<br>
+        The FlexiFinance Team</p>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated message from FlexiFinance. Please do not reply to this email.</p>
+        <p>&copy; 2025 FlexiFinance. All rights reserved.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}How It Works - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Hero Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-4">How FlexiFinance Works</h1>
+            <p class="lead text-muted">Simple, Fast, and Transparent Loan Process - From Application to Approval in 3 Simple Steps</p>
+        </div>
+    </div>
+    
+    <!-- Main Steps -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-5">
+            <h2 class="fw-bold">Get Your Loan in 3 Easy Steps</h2>
+            <p class="text-muted">Our streamlined process makes borrowing quick and hassle-free</p>
+        </div>
+        
+        <!-- Step 1 -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 100px; height: 100px;">
+                            <span class="text-primary fw-bold fs-2">1</span>
+                        </div>
+                    </div>
+                    <h4 class="card-title mb-3">Apply Online</h4>
+                    <p class="card-text text-muted">
+                        Fill out our simple online application form. It takes just 5 minutes and requires basic personal and financial information.
+                    </p>
+                    <ul class="list-unstyled text-start">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No physical documents required initially</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Secure and encrypted application</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Available 24/7</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="mb-4">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 100px; height: 100px;">
+                            <span class="text-warning fw-bold fs-2">2</span>
+                        </div>
+                    </div>
+                    <h4 class="card-title mb-3">Quick Verification</h4>
+                    <p class="card-text text-muted">
+                        Our automated system instantly verifies your information and conducts a soft credit check to determine your eligibility.
+                    </p>
+                    <ul class="list-unstyled text-start">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Instant eligibility check</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No impact on credit score</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>SMS/Email notifications</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="mb-4">
+                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 100px; height: 100px;">
+                            <span class="text-success fw-bold fs-2">3</span>
+                        </div>
+                    </div>
+                    <h4 class="card-title mb-3">Receive Funds</h4>
+                    <p class="card-text text-muted">
+                        Once approved, funds are disbursed directly to your M-Pesa account within minutes. Start using your loan immediately.
+                    </p>
+                    <ul class="list-unstyled text-start">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Direct M-Pesa transfer</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Same-day disbursement</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>24/7 customer support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loan Products -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Our Loan Products</h2>
+            <p class="text-muted">Flexible options designed for your needs</p>
+        </div>
+        
+        {% for product in loan_products %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 70px; height: 70px;">
+                            <i class="fas fa-{{ product.icon|default:'money-bill-wave' }} text-primary fa-xl"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted small">{{ product.description }}</p>
+                    <div class="mt-auto">
+                        <div class="mb-3">
+                            <small class="text-muted">Amount Range</small>
+                            <div class="fw-bold">KSh {{ product.min_amount|default:5000|intcomma }} - {{ product.max_amount|default:500000|intcomma }}</div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted">Interest Rate</small>
+                            <div class="fw-bold text-primary">{{ product.interest_rate|default:'12-24' }}% per month</div>
+                        </div>
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-outline-primary btn-sm">
+                            Apply Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Loan products configuration will be loaded here.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Requirements -->
+    <div class="row mb-5">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Requirements</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-id-card text-primary mt-1 me-3"></i>
+                                <div>
+                                    <strong>Valid Kenyan ID</strong>
+                                    <p class="text-muted small mb-0">National ID or Passport required for verification</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-phone text-primary mt-1 me-3"></i>
+                                <div>
+                                    <strong>Active M-Pesa Account</strong>
+                                    <p class="text-muted small mb-0">Phone number registered with M-Pesa</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-calendar text-primary mt-1 me-3"></i>
+                                <div>
+                                    <strong>Age 18-65</strong>
+                                    <p class="text-muted small mb-0">Must be of legal age to enter into agreements</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-map-marker-alt text-primary mt-1 me-3"></i>
+                                <div>
+                                    <strong>Kenyan Resident</strong>
+                                    <p class="text-muted small mb-0">Must be a resident of Kenya</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Our Guarantees</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-lock text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>100% Secure</strong>
+                                    <p class="text-muted small mb-0">Bank-level encryption protects your data</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-clock text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Fast Processing</strong>
+                                    <p class="text-muted small mb-0">Get approved in under 30 minutes</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-eye text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Transparent Terms</strong>
+                                    <p class="text-muted small mb-0">No hidden fees or charges</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-life-ring text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>24/7 Support</strong>
+                                    <p class="text-muted small mb-0">Always here when you need us</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header">
+                    <h5 class="mb-0">Frequently Asked Questions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#faq1" aria-expanded="false">
+                                    How long does it take to get approved?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Most applications are approved within 30 minutes during business hours. You can check your application status anytime through our app or website.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#faq2" aria-expanded="false">
+                                    What happens if I can't repay on time?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We offer flexible repayment options and early communication is key. Contact our support team as soon as possible to discuss extension options or restructuring your payment plan.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#faq3" aria-expanded="false">
+                                    Can I apply for multiple loans?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, once you've successfully repaid your current loan, you can apply for a new one. Building a good repayment history can help you qualify for higher amounts and better rates.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-primary text-white text-center">
+                <div class="card-body p-5">
+                    <h2 class="mb-3">Ready to Get Started?</h2>
+                    <p class="mb-4 lead">Join thousands of satisfied customers who have improved their financial situation with FlexiFinance.</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
+                            <i class="fas fa-rocket me-2"></i>Apply Now
+                        </a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-question-circle me-2"></i>Have Questions?
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

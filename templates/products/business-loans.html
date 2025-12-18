@@ -1,0 +1,670 @@
+{% extends "base.html" %}
+
+{% block title %}Business Loans - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Hero Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-4">Business Loans</h1>
+            <p class="lead text-muted">Fuel your business growth with flexible financing solutions designed for entrepreneurs and SMEs</p>
+        </div>
+    </div>
+    
+    <!-- Business Loan Calculator Banner -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card bg-gradient text-white border-0">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="mb-2">Calculate Your Business Loan</h3>
+                            <p class="mb-0">See how much you can borrow and what your monthly payments would be</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <a href="{% url 'loan_calculator' %}" class="btn btn-light btn-lg">
+                                <i class="fas fa-calculator me-2"></i>Calculate Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Business Loan Products -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Business Financing Solutions</h2>
+            <p class="text-muted">Choose the right financing option for your business needs</p>
+        </div>
+        
+        <!-- Working Capital Loan -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-coins text-primary fa-2x"></i>
+                        </div>
+                    </div>
+                    
+                    <h4 class="card-title text-center mb-3">Working Capital Loan</h4>
+                    <p class="card-text text-muted text-center mb-4">
+                        Manage daily operations, pay suppliers, and maintain inventory with flexible working capital
+                    </p>
+                    
+                    <div class="flex-grow-1">
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-primary fw-bold">50,000</h6>
+                                    <small class="text-muted">Min Amount</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-primary fw-bold">300,000</h6>
+                                <small class="text-muted">Max Amount</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-success fw-bold">10-14%</h6>
+                                    <small class="text-muted">Per Month</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-success fw-bold">12-24</h6>
+                                <small class="text-muted">Months</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="small text-muted mb-2">Perfect for:</h6>
+                            <ul class="list-unstyled small">
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Inventory purchases
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Supplier payments
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Operating expenses
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Seasonal fluctuations
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-primary btn-sm" 
+                                    onclick="showLoanDetails('Working Capital Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Equipment Finance -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-tools text-warning fa-2x"></i>
+                        </div>
+                    </div>
+                    
+                    <h4 class="card-title text-center mb-3">Equipment Finance</h4>
+                    <p class="card-text text-muted text-center mb-4">
+                        Purchase or lease equipment, machinery, and technology to grow your business operations
+                    </p>
+                    
+                    <div class="flex-grow-1">
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-primary fw-bold">100,000</h6>
+                                    <small class="text-muted">Min Amount</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-primary fw-bold">500,000</h6>
+                                <small class="text-muted">Max Amount</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-success fw-bold">8-12%</h6>
+                                    <small class="text-muted">Per Month</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-success fw-bold">24-36</h6>
+                                <small class="text-muted">Months</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="small text-muted mb-2">Perfect for:</h6>
+                            <ul class="list-unstyled small">
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Manufacturing equipment
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Office equipment & tech
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Vehicles & transport
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>POS systems & machinery
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-warning">
+                                <i class="fas fa-cog me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-warning btn-sm" 
+                                    onclick="showLoanDetails('Equipment Finance')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Business Expansion Loan -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-chart-line text-success fa-2x"></i>
+                        </div>
+                    </div>
+                    
+                    <h4 class="card-title text-center mb-3">Expansion Loan</h4>
+                    <p class="card-text text-muted text-center mb-4">
+                        Scale your business, open new locations, or enter new markets with expansion funding
+                    </p>
+                    
+                    <div class="flex-grow-1">
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-primary fw-bold">200,000</h6>
+                                    <small class="text-muted">Min Amount</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-primary fw-bold">500,000</h6>
+                                <small class="text-muted">Max Amount</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-success fw-bold">12-16%</h6>
+                                    <small class="text-muted">Per Month</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-success fw-bold">18-36</h6>
+                                <small class="text-muted">Months</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="small text-muted mb-2">Perfect for:</h6>
+                            <ul class="list-unstyled small">
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>New branch openings
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Market expansion
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Hiring new staff
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Marketing campaigns
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-success">
+                                <i class="fas fa-rocket me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-success btn-sm" 
+                                    onclick="showLoanDetails('Expansion Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Business Requirements -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Business Loan Requirements</h2>
+            <p class="text-muted">What you need to qualify for a business loan</p>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-building me-2"></i>Business Eligibility</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-primary mt-1 me-3"></i>
+                                <div>
+                                    <strong>Registered Business</strong>
+                                    <p class="text-muted small mb-0">Must have valid business registration or incorporation documents</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-primary mt-1 me-3"></i>
+                                <div>
+                                    <strong>Operating for 6+ Months</strong>
+                                    <p class="text-muted small mb-0">Business must have been operating for at least 6 months</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-primary mt-1 me-3"></i>
+                                <div>
+                                    <strong>Monthly Revenue</strong>
+                                    <p class="text-muted small mb-0">Minimum monthly revenue of KSh 50,000</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-primary mt-1 me-3"></i>
+                                <div>
+                                    <strong>Owner Age 21-65</strong>
+                                    <p class="text-muted small mb-0">Business owner must be between 21-65 years old</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Required Documents</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-file text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Business Registration Certificate</strong>
+                                    <p class="text-muted small mb-0">Certificate of incorporation or business registration</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-file text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Financial Statements</strong>
+                                    <p class="text-muted small mb-0">Audited accounts or management accounts for last 12 months</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-file text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Bank Statements</strong>
+                                    <p class="text-muted small mb-0">Last 6 months business bank statements</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-file text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Personal Documents</strong>
+                                    <p class="text-muted small mb-0">ID copy, KRA PIN, and personal bank statements</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Why Choose Business Loans -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Why Choose FlexiFinance for Business Loans?</h2>
+            <p class="text-muted">We're committed to supporting Kenyan entrepreneurs and SMEs</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 60px; height: 60px;">
+                            <i class="fas fa-handshake text-primary fa-xl"></i>
+                        </div>
+                    </div>
+                    <h6>Flexible Terms</h6>
+                    <p class="text-muted small">Repayment schedules tailored to your business cash flow</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 60px; height: 60px;">
+                            <i class="fas fa-clock text-success fa-xl"></i>
+                        </div>
+                    </div>
+                    <h6>Fast Processing</h6>
+                    <p class="text-muted small">Get approved in 24-48 hours and funds disbursed quickly</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 60px; height: 60px;">
+                            <i class="fas fa-chart-line text-warning fa-xl"></i>
+                        </div>
+                    </div>
+                    <h6>Growth Support</h6>
+                    <p class="text-muted small">Business advisory services and growth planning assistance</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 60px; height: 60px;">
+                            <i class="fas fa-shield-alt text-info fa-xl"></i>
+                        </div>
+                    </div>
+                    <h6>Competitive Rates</h6>
+                    <p class="text-muted small">Lower interest rates than traditional lenders</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Stories -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Success Stories</h2>
+            <p class="text-muted">See how we've helped businesses grow</p>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 50px; height: 50px;">
+                            <i class="fas fa-store text-white"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="mb-0">Grace's Fashion Boutique</h6>
+                            <small class="text-muted">Nairobi</small>
+                        </div>
+                    </div>
+                    <p class="text-muted">
+                        "FlexiFinance helped me expand my boutique with a KSh 200,000 working capital loan. 
+                        I was able to stock more inventory and my sales increased by 40%!"
+                    </p>
+                    <div class="text-primary fw-bold">KSh 200,000 Working Capital</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 50px; height: 50px;">
+                            <i class="fas fa-utensils text-white"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="mb-0">John's Restaurant</h6>
+                            <small class="text-muted">Mombasa</small>
+                        </div>
+                    </div>
+                    <p class="text-muted">
+                        "The equipment finance loan helped me modernize my kitchen with new ovens and refrigeration. 
+                        Now I can serve more customers efficiently."
+                    </p>
+                    <div class="text-success fw-bold">KSh 350,000 Equipment Finance</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-warning rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 50px; height: 50px;">
+                            <i class="fas fa-truck text-white"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="mb-0">Transport Solutions Ltd</h6>
+                            <small class="text-muted">Kisumu</small>
+                        </div>
+                    </div>
+                    <p class="text-muted">
+                        "With FlexiFinance expansion loan, I opened two new routes and hired more drivers. 
+                        My fleet grew from 3 to 8 vehicles in just 8 months."
+                    </p>
+                    <div class="text-warning fw-bold">KSh 400,000 Expansion Loan</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-primary text-white text-center">
+                <div class="card-body p-5">
+                    <h2 class="mb-3">Ready to Grow Your Business?</h2>
+                    <p class="mb-4 lead">Join hundreds of successful businesses that have grown with FlexiFinance</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
+                            <i class="fas fa-rocket me-2"></i>Apply for Business Loan
+                        </a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-phone me-2"></i>Speak to Business Advisor
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Details Modal -->
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loanModalTitle">Loan Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="loanModalContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                    <i class="fas fa-paper-plane me-2"></i>Apply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoanDetails(loanName) {
+    const modalContent = document.getElementById('loanModalContent');
+    const modalTitle = document.getElementById('loanModalTitle');
+    
+    modalTitle.textContent = loanName + ' - Detailed Information';
+    
+    let loanDetails = '';
+    
+    // Customize content based on loan type
+    if (loanName === 'Working Capital Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Flexible working capital solutions</li>
+                        <li>Quick turnaround time</li>
+                        <li>Renewable credit line available</li>
+                        <li>Competitive interest rates</li>
+                        <li>Minimal documentation required</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Business registration certificate</li>
+                        <li>6 months bank statements</li>
+                        <li>Monthly revenue: KSh 100,000+</li>
+                        <li>Business operating for 12+ months</li>
+                        <li>Personal guarantor required</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-primary">
+                <i class="fas fa-chart-line me-2"></i>
+                Perfect for managing day-to-day operations and seasonal fluctuations.
+            </div>
+        `;
+    } else if (loanName === 'Equipment Finance') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Finance up to 100% of equipment cost</li>
+                        <li>Equipment as collateral</li>
+                        <li>Flexible repayment terms</li>
+                        <li>New and used equipment eligible</li>
+                        <li>Direct supplier payments</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Equipment quotes/estimates</li>
+                        <li>Business financial statements</li>
+                        <li>Equipment supplier details</li>
+                        <li>Business bank statements</li>
+                        <li>Insurance coverage confirmation</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <i class="fas fa-cog me-2"></i>
+                Upgrade your business with modern equipment and machinery.
+            </div>
+        `;
+    } else if (loanName === 'Expansion Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Large loan amounts available</li>
+                        <li>Long-term financing options</li>
+                        <li>Growth-focused terms</li>
+                        <li>Business expansion support</li>
+                        <li>Advisory services included</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Detailed expansion plan</li>
+                        <li>Financial projections</li>
+                        <li>Market analysis</li>
+                        <li>3 years financial history</li>
+                        <li>Management experience proof</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-success">
+                <i class="fas fa-rocket me-2"></i>
+                Scale your business to new heights with strategic expansion funding.
+            </div>
+        `;
+    }
+    
+    modalContent.innerHTML = loanDetails;
+    
+    const modal = new bootstrap.Modal(document.getElementById('loanModal'));
+    modal.show();
+}
+</script>
+{% endblock %}

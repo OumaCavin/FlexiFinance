@@ -1,0 +1,23 @@
+FlexiFinance - Profile Updated Successfully
+
+Hello {{ user.get_full_name|default:user.username }},
+
+We're pleased to inform you that your FlexiFinance profile has been successfully updated.
+
+Update Summary:
+{% for field_name, field_value in updated_fields.items %}
+- {{ field_name|title }}: {{ field_value }}
+{% endfor %}
+
+If you did not make these changes, please contact our support team immediately at support@flexifinance.com.
+
+Your updated profile information is now available in your dashboard. You can access it by logging into your account.
+
+Thank you for keeping your profile information up to date.
+
+Best regards,
+The FlexiFinance Team
+
+---
+This is an automated message from FlexiFinance. Please do not reply to this email.
+&copy; 2025 FlexiFinance. All rights reserved.

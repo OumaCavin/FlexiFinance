@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Email Verified - FlexiFinance{% endblock %}
+
+{% block extra_css %}
+<style>
+    .verification-success-container {
+        max-width: 600px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .verification-success-header {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
+
+    .verification-success-header h2 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 300;
+    }
+
+    .verification-success-content {
+        padding: 40px 30px;
+        text-align: center;
+    }
+
+    .verification-success-icon {
+        font-size: 4rem;
+        color: #28a745;
+        margin-bottom: 20px;
+    }
+
+    .btn-dashboard {
+        display: inline-block;
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .btn-dashboard:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+
+    .benefits-list {
+        text-align: left;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+    .benefits-list h4 {
+        color: #28a745;
+        margin-bottom: 15px;
+    }
+
+    .benefits-list ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .benefits-list li {
+        margin: 8px 0;
+        color: #495057;
+    }
+
+    @media (max-width: 768px) {
+        .verification-success-container {
+            margin: 20px;
+            border-radius: 10px;
+        }
+        
+        .verification-success-header {
+            padding: 30px 20px;
+        }
+        
+        .verification-success-content {
+            padding: 30px 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="verification-success-container">
+        <div class="verification-success-header">
+            <h2>Email Verified Successfully!</h2>
+        </div>
+        
+        <div class="verification-success-content">
+            <div class="verification-success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            
+            <h3>Welcome to FlexiFinance, {{ user.get_full_name|default:user.username }}!</h3>
+            <p class="text-muted mb-4">
+                Your email has been verified and your account is now fully activated. 
+                Your KYC status has been automatically approved.
+            </p>
+            
+            <div class="benefits-list">
+                <h4><i class="fas fa-star me-2"></i>What's Now Available:</h4>
+                <ul>
+                    <li><i class="fas fa-check text-success me-2"></i><strong>Full Account Access:</strong> All features unlocked</li>
+                    <li><i class="fas fa-check text-success me-2"></i><strong>KYC Approved:</strong> Identity verification complete</li>
+                    <li><i class="fas fa-check text-success me-2"></i><strong>Loan Applications:</strong> Apply for loans up to KES 500,000</li>
+                    <li><i class="fas fa-check text-success me-2"></i><strong>Best Rates:</strong> Access to preferential interest rates</li>
+                    <li><i class="fas fa-check text-success me-2"></i><strong>Quick Approvals:</strong> Fast-track loan processing</li>
+                    <li><i class="fas fa-check text-success me-2"></i><strong>Enhanced Security:</strong> Protected verified account</li>
+                </ul>
+            </div>
+            
+            <div class="alert alert-info border-0">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Next Steps:</strong> Complete your profile with additional information to get the best loan offers.
+            </div>
+            
+            <a href="{% url 'dashboard:dashboard' %}" class="btn-dashboard">
+                <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

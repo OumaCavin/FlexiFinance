@@ -1,0 +1,29 @@
+Welcome to {{ site_name }}!
+
+Hi {{ first_name }},
+
+Thank you for creating your {{ site_name }} account! To complete your registration and unlock all features, please verify your email address.
+
+VERIFICATION LINK:
+{{ verification_url }}
+
+What happens after email verification?
+• Account Verification: Your account will be fully verified
+• KYC Approval: Your identity verification will be automatically approved  
+• Full Access: You can apply for loans up to KES 500,000
+• Better Rates: Access to our best interest rates
+• Quick Approvals: Fast-track loan processing
+
+IMPORTANT: This verification link will expire in 24 hours for security reasons.
+
+If you didn't create this account, please ignore this email.
+
+Once verified, you can start exploring our financial services and apply for your first loan!
+
+Best regards,
+The {{ site_name }} Team
+
+{{ site_name }}
+Empowering Financial Freedom
+
+If you have any questions, contact us at support@flexifinance.co.ke

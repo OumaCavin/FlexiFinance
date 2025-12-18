@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="5" y="5" width="70" height="70" fill="#667eea" rx="5"/>
+  <text x="40" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">ISO</text>
+  <text x="40" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">27001</text>
+  <text x="40" y="60" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6">Certified</text>
+</svg>

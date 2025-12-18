@@ -1,0 +1,75 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="contactHeroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background shapes -->
+  <circle cx="100" cy="80" r="40" fill="url(#contactHeroGrad)" opacity="0.3"/>
+  <circle cx="500" cy="120" r="60" fill="url(#contactHeroGrad)" opacity="0.2"/>
+  <circle cx="450" cy="300" r="35" fill="url(#iconGrad)" opacity="0.4"/>
+  
+  <!-- Main hero illustration -->
+  <g filter="url(#shadow)">
+    <!-- Phone/Contact device -->
+    <rect x="220" y="100" width="160" height="200" rx="20" fill="white" stroke="#e2e8f0" stroke-width="2"/>
+    
+    <!-- Phone screen -->
+    <rect x="235" y="120" width="130" height="160" rx="10" fill="url(#contactHeroGrad)" opacity="0.1"/>
+    
+    <!-- Chat bubbles -->
+    <g>
+      <!-- Incoming message -->
+      <rect x="250" y="140" width="80" height="30" rx="15" fill="url(#contactHeroGrad)" opacity="0.8"/>
+      <polygon points="250,160 240,170 250,180" fill="url(#contactHeroGrad)" opacity="0.8"/>
+      
+      <!-- Outgoing message -->
+      <rect x="270" y="180" width="90" height="30" rx="15" fill="url(#iconGrad)" opacity="0.8"/>
+      <polygon points="360,195 370,200 360,205" fill="url(#iconGrad)" opacity="0.8"/>
+      
+      <!-- Another incoming message -->
+      <rect x="250" y="220" width="75" height="30" rx="15" fill="url(#contactHeroGrad)" opacity="0.6"/>
+      <polygon points="250,235 240,245 250,255" fill="url(#contactHeroGrad)" opacity="0.6"/>
+    </g>
+    
+    <!-- Contact icons -->
+    <g opacity="0.7">
+      <!-- Phone icon -->
+      <circle cx="120" cy="150" r="25" fill="url(#contactHeroGrad)"/>
+      <path d="M110 140 Q110 140 110 140 L110 140 L110 140 L110 140 L110 140 L110 140 L110 140 L110 140 L110 140 L110 140" stroke="white" stroke-width="3" fill="none"/>
+      <path d="M105 145 Q105 145 105 145 L105 145 L105 145 L105 145 L105 145 L105 145 L105 145 L105 145 L105 145 L105 145" stroke="white" stroke-width="2" fill="none"/>
+      
+      <!-- Email icon -->
+      <circle cx="480" cy="180" r="25" fill="url(#iconGrad)"/>
+      <rect x="470" y="170" width="20" height="20" rx="3" fill="none" stroke="white" stroke-width="2"/>
+      <path d="M470 175 L480 182 L490 175" stroke="white" stroke-width="2" fill="none"/>
+      
+      <!-- Live chat icon -->
+      <circle cx="150" cy="280" r="25" fill="url(#contactHeroGrad)"/>
+      <path d="M140 275 Q140 275 140 275 L140 275 L140 275 L140 275 L140 275 L140 275 L140 275 L140 275 L140 275 L140 275" stroke="white" stroke-width="3" fill="none"/>
+    </g>
+  </g>
+  
+  <!-- Decorative elements -->
+  <g opacity="0.3">
+    <path d="M50 350 Q100 320 150 350 T250 350 T350 350" stroke="url(#contactHeroGrad)" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+    <path d="M400 350 Q450 320 500 350 T600 350" stroke="url(#iconGrad)" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+  </g>
+  
+  <!-- Text elements -->
+  <text x="300" y="320" text-anchor="middle" fill="#4a5568" font-family="Arial, sans-serif" font-size="16" font-weight="600">
+    Get in Touch
+  </text>
+  <text x="300" y="340" text-anchor="middle" fill="#718096" font-family="Arial, sans-serif" font-size="12">
+    We're here to help 24/7
+  </text>
+</svg>

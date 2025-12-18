@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Privacy Policy - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-white rounded-3 shadow-sm p-5">
+                    <h1 class="display-5 fw-bold text-primary mb-4">Privacy Policy</h1>
+                    <p class="text-muted mb-4">Last updated: {{ last_updated }}</p>
+                    
+                    <div class="content">
+                        <h2 class="h4 fw-bold text-dark mb-3">1. Information We Collect</h2>
+                        <p>We collect information you provide directly to us, such as when you create an account, apply for a loan, or contact us for support. This may include:</p>
+                        <ul class="mb-4">
+                            <li>Personal identification information (name, email, phone number)</li>
+                            <li>Financial information (income, employment details, bank statements)</li>
+                            <li>Documents (ID copies, payslips, business registration)</li>
+                            <li>Communication records and support interactions</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">2. How We Use Your Information</h2>
+                        <p>We use the information we collect to:</p>
+                        <ul class="mb-4">
+                            <li>Process loan applications and assessments</li>
+                            <li>Verify your identity and financial standing</li>
+                            <li>Communicate with you about your applications and account</li>
+                            <li>Provide customer support and respond to inquiries</li>
+                            <li>Improve our services and develop new features</li>
+                            <li>Comply with legal and regulatory requirements</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">3. Information Sharing</h2>
+                        <p>We do not sell, trade, or otherwise transfer your personal information to third parties except:</p>
+                        <ul class="mb-4">
+                            <li>With your consent</li>
+                            <li>To trusted service providers who assist in our operations</li>
+                            <li>To credit bureaus and financial institutions for verification</li>
+                            <li>When required by law or regulatory authorities</li>
+                            <li>To protect our rights and prevent fraud</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">4. Data Security</h2>
+                        <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. This includes:</p>
+                        <ul class="mb-4">
+                            <li>Encryption of sensitive data</li>
+                            <li>Secure servers and data centers</li>
+                            <li>Regular security assessments</li>
+                            <li>Access controls and authentication</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">5. Your Rights</h2>
+                        <p>You have the right to:</p>
+                        <ul class="mb-4">
+                            <li>Access and review your personal information</li>
+                            <li>Correct inaccurate or incomplete data</li>
+                            <li>Request deletion of your personal information</li>
+                            <li>Opt-out of marketing communications</li>
+                            <li>File complaints with regulatory authorities</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">6. Contact Us</h2>
+                        <p>If you have any questions about this Privacy Policy or our data practices, please contact us:</p>
+                        <div class="bg-light p-3 rounded mb-4">
+                            <p class="mb-1"><strong>Email:</strong> privacy@flexifinance.co.ke</p>
+                            <p class="mb-1"><strong>Phone:</strong> {{ config.PHONE_NUMBER }}</p>
+                            <p class="mb-0"><strong>Address:</strong> {{ config.BUSINESS_ADDRESS }}</p>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <small>This Privacy Policy is effective as of {{ last_updated }} and will remain in effect except with respect to any changes in its provisions in the future, which will be in effect immediately after being posted on this page.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

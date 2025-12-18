@@ -1,0 +1,347 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'core:home' %}">
+            <img src="{% static 'images/logo.svg' %}" alt="FlexiFinance" height="40" class="me-2">
+            <span class="font-weight-bold">FlexiFinance</span>
+        </a>
+        
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core:home' %}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="loansDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Loans
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="loansDropdown">
+                        <li><a class="dropdown-item" href="{% url 'personal_loans' %}">Personal Loans</a></li>
+                        <li><a class="dropdown-item" href="{% url 'quick_cash_loans' %}">Quick Cash Loans</a></li>
+                        <li><a class="dropdown-item" href="{% url 'business_loans' %}">Business Loans</a></li>
+                        <li><a class="dropdown-item" href="{% url 'emergency_loans' %}">Emergency Loans</a></li>
+                        <li><a class="dropdown-item" href="{% url 'education_loans' %}">Education Loans</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'loan_calculator' %}">Loan Calculator</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'how_it_works' %}">How It Works</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core:contact' %}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'support' %}">Support</a>
+                </li>
+            </ul>
+            
+            <!-- Auth Buttons -->
+            <div class="navbar-nav ms-auto d-flex flex-row gap-2">
+                {% if user.is_authenticated %}
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i>
+                            {{ user.get_full_name|default:user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="{% url 'dashboard:dashboard' %}">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'dashboard:my_loans' %}">
+                                <i class="fas fa-file-invoice-dollar me-2"></i>My Loans
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'documents:list' %}">
+                                <i class="fas fa-file-alt me-2"></i>Documents
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'dashboard:profile' %}">
+                                <i class="fas fa-user-edit me-2"></i>Profile
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 0;">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">
+                        <i class="fas fa-sign-in-alt me-1"></i>Login
+                    </a>
+                    <a class="btn btn-primary" href="{% url 'signup' %}">
+                        <i class="fas fa-user-plus me-1"></i>Sign Up
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-bar" id="navbar-progress" style="width: 0%"></div>
+    </div>
+</nav>
+
+<!-- Support Banner -->
+<div class="support-banner">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-headset text-primary me-3"></i>
+                    <div>
+                        <strong>Need Help?</strong> Our customer support team is available 24/7
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                <a href="tel:+254708101604" class="btn btn-sm btn-outline-primary me-2">
+                    <i class="fas fa-phone me-1"></i>Call Now
+                </a>
+                <a href="{% url 'core:contact' %}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-comment me-1"></i>Live Chat
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.navbar {
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.navbar.scrolled {
+    background-color: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color) !important;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--gray-700) !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+    background-color: var(--gray-50);
+}
+
+.nav-link.active {
+    color: var(--primary-color) !important;
+    font-weight: 600;
+}
+
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+    padding: 0.5rem 0;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    color: var(--gray-700);
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--gray-50);
+    color: var(--primary-color);
+}
+
+.progress-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.support-banner {
+    background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+/* Mobile Responsive */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: white;
+        border-radius: 0.75rem;
+        margin-top: 1rem;
+        padding: 1rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-nav {
+        margin: 0;
+    }
+    
+    .nav-item {
+        margin-bottom: 0.5rem;
+    }
+    
+    .support-banner {
+        display: none;
+    }
+}
+
+/* Sticky navigation enhancement */
+@media (min-width: 992px) {
+    .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+    }
+    
+    .support-banner {
+        position: sticky;
+        top: 70px;
+        z-index: 1029;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .navbar {
+        background-color: rgba(31, 41, 55, 0.95);
+    }
+    
+    .navbar.scrolled {
+        background-color: rgba(31, 41, 55, 0.98);
+    }
+    
+    .nav-link {
+        color: var(--gray-300) !important;
+    }
+    
+    .nav-link:hover {
+        color: white !important;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .support-banner {
+        background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-700) 100%);
+        color: var(--gray-300);
+    }
+    
+    .dropdown-menu {
+        background-color: var(--gray-800);
+        border-color: var(--gray-700);
+    }
+    
+    .dropdown-item {
+        color: var(--gray-300);
+    }
+    
+    .dropdown-item:hover {
+        background-color: var(--gray-700);
+        color: white;
+    }
+}
+
+/* Animation for nav items */
+.nav-link {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::before,
+.nav-link.active::before {
+    width: 100%;
+}
+
+/* Dropdown animation */
+.dropdown-menu {
+    animation: dropdownSlide 0.2s ease-out;
+    transform-origin: top center;
+}
+
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: scaleY(0.8) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scaleY(1) translateY(0);
+    }
+}
+
+/* Progress bar animation */
+.progress-indicator {
+    overflow: hidden;
+}
+
+#navbar-progress {
+    transition: width 0.3s ease;
+}
+
+/* User dropdown enhancements */
+.user-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+/* Navigation improvements - kept for better functionality */
+
+/* Button hover effects */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+</style>
+
+<!-- Navigation JavaScript removed to prevent conflicts with main.js -->

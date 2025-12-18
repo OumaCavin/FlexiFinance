@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="calcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="200" fill="url(#calcGrad)" rx="15"/>
+  <circle cx="150" cy="80" r="40" fill="#667eea" opacity="0.3"/>
+  <rect x="120" y="130" width="60" height="30" fill="#667eea" opacity="0.6" rx="5"/>
+  <text x="150" y="50" text-anchor="middle" fill="#667eea" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Loan Calculator</text>
+  <text x="150" y="105" text-anchor="middle" fill="#764ba2" font-family="Arial, sans-serif" font-size="10">Calculate Your Payment</text>
+</svg>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="40" cy="40" r="35" fill="#1e3c72" stroke="#2a5298" stroke-width="3"/>
+  <text x="40" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">CBK</text>
+  <text x="40" y="60" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">Licensed</text>
+</svg>

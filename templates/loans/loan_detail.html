@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-check-circle me-2"></i>Application Received</h4>
+                </div>
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <h2 class="text-primary">{{ loan.loan_reference }}</h2>
+                        <span class="badge bg-warning text-dark">{{ loan.get_status_display }}</span>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted">Principal Amount</small>
+                                <h5>KES {{ loan.principal_amount|intcomma }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted">Total Repayment</small>
+                                <h5>KES {{ loan.total_amount|intcomma }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted">Interest Rate</small>
+                                <h5>{{ loan.interest_rate }}%</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted">Tenure</small>
+                                <h5>{{ loan.loan_tenure }} Months</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted">Monthly Payment</small>
+                                <h5>KES {{ loan.monthly_payment|intcomma }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted">Application Date</small>
+                                <h5>{{ loan.application_date|date:"M d, Y" }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-info-circle me-2"></i>What happens next?</h6>
+                            <ul class="mb-0">
+                                <li>Our team will review your application within 24-48 hours</li>
+                                <li>You will receive an email confirmation once processed</li>
+                                <li>Funds will be disbursed to your M-Pesa or bank account upon approval</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 d-grid">
+                        <a href="{% url 'dashboard:dashboard' %}" class="btn btn-primary">Return to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

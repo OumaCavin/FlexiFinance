@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Loan Agreement - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-white rounded-3 shadow-sm p-5">
+                    <h1 class="display-5 fw-bold text-primary mb-4">Loan Agreement</h1>
+                    <p class="text-muted mb-4">Last updated: {{ last_updated }}</p>
+                    
+                    <div class="content">
+                        <h2 class="h4 fw-bold text-dark mb-3">1. Agreement Overview</h2>
+                        <p>This Loan Agreement ("Agreement") is entered into between {{ company.company_name|default:"FlexiFinance Limited" }} ("Lender") and the borrower ("Borrower") for the provision of loan services. By accepting loan disbursement, the Borrower agrees to be bound by the terms herein.</p>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">2. Loan Details</h2>
+                        <div class="bg-light p-3 rounded mb-4">
+                            <p class="mb-2"><strong>Principal Amount:</strong> KSh [LOAN_AMOUNT]</p>
+                            <p class="mb-2"><strong>Interest Rate:</strong> {{ company.default_interest_rate|default:12.5 }}% per annum</p>
+                            <p class="mb-2"><strong>Loan Term:</strong> [LOAN_TERM] months</p>
+                            <p class="mb-2"><strong>Monthly Repayment:</strong> KSh [MONTHLY_REPAYMENT]</p>
+                            <p class="mb-0"><strong>Total Repayable Amount:</strong> KSh [TOTAL_AMOUNT]</p>
+                        </div>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">3. Disbursement</h2>
+                        <p>The loan amount will be disbursed to the Borrower's designated bank account within {{ company.disbursement_timeframe_days|default:3 }} business days after:</p>
+                        <ul class="mb-4">
+                            <li>Completion of all required documentation</li>
+                            <li>Successful verification of provided information</li>
+                            <li>Approval by {{ company.company_name|default:"FlexiFinance" }}'s credit committee</li>
+                            <li>Execution of this agreement by both parties</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">4. Repayment Schedule</h2>
+                        <p>The Borrower agrees to repay the loan in accordance with the following schedule:</p>
+                        <ul class="mb-4">
+                            <li>Monthly installments of KSh [MONTHLY_REPAYMENT]</li>
+                            <li>Due date: [DUE_DATE] of each month</li>
+                            <li>Payment method: Automatic bank debit or manual payment</li>
+                            <li>First payment due: [FIRST_PAYMENT_DATE]</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">5. Interest Calculation</h2>
+                        <p>Interest shall be calculated on the outstanding principal balance using the simple interest method:</p>
+                        <ul class="mb-4">
+                            <li>Interest Rate: {{ company.default_interest_rate|default:12.5 }}% per annum</li>
+                            <li>Calculation Method: Simple interest on reducing balance</li>
+                            <li>Accrual Period: From disbursement date to final settlement</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">6. Late Payment Penalties</h2>
+                        <p>In the event of late payment:</p>
+                        <ul class="mb-4">
+                            <li>Late fee of KSh {{ company.late_fee_fixed|default:500|intcomma }} or {{ company.late_fee_percentage|default:2.0 }}% of outstanding amount</li>
+                            <li>Interest will continue to accrue on overdue amounts</li>
+                            <li>Credit bureau reporting for payments overdue by more than 30 days</li>
+                            <li>Collection procedures may be initiated</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">7. Prepayment</h2>
+                        <p>The Borrower may prepay the loan in full or in part at any time without penalty. Prepayments will be applied to reduce the outstanding principal balance.</p>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">8. Default</h2>
+                        <p>The loan shall be considered in default if:</p>
+                        <ul class="mb-4">
+                            <li>Any payment is more than 30 days overdue</li>
+                            <li>Borrower provides false information</li>
+                            <li>Borrower becomes insolvent or files for bankruptcy</li>
+                            <li>Borrower violates any terms of this agreement</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">9. Security and Collateral</h2>
+                        <p>As security for this loan, the Borrower provides:</p>
+                        <ul class="mb-4">
+                            <li>[COLLATERAL_DESCRIPTION]</li>
+                            <li>Assignment of [ASSIGNMENT_DETAILS]</li>
+                            <li>Guarantee from [GUARANTOR_DETAILS]</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">10. Representations and Warranties</h2>
+                        <p>The Borrower represents and warrants that:</p>
+                        <ul class="mb-4">
+                            <li>All information provided is true and complete</li>
+                            <li>The loan will be used for lawful purposes</li>
+                            <li>The Borrower has the authority to enter this agreement</li>
+                            <li>No legal proceedings are pending that would affect repayment ability</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">11. Insurance</h2>
+                        <p>The Borrower may be required to obtain appropriate insurance coverage for any collateral securing the loan. Insurance costs, if applicable, will be disclosed prior to loan disbursement.</p>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">12. Governing Law</h2>
+                        <p>This Agreement shall be governed by the {{ company.governing_law|default:"Laws of Kenya" }}. Any disputes shall be resolved through arbitration in {{ company.jurisdiction|default:"Nairobi, Kenya" }}, under the rules of the {{ company.arbitration_rules|default:"Kenyan Centre for Arbitration" }}.</p>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">13. Entire Agreement</h2>
+                        <p>This Agreement, together with any schedules and attachments, constitutes the entire agreement between the parties and supersedes all prior negotiations, representations, or agreements.</p>
+
+                        <div class="alert alert-warning mt-4">
+                            <h5 class="alert-heading">Important Notice</h5>
+                            <p class="mb-0">Please read this agreement carefully before signing. By proceeding with the loan application, you acknowledge that you have read, understood, and agree to be bound by all terms and conditions herein.</p>
+                        </div>
+
+                        <div class="mt-4">
+                            <p><strong>{{ company.company_name|default:"FlexiFinance Limited" }}</strong><br>
+                            License No: {{ company.license_number|default:"P05123456789" }}<br>
+                            Central Bank of Kenya Registration: {{ company.cbk_registration|default:"CBK/RG/234567" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

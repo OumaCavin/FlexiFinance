@@ -1,0 +1,458 @@
+{% extends "base.html" %}
+
+{% block title %}Education Loans - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Hero Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-4">Education Loans</h1>
+            <p class="lead text-muted">Invest in your future with education financing solutions designed for students and professionals</p>
+        </div>
+    </div>
+    
+    <!-- Education Loan Calculator Banner -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card bg-gradient text-white border-0">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="mb-2">Calculate Your Education Loan</h3>
+                            <p class="mb-0">See how much you can borrow for your education and what your payments would be</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <a href="{% url 'loan_calculator' %}" class="btn btn-light btn-lg">
+                                <i class="fas fa-calculator me-2"></i>Calculate Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Education Loan Products -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Education Financing Solutions</h2>
+            <p class="text-muted">Choose the right financing option for your educational needs</p>
+        </div>
+        
+        <!-- University Tuition Loan -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-university text-primary fa-2x"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title text-center mb-3">University Tuition Loan</h4>
+                    <p class="card-text text-muted mb-4">Fund your university education with flexible repayment terms</p>
+                    
+                    <div class="mt-auto">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Amount: KSh 100,000 - 1,000,000</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interest: 1.5% per month</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 12-48 months</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Grace period: 6 months after graduation</li>
+                        </ul>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-primary btn-sm" 
+                                    onclick="showLoanDetails('University Tuition Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Professional Course Loan -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-graduation-cap text-success fa-2x"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title text-center mb-3">Professional Course Loan</h4>
+                    <p class="card-text text-muted mb-4">Advance your career with professional development courses</p>
+                    
+                    <div class="mt-auto">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Amount: KSh 25,000 - 200,000</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interest: 1.8% per month</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 6-24 months</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Fast approval for skill development</li>
+                        </ul>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-success">
+                                <i class="fas fa-paper-plane me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-success btn-sm" 
+                                    onclick="showLoanDetails('Professional Course Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vocational Training Loan -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-tools text-info fa-2x"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title text-center mb-3">Vocational Training Loan</h4>
+                    <p class="card-text text-muted mb-4">Learn practical skills with affordable vocational training loans</p>
+                    
+                    <div class="mt-auto">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Amount: KSh 15,000 - 150,000</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interest: 2.0% per month</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 3-18 months</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No collateral required</li>
+                        </ul>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-info">
+                                <i class="fas fa-paper-plane me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-info btn-sm" 
+                                    onclick="showLoanDetails('Vocational Training Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Features -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Why Choose FlexiFinance Education Loans?</h2>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-graduation-cap text-primary fa-2x"></i>
+                </div>
+                <h5>Student-Friendly Terms</h5>
+                <p class="text-muted">Grace period after graduation</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-percentage text-success fa-2x"></i>
+                </div>
+                <h5>Low Interest Rates</h5>
+                <p class="text-muted">Competitive rates from 1.5% monthly</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-clock text-info fa-2x"></i>
+                </div>
+                <h5>Flexible Repayment</h5>
+                <p class="text-muted">Pay after you start earning</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-handshake text-warning fa-2x"></i>
+                </div>
+                <h5>No Co-signer Required</h5>
+                <p class="text-muted">Apply independently</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Eligibility -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <h3 class="text-center mb-4">Eligibility Requirements</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-user-graduate text-primary me-3"></i>Age: 18-35 years</li>
+                                <li class="mb-3"><i class="fas fa-file-alt text-primary me-3"></i>Acceptance letter from institution</li>
+                                <li class="mb-3"><i class="fas fa-id-card text-primary me-3"></i>Kenyan citizen or resident</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-mobile text-primary me-3"></i>Active M-Pesa number</li>
+                                <li class="mb-3"><i class="fas fa-bank text-primary me-3"></i>Bank account or mobile money</li>
+                                <li class="mb-3"><i class="fas fa-phone text-primary me-3"></i>Guardian contact (for students under 21)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loan Calculator -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="mb-3">Education Loan Calculator</h3>
+                            <p class="text-muted mb-0">Calculate your monthly payments and see how education financing fits your budget</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <a href="{% url 'loan_calculator' %}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calculator me-2"></i>Calculate Payments
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Testimonials -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Success Stories</h2>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Student">
+                        <div>
+                            <h6 class="mb-1">Michael T.</h6>
+                            <small class="text-muted">Computer Science Student</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "FlexiFinance education loan helped me complete my degree in Computer Science. 
+                        The grace period after graduation was a huge relief."
+                    </p>
+                    <div class="text-warning mt-2">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Professional">
+                        <div>
+                            <h6 class="mb-1">Alice K.</h6>
+                            <small class="text-muted">Marketing Professional</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "Got a professional course loan for digital marketing certification. 
+                        It boosted my career and I paid it off within 8 months."
+                    </p>
+                    <div class="text-warning mt-2">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Graduate">
+                        <div>
+                            <h6 class="mb-1">David M.</h6>
+                            <small class="text-muted">Engineering Graduate</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "The vocational training loan helped me learn welding skills. 
+                        Now I run my own workshop and employ 3 people!"
+                    </p>
+                    <div class="text-warning mt-2">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-primary text-white text-center">
+                <div class="card-body p-5">
+                    <h2 class="mb-3">Invest in Your Future Today</h2>
+                    <p class="mb-4 lead">Don't let financial constraints hold back your educational dreams</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
+                            <i class="fas fa-rocket me-2"></i>Apply for Education Loan
+                        </a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-phone me-2"></i>Speak to Education Advisor
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Details Modal -->
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loanModalTitle">Loan Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="loanModalContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                    <i class="fas fa-paper-plane me-2"></i>Apply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoanDetails(loanName) {
+    const modalContent = document.getElementById('loanModalContent');
+    const modalTitle = document.getElementById('loanModalTitle');
+    
+    modalTitle.textContent = loanName + ' - Detailed Information';
+    
+    let loanDetails = '';
+    
+    // Customize content based on loan type
+    if (loanName === 'University Tuition Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Cover full tuition fees</li>
+                        <li>6-month grace period after graduation</li>
+                        <li>Low interest rates for students</li>
+                        <li>Flexible repayment plans</li>
+                        <li>No co-signer required</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>University acceptance letter</li>
+                        <li>Academic transcripts</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Guardian details (for students under 21)</li>
+                        <li>Minimum age: 18 years</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-primary">
+                <i class="fas fa-university me-2"></i>
+                Invest in your future with comprehensive university funding.
+            </div>
+        `;
+    } else if (loanName === 'Professional Course Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Fast approval for skill development</li>
+                        <li>Competitive rates for professionals</li>
+                        <li>Short repayment periods</li>
+                        <li>Course-specific funding</li>
+                        <li>Career advancement support</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Course enrollment confirmation</li>
+                        <li>Employment or income proof</li>
+                        <li>Professional certification goals</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa account</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-success">
+                <i class="fas fa-graduation-cap me-2"></i>
+                Advance your career with professional development courses.
+            </div>
+        `;
+    } else if (loanName === 'Vocational Training Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Affordable vocational training funding</li>
+                        <li>No collateral required</li>
+                        <li>Quick approval process</li>
+                        <li>Practical skills focus</li>
+                        <li>Employment placement support</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Training program acceptance</li>
+                        <li>Basic education proof</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Age: 18-35 years</li>
+                        <li>Commitment to complete training</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <i class="fas fa-tools me-2"></i>
+                Learn practical skills that lead to immediate employment opportunities.
+            </div>
+        `;
+    }
+    
+    modalContent.innerHTML = loanDetails;
+    
+    const modal = new bootstrap.Modal(document.getElementById('loanModal'));
+    modal.show();
+}
+</script>
+{% endblock %}

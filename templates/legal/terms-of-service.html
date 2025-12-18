@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Terms of Service - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-white rounded-3 shadow-sm p-5">
+                    <h1 class="display-5 fw-bold text-primary mb-4">Terms of Service</h1>
+                    <p class="text-muted mb-4">Last updated: {{ last_updated }}</p>
+                    
+                    <div class="content">
+                        <h2 class="h4 fw-bold text-dark mb-3">1. Acceptance of Terms</h2>
+                        <p>By accessing and using FlexiFinance services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">2. Loan Services</h2>
+                        <p>FlexiFinance provides microfinance and loan services to individuals and businesses in Kenya. Our services include:</p>
+                        <ul class="mb-4">
+                            <li>Personal loans for individuals</li>
+                            <li>Business loans for SMEs</li>
+                            <li>Emergency loans for urgent financial needs</li>
+                            <li>Financial advisory and support services</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">3. Eligibility Requirements</h2>
+                        <p>To be eligible for our services, you must:</p>
+                        <ul class="mb-4">
+                            <li>Be at least 18 years of age</li>
+                            <li>Be a Kenyan citizen or legal resident</li>
+                            <li>Have a valid national ID or passport</li>
+                            <li>Meet our credit and income requirements</li>
+                            <li>Provide accurate and complete information</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">4. Application Process</h2>
+                        <p>All loan applications are subject to:</p>
+                        <ul class="mb-4">
+                            <li>Credit assessment and verification</li>
+                            <li>Income and employment verification</li>
+                            <li>Document verification and authentication</li>
+                            <li>Compliance with regulatory requirements</li>
+                            <li>Final approval by our loan committee</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">5. Interest Rates and Fees</h2>
+                        <p>Interest rates and fees are determined based on:</p>
+                        <ul class="mb-4">
+                            <li>Credit assessment results</li>
+                            <li>Loan amount and term</li>
+                            <li>Risk profile and repayment capacity</li>
+                            <li>Market conditions and regulatory guidelines</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">6. Repayment Terms</h2>
+                        <p>Borrowers agree to:</p>
+                        <ul class="mb-4">
+                            <li>Make timely repayments as per agreed schedule</li>
+                            <li>Provide accurate bank account information</li>
+                            <li>Maintain sufficient funds for automatic debits</li>
+                            <li>Notify us of any changes to contact or payment information</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">7. Default and Collection</h2>
+                        <p>In case of default, we may:</p>
+                        <ul class="mb-4">
+                            <li>Apply late fees and penalties as specified in loan agreement</li>
+                            <li>Report to credit bureaus</li>
+                            <li>Initiate collection procedures</li>
+                            <li>Pursue legal action to recover outstanding amounts</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">8. Limitation of Liability</h2>
+                        <p>FlexiFinance shall not be liable for:</p>
+                        <ul class="mb-4">
+                            <li>Indirect, incidental, or consequential damages</li>
+                            <li>Loss of profits, data, or business opportunities</li>
+                            <li>Service interruptions beyond our control</li>
+                            <li>Third-party actions or omissions</li>
+                        </ul>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">9. Modifications</h2>
+                        <p>We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting on our website. Continued use of our services constitutes acceptance of modified terms.</p>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">10. Governing Law</h2>
+                        <p>These terms shall be governed by and construed in accordance with the laws of Kenya. Any disputes shall be resolved in the courts of Kenya.</p>
+
+                        <h2 class="h4 fw-bold text-dark mb-3">11. Contact Information</h2>
+                        <p>For questions about these Terms of Service, please contact us:</p>
+                        <div class="bg-light p-3 rounded mb-4">
+                            <p class="mb-1"><strong>Email:</strong> legal@flexifinance.co.ke</p>
+                            <p class="mb-1"><strong>Phone:</strong> +254 700 123 456</p>
+                            <p class="mb-0"><strong>Address:</strong> FlexiFinance Limited, Kimathi Street, Nairobi, Kenya</p>
+                        </div>
+</p>
+                        <div class="alert alert-info">
+                            <small>These Terms of Service are effective as of {{ last_updated }} and constitute the entire agreement between you and FlexiFinance.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

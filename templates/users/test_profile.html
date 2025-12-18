@@ -1,0 +1,681 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile Forms Test - FlexiFinance{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Profile Test</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Profile Forms Test</h3>
+                </div>
+                <div class="card-body">
+                    
+                    <!-- Display Django messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <!-- Test Results -->
+                    {% if test_results %}
+                        <div class="alert alert-info">
+                            <h5>Test Results:</h5>
+                            {% for result in test_results %}
+                                <p>{{ result }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Current User Data -->
+                    <div class="alert alert-success">
+                        <h5>Current User Data:</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>Identity:</strong> {{ user.first_name|default:"None" }} {{ user.middle_name|default:"" }} {{ user.last_name|default:"None" }}</li>
+                                    <li><strong>Date of Birth:</strong> {{ user.date_of_birth|default:"None" }}</li>
+                                    <li><strong>National ID:</strong> {{ user.national_id|default:"None" }}</li>
+                                    <li><strong>Phone:</strong> {{ user.phone_number|default:"None" }}</li>
+                                    <li><strong>Address:</strong> {{ user.address|default:"None" }}</li>
+                                    <li><strong>Location:</strong> {{ user.city|default:"None" }}, {{ user.county|default:"None" }}, {{ user.country|default:"None" }}</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>Occupation:</strong> {{ user.occupation|default:"None" }}</li>
+                                    <li><strong>Employer:</strong> {{ user.employer_name|default:"None" }}</li>
+                                    <li><strong>Monthly Income:</strong> KES {{ user.monthly_income|default:"None" }}</li>
+                                    <li><strong>Employment Duration:</strong> {{ user.employment_duration|default:"None" }} months</li>
+                                    <li><strong>Emergency Contact:</strong> {{ user.emergency_contact_name|default:"None" }} ({{ user.emergency_contact_relationship|default:"None" }})</li>
+                                    <li><strong>Emergency Phone:</strong> {{ user.emergency_contact_phone|default:"None" }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Identity Form Test -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Identity Form Test</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="identity-form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>First Name:</label>
+                                        <input type="text" name="first_name" class="form-control" value="{{ user.first_name }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Last Name:</label>
+                                        <input type="text" name="last_name" class="form-control" value="{{ user.last_name }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Middle Name:</label>
+                                        <input type="text" name="middle_name" class="form-control" value="{{ user.middle_name }}">
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label>Date of Birth:</label>
+                                        <input type="date" name="date_of_birth" class="form-control" value="{{ user.date_of_birth|date:'Y-m-d' }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>National ID:</label>
+                                        <input type="text" name="national_id" class="form-control" value="{{ user.national_id }}">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary mt-3" onclick="submitIdentityForm()">Test Save Identity</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form Test -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Contact Form Test</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="contact-form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Phone:</label>
+                                        <input type="text" name="phone_number" class="form-control" value="{{ user.phone_number }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>City:</label>
+                                        <input type="text" name="city" class="form-control" value="{{ user.city }}">
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label>County:</label>
+                                        <input type="text" name="county" class="form-control" value="{{ user.county }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Country:</label>
+                                        <input type="text" name="country" class="form-control" value="{{ user.country|default:'Kenya' }}">
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <label>Address:</label>
+                                        <textarea name="address" class="form-control" rows="3">{{ user.address }}</textarea>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary mt-3" onclick="submitContactForm()">Test Save Contact</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Employment Form Test -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Employment Form Test</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="employment-form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Occupation:</label>
+                                        <input type="text" name="occupation" class="form-control" value="{{ user.occupation }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Employer Name:</label>
+                                        <input type="text" name="employer_name" class="form-control" value="{{ user.employer_name }}">
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label>Monthly Income:</label>
+                                        <input type="number" step="0.01" name="monthly_income" class="form-control" value="{{ user.monthly_income }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Employment Duration (months):</label>
+                                        <input type="number" name="employment_duration" class="form-control" value="{{ user.employment_duration }}">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary mt-3" onclick="submitEmploymentForm()">Test Save Employment</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Emergency Form Test -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Emergency Contact Form Test</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="emergency-form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Emergency Contact Name:</label>
+                                        <input type="text" name="emergency_contact_name" class="form-control" value="{{ user.emergency_contact_name }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Emergency Phone:</label>
+                                        <input type="text" name="emergency_contact_phone" class="form-control" value="{{ user.emergency_contact_phone }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Relationship:</label>
+                                        <input type="text" name="emergency_contact_relationship" class="form-control" value="{{ user.emergency_contact_relationship }}">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary mt-3" onclick="submitEmergencyForm()">Test Save Emergency</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Direct Backend Test Section -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5>Direct Backend Test</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>This section tests the backend directly without forms to isolate the issue.</p>
+                            
+                            <button onclick="testDirectSubmit('identity')" class="btn btn-warning me-2">Test Direct Identity Submit</button>
+                            <button onclick="testDirectSubmit('contact')" class="btn btn-warning me-2">Test Direct Contact Submit</button>
+                            <button onclick="testDirectSubmit('employment')" class="btn btn-warning me-2">Test Direct Employment Submit</button>
+                            <button onclick="testDirectSubmit('emergency')" class="btn btn-warning">Test Direct Emergency Submit</button>
+                            
+                            <div id="direct-result" class="mt-3" style="display: none;">
+                                <div class="alert alert-warning">
+                                    <strong>Direct Test Response:</strong>
+                                    <pre id="direct-response"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AJAX Test Section -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5>AJAX Form Test</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>This section tests form submission using AJAX to isolate the issue.</p>
+                            
+                            <form id="ajax-test-form" action="{% url 'dashboard:test_profile_form_submit' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>First Name:</label>
+                                        <input type="text" name="first_name" class="form-control" value="AJAX Test">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Last Name:</label>
+                                        <input type="text" name="last_name" class="form-control" value="Form">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="form_type" value="identity">
+                                <button type="submit" class="btn btn-success mt-3">Test AJAX Submit</button>
+                            </form>
+                            
+                            <div id="ajax-result" class="mt-3" style="display: none;">
+                                <div class="alert alert-info">
+                                    <strong>AJAX Response:</strong>
+                                    <pre id="ajax-response"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <a href="{% url 'dashboard:profile' %}" class="btn btn-secondary">Back to Profile</a>
+                        <a href="{% url 'dashboard:debug_form_fields' %}" class="btn btn-info">Debug Form Fields</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("=== TEST PROFILE PAGE LOADED ===");
+    
+    // Add form submission logging
+    const forms = document.querySelectorAll('form');
+    console.log(`Found ${forms.length} forms on the page`);
+    
+    forms.forEach((form, index) => {
+        console.log(`Form ${index + 1}:`, form);
+        const formTypeInput = form.querySelector('input[name="form_type"]');
+        if (formTypeInput) {
+            console.log(`Form ${index + 1} type: ${formTypeInput.value}`);
+            console.log(`Form ${index + 1} action: ${form.action}`);
+            console.log(`Form ${index + 1} method: ${form.method}`);
+            
+            // Store reference to formTypeInput for use in event listener
+            const currentFormTypeInput = formTypeInput;
+            
+            // Add submit event listener specifically for test profile forms
+            form.addEventListener('submit', function(e) {
+                console.log('=== FORM SUBMISSION STARTED ===');
+                console.log('Form submitted:', currentFormTypeInput.value);
+                console.log('Form action:', this.action);
+                console.log('Form method:', this.method);
+                
+                // Log all form data
+                const formData = new FormData(this);
+                console.log('Form data being submitted:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`  ${key}: ${value}`);
+                }
+                
+                // Check for CSRF token
+                const csrfToken = this.querySelector('input[name="csrfmiddlewaretoken"]');
+                console.log('CSRF token present:', csrfToken ? 'Yes' : 'No');
+                
+                console.log('=== FORM SUBMISSION COMPLETE ===');
+                
+                // Add visual feedback
+                const submitBtn = this.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+                    submitBtn.disabled = true;
+                }
+            });
+            
+            // Also add click event to submit buttons
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function(e) {
+                    console.log('Submit button clicked for form:', currentFormTypeInput.value);
+                });
+            }
+        }
+    });
+    
+    // Add fallback event listeners using event delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.type === 'submit' || e.target.closest('button[type="submit"]')) {
+            const form = e.target.closest('form');
+            if (form && form.action.includes('test-profile-submit')) {
+                const formType = form.querySelector('input[name="form_type"]');
+                if (formType) {
+                    console.log('=== FALLBACK FORM DETECTION ===');
+                    console.log('Form type:', formType.value);
+                    console.log('Form action:', form.action);
+                }
+            }
+        }
+    });
+    
+    console.log("Ready to test form submissions!");
+});
+
+// Add global form submission handler
+window.addEventListener('beforeunload', function() {
+    console.log('Page unloading - form submission may have occurred');
+});
+
+// Direct backend test function
+function testDirectSubmit(formType) {
+    console.log('=== DIRECT BACKEND TEST ===');
+    console.log('Testing form type:', formType);
+    
+    // Create form data
+    const formData = new FormData();
+    formData.append('form_type', formType);
+    
+    // Add test data based on form type
+    if (formType === 'identity') {
+        formData.append('first_name', 'DirectTest');
+        formData.append('last_name', 'User');
+        formData.append('middle_name', 'M');
+        formData.append('date_of_birth', '1990-01-01');
+        formData.append('national_id', '12345678');
+    } else if (formType === 'contact') {
+        formData.append('phone_number', '+254712345678');
+        formData.append('address', 'Test Address');
+        formData.append('city', 'Nairobi');
+        formData.append('county', 'Nairobi County');
+        formData.append('country', 'Kenya');
+    } else if (formType === 'employment') {
+        formData.append('occupation', 'Software Developer');
+        formData.append('employer_name', 'Test Company');
+        formData.append('monthly_income', '50000');
+        formData.append('employment_duration', '24');
+    } else if (formType === 'emergency') {
+        formData.append('emergency_contact_name', 'Emergency Contact');
+        formData.append('emergency_contact_phone', '+254798765432');
+        formData.append('emergency_contact_relationship', 'Friend');
+    }
+    
+    // Add CSRF token
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    formData.append('csrfmiddlewaretoken', csrfToken);
+    
+    console.log('Direct test form data:', Object.fromEntries(formData));
+    
+    // Submit to backend
+    fetch('{% url "dashboard:test_profile_form_submit" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Direct test response:', data);
+        document.getElementById('direct-result').style.display = 'block';
+        document.getElementById('direct-response').textContent = JSON.stringify(data, null, 2);
+    })
+    .catch(error => {
+        console.error('Direct test error:', error);
+        document.getElementById('direct-result').style.display = 'block';
+        document.getElementById('direct-response').textContent = 'Error: ' + error.message;
+    });
+}
+
+// Contact form submission function
+function submitContactForm() {
+    console.log('=== CONTACT FORM SUBMISSION ===');
+    
+    const form = document.getElementById('contact-form');
+    const formData = new FormData(form);
+    formData.append('form_type', 'contact');
+    
+    console.log('Contact form data:', Object.fromEntries(formData));
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="button"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+    submitBtn.disabled = true;
+    
+    // Submit to backend
+    fetch('{% url "dashboard:test_profile_form_submit" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Contact form response:', data);
+        
+        // Show success message
+        showMessage('success', 'Contact form saved successfully!');
+        
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    })
+    .catch(error => {
+        console.error('Contact form error:', error);
+        
+        // Show error message
+        showMessage('error', 'Error: ' + error.message);
+        
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+}
+
+// Employment form submission function
+function submitEmploymentForm() {
+    console.log('=== EMPLOYMENT FORM SUBMISSION ===');
+    
+    const form = document.getElementById('employment-form');
+    const formData = new FormData(form);
+    formData.append('form_type', 'employment');
+    
+    console.log('Employment form data:', Object.fromEntries(formData));
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="button"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+    submitBtn.disabled = true;
+    
+    // Submit to backend
+    fetch('{% url "dashboard:test_profile_form_submit" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Employment form response:', data);
+        
+        // Show success message
+        showMessage('success', 'Employment form saved successfully!');
+        
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    })
+    .catch(error => {
+        console.error('Employment form error:', error);
+        
+        // Show error message
+        showMessage('error', 'Error: ' + error.message);
+        
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+}
+
+// Emergency form submission function
+function submitEmergencyForm() {
+    console.log('=== EMERGENCY FORM SUBMISSION ===');
+    
+    const form = document.getElementById('emergency-form');
+    const formData = new FormData(form);
+    formData.append('form_type', 'emergency');
+    
+    console.log('Emergency form data:', Object.fromEntries(formData));
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="button"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+    submitBtn.disabled = true;
+    
+    // Submit to backend
+    fetch('{% url "dashboard:test_profile_form_submit" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Emergency form response:', data);
+        
+        // Show success message
+        showMessage('success', 'Emergency form saved successfully!');
+        
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    })
+    .catch(error => {
+        console.error('Emergency form error:', error);
+        
+        // Show error message
+        showMessage('error', 'Error: ' + error.message);
+        
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+}
+
+// Identity form submission function
+function submitIdentityForm() {
+    console.log('=== IDENTITY FORM SUBMISSION ===');
+    
+    const form = document.getElementById('identity-form');
+    const formData = new FormData(form);
+    formData.append('form_type', 'identity');
+    
+    console.log('Identity form data:', Object.fromEntries(formData));
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="button"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+    submitBtn.disabled = true;
+    
+    // Submit to backend
+    fetch('{% url "dashboard:test_profile_form_submit" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Identity form response:', data);
+        
+        // Show success message
+        showMessage('success', 'Identity form saved successfully!');
+        
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    })
+    .catch(error => {
+        console.error('Identity form error:', error);
+        
+        // Show error message
+        showMessage('error', 'Error: ' + error.message);
+        
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+}
+
+// Helper function to show messages
+function showMessage(type, message) {
+    console.log('=== SHOW MESSAGE CALLED ===');
+    console.log('Type:', type);
+    console.log('Message:', message);
+    
+    // Create message element
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+    messageDiv.style.position = 'fixed';
+    messageDiv.style.top = '20px';
+    messageDiv.style.left = '50%';
+    messageDiv.style.transform = 'translateX(-50%)';
+    messageDiv.style.zIndex = '9999';
+    messageDiv.style.minWidth = '400px';
+    messageDiv.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+    messageDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Try to insert at top of content area first
+    const contentContainer = document.querySelector('.container-fluid');
+    const breadcrumb = document.querySelector('.breadcrumb');
+    
+    if (contentContainer && breadcrumb) {
+        // Insert after breadcrumb if it exists
+        breadcrumb.parentNode.insertBefore(messageDiv, breadcrumb.nextSibling);
+        console.log('Message inserted after breadcrumb');
+    } else if (contentContainer) {
+        // Insert at top of content if breadcrumb doesn't exist
+        contentContainer.insertBefore(messageDiv, contentContainer.firstChild);
+        console.log('Message inserted at top of content');
+    } else {
+        // Fallback: append to body if nothing else works
+        document.body.appendChild(messageDiv);
+        console.log('Message appended to body');
+    }
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        if (messageDiv.parentNode) {
+            messageDiv.remove();
+            console.log('Message auto-removed after 5 seconds');
+        }
+    }, 5000);
+    
+    console.log('Message display setup complete');
+}
+
+// Handle AJAX test form
+document.getElementById('ajax-test-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    console.log('=== AJAX FORM SUBMISSION ===');
+    
+    const formData = new FormData(this);
+    const formType = formData.get('form_type');
+    
+    console.log('AJAX form type:', formType);
+    console.log('AJAX form data:', Object.fromEntries(formData));
+    
+    fetch('{% url "dashboard:test_profile_form_submit" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('AJAX response:', data);
+        document.getElementById('ajax-result').style.display = 'block';
+        document.getElementById('ajax-response').textContent = JSON.stringify(data, null, 2);
+    })
+    .catch(error => {
+        console.error('AJAX error:', error);
+        document.getElementById('ajax-result').style.display = 'block';
+        document.getElementById('ajax-response').textContent = 'Error: ' + error.message;
+    });
+});
+</script>
+{% endblock %}

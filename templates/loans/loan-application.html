@@ -1,0 +1,538 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Loan Application - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-light py-4">
+    <div class="container">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-4">
+                    <h1 class="display-5 fw-bold text-primary">Apply for a Loan</h1>
+                    <p class="lead text-muted">Quick, secure, and transparent loan application process</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="bg-white rounded-3 shadow-sm p-5">
+                    <form id="loanApplicationForm" method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <!-- Progress Bar -->
+                        <div class="progress mb-4" style="height: 8px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 25%" id="progressBar"></div>
+                        </div>
+
+                        <!-- Step 1: Personal Information -->
+                        <div class="form-step" id="step1">
+                            <h3 class="h4 fw-bold text-dark mb-4">Personal Information</h3>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">First Name *</label>
+                                    <input type="text" class="form-control" id="firstName" name="first_name" required>
+                                    <div class="invalid-feedback">Please provide your first name.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">Last Name *</label>
+                                    <input type="text" class="form-control" id="lastName" name="last_name" required>
+                                    <div class="invalid-feedback">Please provide your last name.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <div class="invalid-feedback">Please provide a valid email address.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Phone Number *</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="+254 700 000 000" required>
+                                    <div class="invalid-feedback">Please provide your phone number.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="idNumber" class="form-label">National ID Number *</label>
+                                    <input type="text" class="form-control" id="idNumber" name="id_number" required>
+                                    <div class="invalid-feedback">Please provide your ID number.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="dateOfBirth" class="form-label">Date of Birth *</label>
+                                    <input type="date" class="form-control" id="dateOfBirth" name="date_of_birth" required>
+                                    <div class="invalid-feedback">Please provide your date of birth.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Loan Details -->
+                        <div class="form-step d-none" id="step2">
+                            <h3 class="h4 fw-bold text-dark mb-4">Loan Details</h3>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="loanAmount" class="form-label">Loan Amount (KSh) *</label>
+                                    <select class="form-select" id="loanAmount" name="loan_amount" required>
+                                        <option value="">Select loan amount</option>
+                                        <option value="5000">KSh 5,000</option>
+                                        <option value="10000">KSh 10,000</option>
+                                        <option value="25000">KSh 25,000</option>
+                                        <option value="50000">KSh 50,000</option>
+                                        <option value="100000">KSh 100,000</option>
+                                        <option value="200000">KSh 200,000</option>
+                                        <option value="500000">KSh 500,000</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select a loan amount.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="loanPurpose" class="form-label">Loan Purpose *</label>
+                                    <select class="form-select" id="loanPurpose" name="loan_purpose" required>
+                                        <option value="">Select purpose</option>
+                                        <option value="business">Business Expansion</option>
+                                        <option value="education">Education</option>
+                                        <option value="medical">Medical Expenses</option>
+                                        <option value="emergency">Emergency</option>
+                                        <option value="home_improvement">Home Improvement</option>
+                                        <option value="debt_consolidation">Debt Consolidation</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select loan purpose.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="loanTenure" class="form-label">Repayment Period *</label>
+                                    <select class="form-select" id="loanTenure" name="loan_tenure" required>
+                                        <option value="">Select tenure</option>
+                                        <option value="3">3 Months</option>
+                                        <option value="6">6 Months</option>
+                                        <option value="12">12 Months</option>
+                                        <option value="24">24 Months</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select repayment period.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="monthlyIncome" class="form-label">Monthly Income (KSh) *</label>
+                                    <select class="form-select" id="monthlyIncome" name="monthly_income" required>
+                                        <option value="">Select income range</option>
+                                        <option value="5000-15000">KSh 5,000 - 15,000</option>
+                                        <option value="15000-30000">KSh 15,000 - 30,000</option>
+                                        <option value="30000-50000">KSh 30,000 - 50,000</option>
+                                        <option value="50000-100000">KSh 50,000 - 100,000</option>
+                                        <option value="100000+">KSh 100,000+</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select your income range.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Employment Information -->
+                        <div class="form-step d-none" id="step3">
+                            <h3 class="h4 fw-bold text-dark mb-4">Employment Information</h3>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="employmentStatus" class="form-label">Employment Status *</label>
+                                    <select class="form-select" id="employmentStatus" name="employment_status" required>
+                                        <option value="">Select status</option>
+                                        <option value="employed">Employed</option>
+                                        <option value="self_employed">Self Employed</option>
+                                        <option value="business_owner">Business Owner</option>
+                                        <option value="farmer">Farmer</option>
+                                        <option value="student">Student</option>
+                                        <option value="retired">Retired</option>
+                                        <option value="unemployed">Unemployed</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select employment status.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="employerName" class="form-label">Employer/Business Name</label>
+                                    <input type="text" class="form-control" id="employerName" name="employer_name">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="workExperience" class="form-label">Years of Work Experience</label>
+                                    <select class="form-select" id="workExperience" name="work_experience">
+                                        <option value="">Select experience</option>
+                                        <option value="0-1">Less than 1 year</option>
+                                        <option value="1-3">1-3 years</option>
+                                        <option value="3-5">3-5 years</option>
+                                        <option value="5-10">5-10 years</option>
+                                        <option value="10+">More than 10 years</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="workPhone" class="form-label">Work Phone Number</label>
+                                    <input type="tel" class="form-control" id="workPhone" name="work_phone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: References -->
+                        <div class="form-step d-none" id="step4">
+                            <h3 class="h4 fw-bold text-dark mb-4">References</h3>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="text-primary">Reference 1</h5>
+                                    <label for="ref1Name" class="form-label">Full Name *</label>
+                                    <input type="text" class="form-control" id="ref1Name" name="ref1_name" required>
+                                    <div class="invalid-feedback">Please provide reference name.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ref1Phone" class="form-label">Phone Number *</label>
+                                    <input type="tel" class="form-control" id="ref1Phone" name="ref1_phone" required>
+                                    <div class="invalid-feedback">Please provide reference phone.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ref1Relationship" class="form-label">Relationship *</label>
+                                    <select class="form-select" id="ref1Relationship" name="ref1_relationship" required>
+                                        <option value="">Select relationship</option>
+                                        <option value="family">Family Member</option>
+                                        <option value="friend">Friend</option>
+                                        <option value="colleague">Colleague</option>
+                                        <option value="neighbor">Neighbor</option>
+                                        <option value="business">Business Associate</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select relationship.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ref2Name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="ref2Name" name="ref2_name">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ref2Phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="ref2Phone" name="ref2_phone">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ref2Relationship" class="form-label">Relationship</label>
+                                    <select class="form-select" id="ref2Relationship" name="ref2_relationship">
+                                        <option value="">Select relationship</option>
+                                        <option value="family">Family Member</option>
+                                        <option value="friend">Friend</option>
+                                        <option value="colleague">Colleague</option>
+                                        <option value="neighbor">Neighbor</option>
+                                        <option value="business">Business Associate</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Documents & Consent -->
+                        <div class="form-step d-none" id="step5">
+                            <h3 class="h4 fw-bold text-dark mb-4">Documents & Consent</h3>
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <h5>Required Documents</h5>
+                                    <p class="text-muted">Please have these documents ready for upload:</p>
+                                    <ul class="text-muted">
+                                        <li>National ID or Passport copy</li>
+                                        <li>Recent passport photo</li>
+                                        <li>Proof of income (payslip, bank statement, or business records)</li>
+                                        <li>KRA PIN certificate (if applicable)</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="col-12 mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="termsConsent" name="terms_consent" required>
+                                        <label class="form-check-label" for="termsConsent">
+                                            I agree to the <a href="{% url 'terms_of_service' %}" target="_blank">Terms of Service</a> and <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a> *
+                                        </label>
+                                        <div class="invalid-feedback">You must agree to the terms and conditions.</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="creditCheck" name="credit_check" required>
+                                        <label class="form-check-label" for="creditCheck">
+                                            I consent to credit checks and authorize FlexiFinance to verify my information *
+                                        </label>
+                                        <div class="invalid-feedback">Credit check consent is required.</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="marketingConsent" name="marketing_consent">
+                                        <label class="form-check-label" for="marketingConsent">
+                                            I would like to receive promotional offers and updates via SMS and email
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation Buttons -->
+                        <div class="d-flex justify-content-between mt-5">
+                            <button type="button" class="btn btn-outline-secondary" id="prevBtn" style="display: none;">
+                                <i class="fas fa-arrow-left me-2"></i>Previous
+                            </button>
+                            <div class="ms-auto">
+                                <button type="button" class="btn btn-primary" id="nextBtn">
+                                    Next<i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                                <button type="submit" class="btn btn-success d-none" id="submitBtn">
+                                    <i class="fas fa-paper-plane me-2"></i>Submit Application
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Calculator Modal -->
+<div class="modal fade" id="calculatorModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Loan Calculator</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="calcAmount" class="form-label">Loan Amount</label>
+                            <input type="range" class="form-range" id="calcAmount" min="5000" max="500000" value="50000" step="5000">
+                            <div class="d-flex justify-content-between">
+                                <small>KSh 5,000</small>
+                                <small id="calcAmountValue">KSh 50,000</small>
+                                <small>KSh 500,000</small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="calcTenure" class="form-label">Tenure (Months)</label>
+                            <select class="form-select" id="calcTenure">
+                                <option value="3">3 Months</option>
+                                <option value="6">6 Months</option>
+                                <option value="12" selected>12 Months</option>
+                                <option value="24">24 Months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-light p-3 rounded">
+                            <h6>Monthly Payment</h6>
+                            <div class="display-6 fw-bold text-primary" id="monthlyPayment">KSh 4,583</div>
+                            <hr>
+                            <small class="text-muted">
+                                <div>Principal: <span id="principal">KSh 50,000</span></div>
+                                <div>Interest: <span id="interest">KSh 5,000</span></div>
+                                <div>Total: <span id="total">KSh 55,000</span></div>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="useThisAmount">Use This Amount</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form navigation
+    let currentStep = 1;
+    const totalSteps = 5;
+    
+    function showStep(step) {
+        // Hide all steps
+        document.querySelectorAll('.form-step').forEach(el => {
+            el.classList.add('d-none');
+        });
+        
+        // Show current step
+        document.getElementById(`step${step}`).classList.remove('d-none');
+        
+        // Update progress bar
+        const progress = (step / totalSteps) * 100;
+        document.getElementById('progressBar').style.width = `${progress}%`;
+        
+        // Update buttons
+        document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'inline-block';
+        document.getElementById('nextBtn').classList.toggle('d-none', step === totalSteps);
+        document.getElementById('submitBtn').classList.toggle('d-none', step !== totalSteps);
+    }
+    
+    // --- FIXED NEXT BUTTON LOGIC ---
+    document.getElementById('nextBtn').addEventListener('click', function() {
+        const form = document.getElementById('loanApplicationForm');
+        
+        // 1. Get the container for the current visible step
+        const currentStepDiv = document.getElementById(`step${currentStep}`);
+        
+        // 2. Select only the inputs/selects in this specific step
+        const currentInputs = currentStepDiv.querySelectorAll('input, select, textarea');
+        
+        // 3. Check validity ONLY for these inputs
+        let isStepValid = true;
+        currentInputs.forEach(input => {
+            if (!input.checkValidity()) {
+                isStepValid = false;
+            }
+        });
+
+        if (isStepValid) {
+            // Remove validation styling from previous attempts
+            form.classList.remove('was-validated');
+            
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+                // Scroll to top of form smoothly
+                document.getElementById('progressBar').scrollIntoView({ behavior: 'smooth' });
+            }
+        } else {
+            // Trigger browser validation UI (red borders)
+            form.classList.add('was-validated');
+            
+            // Optional: Find the first invalid input and focus it
+            const firstInvalid = Array.from(currentInputs).find(input => !input.checkValidity());
+            if (firstInvalid) firstInvalid.focus();
+        }
+    });
+    
+    // Previous button
+    document.getElementById('prevBtn').addEventListener('click', function() {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    });
+    
+    // Form submission
+    document.getElementById('loanApplicationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = this;
+        
+        console.log('Form submission started'); // Debug logging
+        
+        if (form.checkValidity()) {
+            console.log('Form is valid, preparing to submit'); // Debug logging
+            
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+            submitBtn.disabled = true;
+            
+            // Get CSRF token
+            const csrfTokenInput = document.querySelector('[name=csrfmiddlewaretoken]');
+            const csrfToken = csrfTokenInput ? csrfTokenInput.value : '';
+            console.log('CSRF Token:', csrfToken ? 'Found' : 'Not found'); // Debug logging
+            
+            // Create form data object for JSON submission
+            const formDataObj = {};
+            for (let [key, value] of new FormData(form).entries()) {
+                formDataObj[key] = value;
+            }
+            
+            // Handle checkboxes specifically (FormData only sends them if checked)
+            formDataObj['terms_consent'] = document.getElementById('termsConsent').checked;
+            formDataObj['credit_check'] = document.getElementById('creditCheck').checked;
+            formDataObj['marketing_consent'] = document.getElementById('marketingConsent').checked;
+            
+            console.log('Form data to submit:', formDataObj); // Debug logging
+
+            // Submit form using fetch with JSON
+            fetch('{% url "loans:loan_application" %}', {
+                method: 'POST',
+                body: JSON.stringify(formDataObj),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                console.log('Response received:', response.status, response.statusText); // Debug logging
+                console.log('Response headers:', response.headers); // Debug logging
+                
+                if (response.headers.get('content-type').includes('application/json')) {
+                    return response.json();
+                } else {
+                    // If not JSON, assume it's a redirect or HTML response
+                    return { success: true, redirect: '/' };
+                }
+            })
+            .then(data => {
+                console.log('Response data:', data); // Debug logging
+                if (data.success) {
+                    // Success handling
+                    const container = document.querySelector('.bg-white');
+                    container.innerHTML = `
+                        <div class="text-center py-5">
+                            <i class="fas fa-check-circle text-success fa-5x mb-4"></i>
+                            <h2 class="mb-3">Application Submitted!</h2>
+                            <p class="lead mb-4">${data.message || 'We have received your loan application.'}</p>
+                            <div class="alert alert-light border">
+                                Reference ID: <strong>${data.data ? data.data.loan_reference : 'N/A'}</strong>
+                            </div>
+                            <div class="mt-4">
+                                <a href="{% url 'dashboard:dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+                            </div>
+                        </div>
+                    `;
+                    // Scroll to top
+                    container.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error(data.error || 'Submission failed');
+                }
+            })
+            .catch(error => {
+                console.error('Form submission error:', error);
+                console.error('Error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
+                alert('An error occurred while submitting the application. Please try again. Check console for details.');
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Application';
+                submitBtn.disabled = false;
+            });
+        } else {
+            form.classList.add('was-validated');
+        }
+    });
+    
+    // Loan calculator
+    const calcAmount = document.getElementById('calcAmount');
+    const calcAmountValue = document.getElementById('calcAmountValue');
+    const calcTenure = document.getElementById('calcTenure');
+    const monthlyPayment = document.getElementById('monthlyPayment');
+    const principal = document.getElementById('principal');
+    const interest = document.getElementById('interest');
+    const total = document.getElementById('total');
+    
+    function updateCalculator() {
+        const amount = parseInt(calcAmount.value);
+        const tenure = parseInt(calcTenure.value);
+        const rate = 0.15; // 15% annual rate
+        
+        const monthlyRate = rate / 12;
+        const monthlyPaymentAmount = amount * (monthlyRate * Math.pow(1 + monthlyRate, tenure)) / (Math.pow(1 + monthlyRate, tenure) - 1);
+        const totalAmount = monthlyPaymentAmount * tenure;
+        const totalInterest = totalAmount - amount;
+        
+        calcAmountValue.textContent = `KSh ${amount.toLocaleString()}`;
+        monthlyPayment.textContent = `KSh ${Math.round(monthlyPaymentAmount).toLocaleString()}`;
+        principal.textContent = `KSh ${amount.toLocaleString()}`;
+        interest.textContent = `KSh ${Math.round(totalInterest).toLocaleString()}`;
+        total.textContent = `KSh ${Math.round(totalAmount).toLocaleString()}`;
+    }
+    
+    calcAmount.addEventListener('input', updateCalculator);
+    calcTenure.addEventListener('change', updateCalculator);
+    
+    // Use calculator amount
+    document.getElementById('useThisAmount').addEventListener('click', function() {
+        const amount = calcAmount.value;
+        document.getElementById('loanAmount').value = amount;
+        bootstrap.Modal.getInstance(document.getElementById('calculatorModal')).hide();
+    });
+    
+    // Initialize
+    updateCalculator();
+});
+</script>
+{% endblock %}

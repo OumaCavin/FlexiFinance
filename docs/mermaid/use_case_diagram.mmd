@@ -1,0 +1,73 @@
+graph TB
+    subgraph Actors
+        Borrower[🏦 Borrower]
+        Admin[👤 Loan Officer/Admin]
+        MPesa[⚙️ M-Pesa System]
+    end
+    
+    subgraph "Borrower Use Cases"
+        UC1[📝 Register Account]
+        UC2[📋 Complete KYC]
+        UC3[💰 Apply for Loan]
+        UC4[📄 Upload Documents]
+        UC5[📊 Track Application]
+        UC6[💳 Repay Loan]
+        UC7[📈 View History]
+        UC8[👤 Update Profile]
+    end
+    
+    subgraph "Admin Use Cases"
+        UC9[🔍 Review Applications]
+        UC10[✅ Approve/Reject Loan]
+        UC11[👥 Manage Users]
+        UC12[📊 Generate Reports]
+        UC13[⚙️ Configure Settings]
+        UC14[🛠️ Handle Disputes]
+    end
+    
+    subgraph "System Use Cases"
+        UC15[💸 Process M-Pesa Payment]
+        UC16[📧 Send Notifications]
+        UC17[🧮 Calculate Interest]
+    end
+    
+    %% Actor to Use Case connections
+    Borrower --> UC1
+    Borrower --> UC2
+    Borrower --> UC3
+    Borrower --> UC4
+    Borrower --> UC5
+    Borrower --> UC6
+    Borrower --> UC7
+    Borrower --> UC8
+    
+    Admin --> UC9
+    Admin --> UC10
+    Admin --> UC11
+    Admin --> UC12
+    Admin --> UC13
+    Admin --> UC14
+    
+    MPesa --> UC15
+    MPesa --> UC16
+    MPesa --> UC17
+    
+    %% Include relationships
+    UC3 -.->|includes| UC4
+    UC9 -.->|includes| UC2
+    UC6 -.->|includes| UC15
+    UC10 -.->|includes| UC17
+    
+    %% Extend relationships
+    UC5 -.->|extends| UC9
+    UC14 -.->|extends| UC12
+    
+    %% Generalization relationships
+    UC11 -.->|generalizes| UserManagement[User Management Activities]
+    UC12 -.->|generalizes| ReportTypes[Different Report Types]
+    
+    %% Additional connections
+    UC16 --> Borrower
+    UC16 --> Admin
+    UC17 --> Borrower
+    UC17 --> Admin

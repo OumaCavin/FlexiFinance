@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Loans - FlexiFinance{% endblock %}
+
+{% block extra_css %}
+<style>
+    .loans-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 3rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .loan-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border: none;
+        transition: transform 0.3s ease;
+        margin-bottom: 2rem;
+    }
+    .loan-card:hover {
+        transform: translateY(-5px);
+    }
+    .loan-status {
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    .status-approved {
+        background: #d4edda;
+        color: #155724;
+    }
+    .status-rejected {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    .status-active {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+    .status-completed {
+        background: #e2e3e5;
+        color: #383d41;
+    }
+    .loan-amount {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #667eea;
+    }
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #6c757d;
+    }
+    .empty-state-icon {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+        opacity: 0.3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="loans-header" data-aos="fade-up">
+        <h1 class="mb-3">My Loans</h1>
+        <p class="mb-0 opacity-75">Track and manage all your loan applications</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="card text-center" style="background: #f8f9fa; border: none; border-radius: 15px; padding: 1.5rem;">
+                <h3 class="text-primary mb-2">{{ stats.total_applications }}</h3>
+                <p class="text-muted mb-0">Total Applications</p>
+            </div>
+        </div>
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="card text-center" style="background: #f8f9fa; border: none; border-radius: 15px; padding: 1.5rem;">
+                <h3 class="text-success mb-2">{{ stats.approved }}</h3>
+                <p class="text-muted mb-0">Approved</p>
+            </div>
+        </div>
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="card text-center" style="background: #f8f9fa; border: none; border-radius: 15px; padding: 1.5rem;">
+                <h3 class="text-warning mb-2">{{ stats.pending }}</h3>
+                <p class="text-muted mb-0">Pending</p>
+            </div>
+        </div>
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="card text-center" style="background: #f8f9fa; border: none; border-radius: 15px; padding: 1.5rem;">
+                <h3 class="text-danger mb-2">{{ stats.rejected }}</h3>
+                <p class="text-muted mb-0">Rejected</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loan Applications -->
+    <div class="row">
+        <div class="col-12">
+            {% if loans %}
+                {% for loan in loans %}
+                <div class="loan-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:500 }}">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="mb-2">{{ loan.loan_type|default:"Personal Loan" }}</h4>
+                            <div class="mb-2">
+                                <span class="loan-status status-{{ loan.status|default:'pending' }}">
+                                    {{ loan.status|default:"Pending"|title }}
+                                </span>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <small class="text-muted">Applied: {{ loan.created_at|date:"M d, Y"|default:"Recently" }}</small>
+                                </div>
+                                <div class="col-sm-6">
+                                    <small class="text-muted">Amount: KES {{ loan.total_amount|default:loan.principal_amount|default:"0"|floatformat:0 }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="loan-amount mb-2">KES {{ loan.total_amount|default:loan.principal_amount|default:"0"|floatformat:0 }}</div>
+                            {% if loan.status == 'APPROVED' or loan.status == 'DISBURSED' or loan.status == 'ACTIVE' or loan.status == 'COMPLETED' %}
+                                <button class="btn btn-success btn-sm">
+                                    <i class="fas fa-check-circle me-1"></i>{{ loan.get_status_display }}
+                                </button>
+                            {% elif loan.status == 'DRAFT' or loan.status == 'SUBMITTED' or loan.status == 'UNDER_REVIEW' %}
+                                <button class="btn btn-warning btn-sm" disabled>
+                                    <i class="fas fa-clock me-1"></i>{{ loan.get_status_display }}
+                                </button>
+                            {% elif loan.status == 'REJECTED' %}
+                                <button class="btn btn-danger btn-sm" disabled>
+                                    <i class="fas fa-times-circle me-1"></i>{{ loan.get_status_display }}
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Empty State -->
+                <div class="empty-state" data-aos="fade-up">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3>No Loan Applications Yet</h3>
+                    <p class="mb-4">You haven't applied for any loans. Start your financial journey today!</p>
+                    <a href="{% url 'loans:loan_application' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-plus-circle me-2"></i>Apply for Your First Loan
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    {% if not loans %}
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <div class="card" style="background: #f8f9fa; border: none; border-radius: 15px; padding: 3rem;">
+                <h4 class="mb-3">Ready to Get Started?</h4>
+                <p class="text-muted mb-4">Apply for a loan in minutes with our simple application process</p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                        <i class="fas fa-rocket me-2"></i>Quick Cash Loan
+                    </a>
+                    <a href="{% url 'loan_products' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-list me-2"></i>View All Products
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Bootstrap JS already loaded in base.html -->
+
+<!-- AOS Animation -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Initialize AOS with error handling
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+    } else {
+        console.log('AOS library not loaded');
+    }
+</script>
+{% endblock %}

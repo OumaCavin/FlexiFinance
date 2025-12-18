@@ -1,0 +1,757 @@
+import os
+from pathlib import Path
+from decouple import config
+from datetime import timedelta
+
+# Using PostgreSQL as database backend (no MySQL compatibility needed)
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-flexifinance-key-change-in-production')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config('DEBUG', default=True, cast=bool)
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+
+# Application definition
+DJANGO_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+]
+
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'crispy_forms',
+    'crispy_bootstrap5',
+
+
+    # 'celery',  # Temporarily disabled for diagnostic
+    'django_filters',
+    'django_extensions',
+    # 'import_export',  # Temporarily disabled for diagnostic
+]
+
+LOCAL_APPS = [
+    'apps.core',
+    'apps.users',
+    'apps.loans',
+    'apps.payments',
+    'apps.notifications',
+    'apps.documents',
+]
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # CORS must be first
+    'django.middleware.security.SecurityMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',  # Static files - temporarily disabled
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # Allauth authentication middleware
+]
+
+ROOT_URLCONF = 'flexifinance.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'flexifinance.context_processors.notification_context',
+                'flexifinance.context_processors.site_context',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'flexifinance.wsgi.application'
+ASGI_APPLICATION = 'flexifinance.asgi.application'
+
+# Database configuration
+# =============================================================================
+# SQLITE CONFIGURATION (Temporary for testing)
+# =============================================================================
+# Temporarily using SQLite for testing authentication fix
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# PostgreSQL Configuration (Development & Production)
+# =============================================================================
+# Using PostgreSQL for local development and production
+# To restore PostgreSQL, comment out SQLite above and uncomment the following:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME', default='flexifinance'),
+#         'USER': config('DB_USER', default='postgres'),
+#         'PASSWORD': config('DB_PASSWORD', default='postgres'),
+#         'HOST': config('DB_HOST', default='localhost'),
+#         'PORT': config('DB_PORT', default='5432'),
+#         'OPTIONS': {
+#             'sslmode': 'prefer',  # Use 'require' in production
+#         },
+#         'CONN_MAX_AGE': 600,
+#         'TEST': {
+#             'NAME': 'test_flexifinance',
+#         },
+#     }
+# }
+
+# =============================================================================
+# SQLITE CONFIGURATION (Fallback - Not recommended for production)
+# =============================================================================
+# To use SQLite temporarily for testing, uncomment the following and comment out PostgreSQL:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# Password validation
+# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+# Tell Django to use your custom User model
+AUTH_USER_MODEL = 'users.User'
+
+# Configure authentication backends
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+# Django REST Framework Configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.FileUploadParser',
+    ],
+    'DEFAULT_FILTER_BACKEND': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',
+        'user': '1000/hour',
+        'payment': '10/hour',
+    },
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': 'flexifinance-api',
+    'ISSUER': 'flexifinance-app',
+    'JWK_URL': None,
+    'LEEWAY': 0,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+}
+
+# Internationalization
+# https://docs.djangoproject.com/en/5.2/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'Africa/Nairobi'
+
+USE_I18N = True
+
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.2/howto/static-files/
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Crispy Forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# AllAuth Configuration
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}  # Use set instead of list
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username', 'password1', 'password2']  # email* for mandatory verification
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+ACCOUNT_RATE_LIMITS = {
+    'confirm_email': '60/m',  # 60 requests per minute
+}
+
+# CORS Configuration
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React dev server
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",  # Django dev server
+    "http://127.0.0.1:8000",
+    "https://507a457dab15.ngrok-free.app",  # ngrok tunnel for development
+    "https://flexifinance.com",  # Production domain
+    "https://www.flexifinance.com",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_ALL_ORIGINS = False  # Set to False for production
+
+# Email Configuration
+# =============================================================================
+# CONSOLE EMAIL CONFIGURATION (Local Development)
+# =============================================================================
+# Using console backend to avoid external SMTP connection issues
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# =============================================================================
+# MAILPIT EMAIL CONFIGURATION (Active - Emails go to Mailpit)
+# =============================================================================
+# To use Mailpit SMTP, uncomment the following:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 2526
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_TIMEOUT = 30
+
+# Caching Configuration
+# =============================================================================
+# LOCAL MEMORY CACHE (Development)
+# =============================================================================
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'flexifinance-cache',
+        'KEY_PREFIX': 'flexifinance',
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
+        }
+    }
+}
+
+# =============================================================================
+# REDIS CACHE (Production)
+# =============================================================================
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#             'CONNECTION_POOL_KWARGS': {
+#                 'max_connections': 50,
+#                 'retry_on_timeout': True,
+#             }
+#         }
+#     }
+# }
+
+# Session Configuration
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = not DEBUG
+
+# Celery Configuration
+# =============================================================================
+# CELERY CONFIGURATION (Production)
+# =============================================================================
+# if not DEBUG:
+#     CELERY_BROKER_URL = config('CELERY_BROKER_URL', default='redis://127.0.0.1:6379/0')
+#     CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND', default='redis://127.0.0.1:6379/0')
+#     CELERY_ACCEPT_CONTENT = ['json']
+#     CELERY_TASK_SERIALIZER = 'json'
+#     CELERY_RESULT_SERIALIZER = 'json'
+#     CELERY_TIMEZONE = TIME_ZONE
+#     CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# File Storage Configuration
+# =============================================================================
+# LOCAL FILE STORAGE (Development)
+# =============================================================================
+# Default settings use local storage in MEDIA_ROOT
+
+# =============================================================================
+# AWS S3 STORAGE (Production)
+# =============================================================================
+# if not DEBUG:
+#     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='')
+#     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='')
+#     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default='flexifinance-bucket')
+#     AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default='us-east-1')
+#     AWS_DEFAULT_ACL = 'private'
+#     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+
+# M-Pesa Configuration
+MPESA_CONFIG = {
+    'CONSUMER_KEY': config('MPESA_CONSUMER_KEY', default=''),
+    'CONSUMER_SECRET': config('MPESA_CONSUMER_SECRET', default=''),
+    'PASSKEY': config('MPESA_PASSKEY', default=''),
+    'SHORTCODE': config('MPESA_SHORTCODE', default=''),
+    
+    # Primary Callback URLs (from settings)
+    # These URLs will be used when flexifinance.com domain is purchased and configured
+    # For now, using ngrok-free.app for development/testing
+    # 'CONFIRMATION_URL': config('MPESA_CONFIRMATION_URL', default='https://flexifinance.com/api/payments/mpesa/callback/'),
+    # 'VALIDATION_URL': config('MPESA_VALIDATION_URL', default='https://flexifinance.com/api/payments/mpesa/validate/'),
+    
+    # Development/Testing URLs using ngrok-free.app
+    # These will be replaced with actual domain URLs once flexifinance.com is purchased
+    'CONFIRMATION_URL': config('MPESA_CONFIRMATION_URL', default='https://your-app.ngrok-free.app/api/payments/mpesa/callback/'),
+    'VALIDATION_URL': config('MPESA_VALIDATION_URL', default='https://your-app.ngrok-free.app/api/payments/mpesa/validate/'),
+    
+    'INITIATOR_NAME': config('MPESA_INITIATOR_NAME', default='FlexiFinance'),
+    'ENVIRONMENT': config('MPESA_ENVIRONMENT', default='sandbox'),  # sandbox or production
+}
+
+# Security Configuration
+SECURE_BROWSER_XSS_FILTER = not DEBUG
+SECURE_CONTENT_TYPE_NOSNIFF = not DEBUG
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
+# CSRF Configuration
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'https://507a457dab15.ngrok-free.app',  # ngrok tunnel for development
+    'https://flexifinance.com',
+    'https://www.flexifinance.com',
+]
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs' / 'django.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'flexifinance': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'mpesa': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+# Create logs directory if it doesn't exist
+LOG_DIR = BASE_DIR / 'logs'
+LOG_DIR.mkdir(exist_ok=True)
+
+# Application-specific settings
+FLEXIFINANCE_CONFIG = {
+    'COMPANY_NAME': 'FlexiFinance',
+    'COMPANY_EMAIL': 'info@flexifinance.com',
+    'SUPPORT_EMAIL': 'support@flexifinance.com',
+    'PHONE_NUMBER': '+254 700 123 456',
+    'MIN_LOAN_AMOUNT': 500,
+    'MAX_LOAN_AMOUNT': 500000,
+    'DEFAULT_INTEREST_RATE': 15.0,
+    'LOAN_PROCESSING_DAYS': 3,
+    'PAYMENT_GRACE_DAYS': 3,
+    'MAX_ACTIVE_LOANS': 3,
+    'CREDIT_SCORE_MIN': 600,
+}
+
+# Loan Products Configuration
+LOAN_PRODUCTS = {
+    'quick_cash': {
+        'name': 'Quick Cash Loan',
+        'min_amount': 1000,
+        'max_amount': 20000,
+        'min_tenure': 1,
+        'max_tenure': 6,
+        'interest_rate': 15.0,
+        'processing_fee': 500,
+        'requirements': ['basic_kyc'],
+    },
+    'business_loan': {
+        'name': 'Business Loan',
+        'min_amount': 10000,
+        'max_amount': 100000,
+        'min_tenure': 3,
+        'max_tenure': 12,
+        'interest_rate': 12.0,
+        'processing_fee': 1000,
+        'requirements': ['business_docs', 'bank_statements'],
+    },
+    'emergency_loan': {
+        'name': 'Emergency Loan',
+        'min_amount': 500,
+        'max_amount': 5000,
+        'min_tenure': 1,
+        'max_tenure': 3,
+        'interest_rate': 18.0,
+        'processing_fee': 200,
+        'requirements': ['basic_kyc'],
+    },
+}
+
+# Risk Assessment Configuration
+RISK_CONFIG = {
+    'MIN_CREDIT_SCORE': 600,
+    'MAX_DEBT_TO_INCOME_RATIO': 0.4,
+    'MIN_EMPLOYMENT_DURATION': 3,
+    'DEFAULT_RISK_SCORE': 650,
+    'RISK_CATEGORIES': {
+        'LOW': {'min_score': 700, 'interest_rate_modifier': -2.0},
+        'MEDIUM': {'min_score': 650, 'interest_rate_modifier': 0.0},
+        'HIGH': {'min_score': 600, 'interest_rate_modifier': 3.0},
+    },
+}
+
+# Notification Configuration
+NOTIFICATION_CONFIG = {
+    'EMAIL_TEMPLATES_DIR': BASE_DIR / 'templates' / 'emails',
+    'SMS_PROVIDER': 'twilio',  # twilio, africas_talking
+    'PUSH_NOTIFICATIONS': True,
+    'EMAIL_NOTIFICATIONS': True,
+    'SMS_NOTIFICATIONS': True,
+}
+
+# Document Management
+DOCUMENT_CONFIG = {
+    'MAX_FILE_SIZE': 5 * 1024 * 1024,  # 5MB
+    'ALLOWED_EXTENSIONS': ['.pdf', '.jpg', '.jpeg', '.png'],
+    'ENCRYPTION_ENABLED': True,
+    'AUTO_DELETE_DAYS': 365,
+}
+
+# Business Logic Configuration
+BUSINESS_CONFIG = {
+    'LOAN_APPROVAL_THRESHOLD': 700,  # Minimum credit score for auto-approval
+    'MAX_LOAN_AMOUNT_FACTOR': 3,  # Maximum loan = monthly_income * factor
+    'INTEREST_CALCULATION_METHOD': 'reducing_balance',  # reducing_balance, flat_rate
+    'LATE_FEE_RATE': 2.0,  # Percentage per month
+    'PROCESSING_FEE_PERCENTAGE': 2.0,  # Percentage of loan amount
+}
+
+# Analytics Configuration (Optional)
+ANALYTICS_CONFIG = {
+    'GOOGLE_ANALYTICS_ID': config('GOOGLE_ANALYTICS_ID', default=''),
+    'FACEBOOK_PIXEL_ID': config('FACEBOOK_PIXEL_ID', default=''),
+}
+
+# Development tools
+if DEBUG:
+    # Debug toolbar - DISABLED TO PREVENT IMPORT ERRORS
+    # INSTALLED_APPS += ['debug_toolbar']
+    # MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+    
+    # CORS Allow All for development
+    CORS_ALLOW_ALL_ORIGINS = True
+    
+    # Disable security features for development
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
+# Admin Configuration
+ADMIN_URL = config('ADMIN_URL', default='admin/')
+ADMIN_SITE_HEADER = "FlexiFinance Admin"
+ADMIN_SITE_TITLE = "FlexiFinance Administration"
+ADMIN_INDEX_TITLE = "FlexiFinance Dashboard"
+
+# API Documentation
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'FlexiFinance API',
+    'DESCRIPTION': 'MicroFinance Platform API with M-Pesa Integration',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+}
+
+# Custom context processors
+def notification_context(request):
+    """Add notification context for templates"""
+    if request.user.is_authenticated:
+        from apps.notifications.models import Notification
+        unread_count = Notification.objects.filter(
+            user=request.user, 
+            is_read=False
+        ).count()
+        return {'unread_notifications': unread_count}
+    return {}
+
+# Health check endpoints
+HEALTH_CHECK = {
+    'DISK_USAGE_MAX': 90,  # percentage
+    'MEMORY_MIN': 100,  # MB
+    'DISK_CHECK': True,
+    'MEMORY_CHECK': True,
+    'DATABASE_CHECK': True,
+    'CACHE_CHECK': True,
+}
+
+# Rate limiting
+RATELIMIT_USE_CACHE = 'default'
+# RATELIMIT_VIEW = 'flexifinance.utils.limit_view'  # Disabled - utils module doesn't exist
+
+# Audit logging
+AUDIT_LOG = {
+    'ENABLED': True,
+    'LOG_USER_ACTIONS': True,
+    'LOG_MODEL_CHANGES': True,
+    'LOG_API_REQUESTS': True,
+    'LOGIN_SUCCESS_LOG': True,
+    'LOGIN_FAILURE_LOG': True,
+}
+
+# =============================================================================
+# STRIPE PAYMENT CONFIGURATION
+# =============================================================================
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+
+# =============================================================================
+# SUPABASE CONFIGURATION
+# =============================================================================
+SUPABASE_URL = config('SUPABASE_URL', default='')
+SUPABASE_ANON_KEY = config('SUPABASE_ANON_KEY', default='')
+SUPABASE_SERVICE_KEY = config('SUPABASE_SERVICE_KEY', default='')
+
+# =============================================================================
+# RESEND EMAIL CONFIGURATION
+# =============================================================================
+RESEND_API_KEY = config('RESEND_API_KEY', default='')
+FROM_EMAIL = config('FROM_EMAIL', default='noreply@flexifinance.com')
+FROM_NAME = config('FROM_NAME', default='FlexiFinance')
+
+# =============================================================================
+# RAILWAY DEPLOYMENT CONFIGURATION
+# =============================================================================
+RAILWAY_ENVIRONMENT = config('RAILWAY_ENVIRONMENT', default='development')
+RAILWAY_BACKEND_URL = config('RAILWAY_BACKEND_URL', default='')
+
+# =============================================================================
+# PAYMENT PROVIDER CONFIGURATION
+# =============================================================================
+PAYMENT_PROVIDERS = {
+    'mpesa': {
+        'enabled': bool(config('MPESA_CONSUMER_KEY', default='')),
+        'name': 'M-PESA Mobile Money',
+        'currencies': ['kes'],
+        'countries': ['KE']
+    },
+    'stripe': {
+        'enabled': bool(config('STRIPE_SECRET_KEY', default='')),
+        'name': 'Credit/Debit Cards',
+        'currencies': ['usd', 'eur', 'gbp', 'cad', 'aud'],
+        'countries': ['US', 'GB', 'CA', 'AU', 'DE', 'FR', 'IT', 'ES', 'NL', 'BE', 'AT', 'IE', 'PT', 'FI', 'SE', 'NO', 'DK', 'CH', 'JP', 'AU', 'NZ', 'SG', 'HK']
+    }
+}
+
+# =============================================================================
+# FRONTEND CONFIGURATION
+# =============================================================================
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:8000')
+AOS_ANIMATION_ENABLED = config('AOS_ANIMATION_ENABLED', default=True, cast=bool)
+RESPONSIVE_DESIGN_ENABLED = config('RESPONSIVE_DESIGN_ENABLED', default=True, cast=bool)
+
+# =============================================================================
+# CONTACT AND SUPPORT CONFIGURATION
+# =============================================================================
+SUPPORT_EMAIL = config('SUPPORT_EMAIL', default='support@flexifinance.com')
+SUPPORT_PHONE = config('SUPPORT_PHONE', default='+254 708 101 604')
+SUPPORT_HOURS = config('SUPPORT_HOURS', default='24/7')
+SUPPORT_ADDRESS = config('SUPPORT_ADDRESS', default='Westlands Business Park, Ring Road, P.O. Box 12345-00100, Nairobi, Kenya')
+
+# =============================================================================
+# BUSINESS INFORMATION
+# =============================================================================
+BUSINESS_NAME = config('BUSINESS_NAME', default='FlexiFinance')
+BUSINESS_EMAIL = config('BUSINESS_EMAIL', default='info@flexifinance.com')
+BUSINESS_PHONE = config('BUSINESS_PHONE', default='+254 708 101 604')
+BUSINESS_ADDRESS = config('BUSINESS_ADDRESS', default='Westlands Business Park, Ring Road, P.O. Box 12345-00100, Nairobi, Kenya')
+BUSINESS_REGISTRATION = config('BUSINESS_REGISTRATION', default='CPR/2023/123456')
+
+# =============================================================================
+# SOCIAL MEDIA LINKS
+# =============================================================================
+SOCIAL_MEDIA = {
+    'facebook': config('FACEBOOK_URL', default='https://facebook.com/flexifinance'),
+    'twitter': config('TWITTER_URL', default='https://twitter.com/flexifinance'),
+    'linkedin': config('LINKEDIN_URL', default='https://linkedin.com/company/flexifinance'),
+    'instagram': config('INSTAGRAM_URL', default='https://instagram.com/flexifinance'),
+    'youtube': config('YOUTUBE_URL', default='https://youtube.com/flexifinance')
+}
+
+# =============================================================================
+# ANALYTICS AND MONITORING
+# =============================================================================
+GOOGLE_ANALYTICS_ID = config('GOOGLE_ANALYTICS_ID', default='')
+FACEBOOK_PIXEL_ID = config('FACEBOOK_PIXEL_ID', default='')
+SENTRY_DSN = config('SENTRY_DSN', default='')
+
+# =============================================================================
+# SEO CONFIGURATION
+# =============================================================================
+SEO_CONFIG = {
+    'SITE_NAME': 'FlexiFinance - MicroFinance Platform',
+    'SITE_DESCRIPTION': 'Fast, secure microfinance loans with M-PESA integration. Get approved in minutes, repay flexibly.',
+    'SITE_KEYWORDS': 'microfinance, loans, M-PESA, Kenya, financial services, personal loans, business loans',
+    'DEFAULT_OG_IMAGE': '/static/images/og-default.jpg',
+    'TWITTER_HANDLE': '@flexifinance',
+    'BRAND_NAME': 'FlexiFinance'
+}
+
+# =============================================================================
+# FEATURE FLAGS
+# =============================================================================
+FEATURES = {
+    'ENABLE_CONTACT_FORMS': config('ENABLE_CONTACT_FORMS', default=True, cast=bool),
+    'ENABLE_NEWSLETTER': config('ENABLE_NEWSLETTER', default=True, cast=bool),
+    'ENABLE_CHAT_SUPPORT': config('ENABLE_CHAT_SUPPORT', default=True, cast=bool),
+    'ENABLE_MULTI_CURRENCY': config('ENABLE_MULTI_CURRENCY', default=True, cast=bool),
+    'ENABLE_ANALYTICS': config('ENABLE_ANALYTICS', default=True, cast=bool),
+    'ENABLE_SOCIAL_LOGIN': config('ENABLE_SOCIAL_LOGIN', default=True, cast=bool),
+}
+
+# =============================================================================
+# EXPORTABLE SETTINGS
+# =============================================================================
+# These settings can be exported to frontend via API
+EXPORT_TO_FRONTEND = {
+    'STRIPE_PUBLISHABLE_KEY',
+    'SUPPORT_EMAIL',
+    'SUPPORT_PHONE',
+    'SUPPORT_HOURS',
+    'BUSINESS_NAME',
+    'BUSINESS_EMAIL',
+    'BUSINESS_PHONE',
+    'SOCIAL_MEDIA',
+    'SEO_CONFIG',
+    'FEATURES',
+    'PAYMENT_PROVIDERS'
+}
+
+# Import additional local settings
+try:
+    from .local_settings import *
+except ImportError:
+    pass

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification - {{ site_name }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px 10px 0 0;
+            margin: -30px -30px 30px -30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .content {
+            text-align: center;
+        }
+        .verification-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        .verification-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+        .info-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .info-box h3 {
+            margin: 0 0 10px 0;
+            color: #667eea;
+        }
+        .info-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .info-box li {
+            margin: 5px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .warning strong {
+            color: #721c24;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            .header {
+                margin: -20px -20px 20px -20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to {{ site_name }}!</h1>
+            <p>Your Financial Freedom Starts Here</p>
+        </div>
+        
+        <div class="content">
+            <h2>Hi {{ first_name }},</h2>
+            
+            <p>Thank you for creating your {{ site_name }} account! To complete your registration and unlock all features, please verify your email address.</p>
+            
+            <div class="info-box">
+                <h3>What happens after email verification?</h3>
+                <ul>
+                    <li><strong>Account Verification:</strong> Your account will be fully verified</li>
+                    <li><strong>KYC Approval:</strong> Your identity verification will be automatically approved</li>
+                    <li><strong>Full Access:</strong> You can apply for loans up to KES 500,000</li>
+                    <li><strong>Better Rates:</strong> Access to our best interest rates</li>
+                    <li><strong>Quick Approvals:</strong> Fast-track loan processing</li>
+                </ul>
+            </div>
+            
+            <a href="{{ verification_url }}" class="verification-button">
+                ✓ Verify Email Address
+            </a>
+            
+            <div class="warning">
+                <strong>Important:</strong> This verification link will expire in 24 hours for security reasons. If you didn't create this account, please ignore this email.
+            </div>
+            
+            <p>If the button above doesn't work, copy and paste this link into your browser:</p>
+            <p style="word-break: break-all; font-size: 12px; color: #666;">{{ verification_url }}</p>
+            
+            <p>Once verified, you can start exploring our financial services and apply for your first loan!</p>
+            
+            <p>Best regards,<br>
+            The {{ site_name }} Team</p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>{{ site_name }}</strong></p>
+            <p>Empowering Financial Freedom</p>
+            <p>If you have any questions, contact us at support@flexifinance.co.ke</p>
+        </div>
+    </div>
+</body>
+</html>

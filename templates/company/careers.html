@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Careers - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold text-primary">Join Our Team</h1>
+                    <p class="lead text-muted">Build your career with {{ company_name }} - Kenya's leading microfinance platform</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-white rounded-3 shadow-sm p-5 mb-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">Why Work With Us?</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start mb-3">
+                                <i class="fas fa-chart-line text-primary me-3 mt-1"></i>
+                                <div>
+                                    <h5 class="mb-1">Growth Opportunities</h5>
+                                    <p class="text-muted small mb-0">Clear career progression paths and professional development</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start mb-3">
+                                <i class="fas fa-money-bill-wave text-primary me-3 mt-1"></i>
+                                <div>
+                                    <h5 class="mb-1">Competitive Package</h5>
+                                    <p class="text-muted small mb-0">Attractive salary and comprehensive benefits</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start mb-3">
+                                <i class="fas fa-heart text-primary me-3 mt-1"></i>
+                                <div>
+                                    <h5 class="mb-1">Impact Work</h5>
+                                    <p class="text-muted small mb-0">Make a difference in financial inclusion</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start mb-3">
+                                <i class="fas fa-users text-primary me-3 mt-1"></i>
+                                <div>
+                                    <h5 class="mb-1">Great Culture</h5>
+                                    <p class="text-muted small mb-0">Collaborative and inclusive work environment</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5">
+                    <h2 class="h4 fw-bold text-dark mb-4">Open Positions</h2>
+                    
+                    <div class="job-list">
+                        <!-- Job listings would be populated dynamically -->
+                        <div class="job-card border rounded p-4 mb-3">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="fw-bold text-dark mb-2">Senior Software Engineer</h5>
+                                    <p class="text-muted mb-2">Full-time • Nairobi • Technology</p>
+                                    <p class="text-muted small mb-0">Lead development of our microfinance platform and mentor junior developers.</p>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <span class="badge bg-primary mb-2">Active</span><br>
+                                    <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="job-card border rounded p-4 mb-3">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="fw-bold text-dark mb-2">Loan Officer</h5>
+                                    <p class="text-muted mb-2">Full-time • Multiple Locations • Operations</p>
+                                    <p class="text-muted small mb-0">Assess loan applications and provide excellent customer service to our borrowers.</p>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <span class="badge bg-primary mb-2">Active</span><br>
+                                    <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="job-card border rounded p-4 mb-3">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="fw-bold text-dark mb-2">Marketing Manager</h5>
+                                    <p class="text-muted mb-2">Full-time • Nairobi • Marketing</p>
+                                    <p class="text-muted small mb-0">Drive customer acquisition and brand awareness across Kenya.</p>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <span class="badge bg-primary mb-2">Active</span><br>
+                                    <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="job-card border rounded p-4 mb-3">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="fw-bold text-dark mb-2">Customer Support Specialist</h5>
+                                    <p class="text-muted mb-2">Full-time • Remote • Support</p>
+                                    <p class="text-muted small mb-0">Provide exceptional support to our customers via phone, email, and chat.</p>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <span class="badge bg-primary mb-2">Active</span><br>
+                                    <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="job-card border rounded p-4">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="fw-bold text-dark mb-2">Data Analyst</h5>
+                                    <p class="text-muted mb-2">Full-time • Nairobi • Analytics</p>
+                                    <p class="text-muted small mb-0">Analyze lending patterns and help optimize our risk assessment models.</p>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <span class="badge bg-primary mb-2">Active</span><br>
+                                    <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5 mt-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">How to Apply</h2>
+                    <p class="mb-4">Ready to join our team? Send your CV and a cover letter to:</p>
+                    
+                    <div class="bg-light p-4 rounded">
+                        <h5 class="mb-3">Application Process</h5>
+                        <ol class="mb-3">
+                            <li>Review open positions above</li>
+                            <li>Send your CV and cover letter to <strong>careers@flexifinance.co.ke</strong></li>
+                            <li>Include the job title in your email subject line</li>
+                            <li>Our HR team will review your application</li>
+                            <li>Qualified candidates will be contacted for interviews</li>
+                        </ol>
+                        
+                        <div class="text-center">
+                            <a href="mailto:careers@flexifinance.co.ke" class="btn btn-primary">
+                                <i class="fas fa-envelope me-2"></i>Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-5 mt-4">
+                    <h2 class="h4 fw-bold text-dark mb-3">About Our Culture</h2>
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                <i class="fas fa-lightbulb text-primary fa-2x"></i>
+                            </div>
+                            <h5>Innovation</h5>
+                            <p class="text-muted small">We encourage creative thinking and embrace new ideas</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                <i class="fas fa-handshake text-primary fa-2x"></i>
+                            </div>
+                            <h5>Collaboration</h5>
+                            <p class="text-muted small">We work together to achieve common goals</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                <i class="fas fa-award text-primary fa-2x"></i>
+                            </div>
+                            <h5>Excellence</h5>
+                            <p class="text-muted small">We strive for excellence in everything we do</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

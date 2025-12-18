@@ -1,0 +1,39 @@
+{% extends 'errors/error.html' %}
+
+{% block title %}Access Denied (403) - FlexiFinance{% endblock %}
+
+{% block error_title %}Access Denied{% endblock %}
+
+{% block error_message %}
+<p class="lead text-muted mb-4">
+    You don't have permission to access this resource. 
+    This could be because the content is restricted or requires authentication.
+</p>
+
+<div class="alert alert-info" role="alert">
+    <h6 class="alert-heading">
+        <i class="fas fa-key me-2"></i>Possible Solutions:
+    </h6>
+    <ul class="mb-0">
+        {% if not request.user.is_authenticated %}
+        <li>Sign in to your account to access protected content</li>
+        <li>Create a new account if you don't have one</li>
+        {% else %}
+        <li>Check if you have the required permissions</li>
+        <li>Contact your administrator if you need access</li>
+        {% endif %}
+        <li>Return to the homepage to explore available features</li>
+    </ul>
+</div>
+
+{% if not request.user.is_authenticated %}
+<div class="text-center mt-4">
+    <a href="{% url 'login' %}" class="btn btn-primary me-3">
+        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+    </a>
+    <a href="{% url 'signup' %}" class="btn btn-outline-primary">
+        <i class="fas fa-user-plus me-2"></i>Create Account
+    </a>
+</div>
+{% endif %}
+{% endblock %}

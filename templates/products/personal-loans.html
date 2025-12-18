@@ -1,0 +1,437 @@
+{% extends "base.html" %}
+
+{% block title %}Personal Loans - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Hero Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-4">Personal Loans</h1>
+            <p class="lead text-muted">Achieve your personal goals with flexible financing solutions designed for individuals</p>
+        </div>
+    </div>
+    
+    <!-- Personal Loan Calculator Banner -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card bg-gradient text-white border-0">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="mb-2">Calculate Your Personal Loan</h3>
+                            <p class="mb-0">See how much you can borrow and what your monthly payments would be</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <a href="{% url 'loan_calculator' %}" class="btn btn-light btn-lg">
+                                <i class="fas fa-calculator me-2"></i>Calculate Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Personal Loan Products -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Personal Financing Solutions</h2>
+            <p class="text-muted">Choose the right financing option for your personal needs</p>
+        </div>
+        
+        <!-- Quick Cash Loan -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-bolt text-primary fa-2x"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title text-center mb-3">Quick Cash Loan</h4>
+                    <p class="card-text text-muted mb-4">Fast approval for urgent personal expenses</p>
+                    
+                    <div class="mt-auto">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Amount: KSh 10,000 - 100,000</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interest: 2.5% per month</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 3-12 months</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Approval: Within 24 hours</li>
+                        </ul>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-primary btn-sm" 
+                                    onclick="showLoanDetails('Quick Cash Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Home Improvement Loan -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-home text-success fa-2x"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title text-center mb-3">Home Improvement Loan</h4>
+                    <p class="card-text text-muted mb-4">Upgrade your home with flexible financing</p>
+                    
+                    <div class="mt-auto">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Amount: KSh 50,000 - 500,000</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interest: 2.0% per month</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 6-24 months</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No collateral required</li>
+                        </ul>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-success">
+                                <i class="fas fa-paper-plane me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-success btn-sm" 
+                                    onclick="showLoanDetails('Home Improvement Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Debt Consolidation Loan -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-chart-line text-info fa-2x"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title text-center mb-3">Debt Consolidation Loan</h4>
+                    <p class="card-text text-muted mb-4">Combine multiple debts into one manageable payment</p>
+                    
+                    <div class="mt-auto">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Amount: KSh 25,000 - 300,000</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interest: 1.8% per month</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 12-36 months</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Lower monthly payments</li>
+                        </ul>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-info">
+                                <i class="fas fa-paper-plane me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-info btn-sm" 
+                                    onclick="showLoanDetails('Debt Consolidation Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Features -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Why Choose FlexiFinance Personal Loans?</h2>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-clock text-primary fa-2x"></i>
+                </div>
+                <h5>Quick Approval</h5>
+                <p class="text-muted">Get approved within 24 hours</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-percentage text-success fa-2x"></i>
+                </div>
+                <h5>Competitive Rates</h5>
+                <p class="text-muted">Low interest rates from 1.8% monthly</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-shield-alt text-info fa-2x"></i>
+                </div>
+                <h5>No Hidden Fees</h5>
+                <p class="text-muted">Transparent pricing with no surprises</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-mobile-alt text-warning fa-2x"></i>
+                </div>
+                <h5>Digital Process</h5>
+                <p class="text-muted">Apply and manage online</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Eligibility -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <h3 class="text-center mb-4">Eligibility Requirements</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-user text-primary me-3"></i>Age: 21-65 years</li>
+                                <li class="mb-3"><i class="fas fa-briefcase text-primary me-3"></i>Employment: Permanent job or business</li>
+                                <li class="mb-3"><i class="fas fa-money-bill text-primary me-3"></i>Income: Minimum KSh 25,000 monthly</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-id-card text-primary me-3"></i>Kenyan citizen or resident</li>
+                                <li class="mb-3"><i class="fas fa-mobile text-primary me-3"></i>Active M-Pesa number</li>
+                                <li class="mb-3"><i class="fas fa-credit-card text-primary me-3"></i>Bank account for 6+ months</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Testimonials -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">What Our Customers Say</h2>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Customer">
+                        <div>
+                            <h6 class="mb-1">Sarah M.</h6>
+                            <small class="text-muted">Nairobi</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "FlexiFinance helped me consolidate my debts into one affordable monthly payment. 
+                        The process was so simple and fast!"
+                    </p>
+                    <div class="text-warning mt-2">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Customer">
+                        <div>
+                            <h6 class="mb-1">John K.</h6>
+                            <small class="text-muted">Mombasa</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "Got my home improvement loan approved the same day. Used it to renovate my kitchen 
+                        and the quality of service was excellent."
+                    </p>
+                    <div class="text-warning mt-2">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Customer">
+                        <div>
+                            <h6 class="mb-1">Grace W.</h6>
+                            <small class="text-muted">Kisumu</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "As a single mother, FlexiFinance gave me the financial support I needed for my child's 
+                        school fees. Truly life-changing!"
+                    </p>
+                    <div class="text-warning mt-2">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-primary text-white text-center">
+                <div class="card-body p-5">
+                    <h2 class="mb-3">Ready to Achieve Your Personal Goals?</h2>
+                    <p class="mb-4 lead">Join thousands of satisfied customers who have achieved their dreams with FlexiFinance</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
+                            <i class="fas fa-rocket me-2"></i>Apply for Personal Loan
+                        </a>
+                        <a href="{% url 'loan_calculator' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-calculator me-2"></i>Calculate Payments
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Details Modal -->
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loanModalTitle">Loan Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="loanModalContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                    <i class="fas fa-paper-plane me-2"></i>Apply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoanDetails(loanName) {
+    const modalContent = document.getElementById('loanModalContent');
+    const modalTitle = document.getElementById('loanModalTitle');
+    
+    modalTitle.textContent = loanName + ' - Detailed Information';
+    
+    let loanDetails = '';
+    
+    // Customize content based on loan type
+    if (loanName === 'Quick Cash Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Instant approval within 24 hours</li>
+                        <li>No collateral required</li>
+                        <li>Direct M-Pesa disbursement</li>
+                        <li>Flexible repayment terms</li>
+                        <li>No hidden processing fees</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa account</li>
+                        <li>Minimum income: KSh 25,000</li>
+                        <li>Age: 21-65 years</li>
+                        <li>Employment history: 3+ months</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Perfect for urgent expenses like medical bills, car repairs, or household emergencies.
+            </div>
+        `;
+    } else if (loanName === 'Home Improvement Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Competitive interest rates from 2.0%</li>
+                        <li>Long repayment periods up to 24 months</li>
+                        <li>No collateral required</li>
+                        <li>Direct contractor payments available</li>
+                        <li>Progress-based disbursement</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Property ownership proof</li>
+                        <li>Project estimates/quotes</li>
+                        <li>Minimum income: KSh 50,000</li>
+                        <li>Stable employment or business</li>
+                        <li>Credit history assessment</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-success">
+                <i class="fas fa-home me-2"></i>
+                Transform your home with renovations, extensions, or modern upgrades.
+            </div>
+        `;
+    } else if (loanName === 'Debt Consolidation Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Combine multiple debts into one payment</li>
+                        <li>Lower interest rates available</li>
+                        <li>Extended repayment periods</li>
+                        <li>Improved credit score potential</li>
+                        <li>Financial counseling included</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Details of existing debts</li>
+                        <li>Current payment statements</li>
+                        <li>Minimum income: KSh 40,000</li>
+                        <li>Debt-to-income ratio assessment</li>
+                        <li>Commitment to single payment plan</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <i class="fas fa-chart-line me-2"></i>
+                Simplify your finances and potentially save money on interest payments.
+            </div>
+        `;
+    }
+    
+    modalContent.innerHTML = loanDetails;
+    
+    const modal = new bootstrap.Modal(document.getElementById('loanModal'));
+    modal.show();
+}
+</script>
+{% endblock %}

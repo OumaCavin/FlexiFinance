@@ -1,0 +1,550 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}FlexiFinance - Fast, Secure Microfinance Loans{% endblock %}
+
+{% block meta_description %}Get approved for microfinance loans in minutes with FlexiFinance. Secure M-PESA integration, flexible repayment terms, and 24/7 customer support in Kenya.{% endblock %}
+
+{% block meta_keywords %}microfinance, loans Kenya, M-PESA, personal loans, business loans, financial services, Nairobi{% endblock %}
+
+{% block og_title %}FlexiFinance - Kenya's Leading Microfinance Platform{% endblock %}
+{% block og_description %}Fast, secure microfinance loans with M-PESA integration. Get approved in minutes with flexible repayment terms.{% endblock %}
+{% block og_image %}{% static 'images/og-home.jpg' %}{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block twitter_title %}FlexiFinance - Kenya's Leading Microfinance Platform{% endblock %}
+{% block twitter_description %}Fast, secure microfinance loans with M-PESA integration. Get approved in minutes with flexible repayment terms.{% endblock %}
+{% block twitter_image %}{% static 'images/og-home.jpg' %}{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.payment-methods {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.payment-method {
+    padding: 1rem 2rem;
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.payment-method:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.payment-method.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+}
+
+.payment-method img {
+    height: 2rem;
+    margin-right: 0.5rem;
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    height: 100%;
+}
+
+.testimonial-content {
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    color: #4a5568;
+    line-height: 1.7;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.author-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.author-info h5 {
+    margin: 0;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.author-info small {
+    color: #718096;
+}
+
+.cta-section {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.cta-section h2 {
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .hero-stats {
+        gap: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .payment-methods {
+        gap: 1rem;
+    }
+    
+    .payment-method {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .testimonial-card {
+        padding: 1.5rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="hero-content">
+                    <h1>Fast, Secure Microfinance Loans in <span class="text-warning">Kenya</span></h1>
+                    <p>Get approved for loans up to KSh 500,000 in minutes. Secure M-PESA integration, flexible repayment terms, and 24/7 customer support.</p>
+                    
+                    <div class="d-flex gap-3 flex-wrap mb-4">
+                        <a href="#loan-application" class="btn btn-light btn-lg">
+                            <i class="fas fa-rocket me-2"></i>
+                            Apply Now
+                        </a>
+                        <a href="#how-it-works" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-play me-2"></i>
+                            How It Works
+                        </a>
+                    </div>
+                    
+                    <!-- Payment Methods -->
+                    <div class="payment-methods" data-aos="fade-up" data-aos-delay="200">
+                        <div class="payment-method active" data-payment-type="mpesa">
+                            <i class="fas fa-mobile-alt me-2"></i>
+                            M-PESA
+                        </div>
+                        <div class="payment-method" data-payment-type="card">
+                            <i class="fas fa-credit-card me-2"></i>
+                            Cards
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Stats -->
+                    <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+                        <div class="stat-item">
+                            <span class="stat-number" data-counter="50000">50,000+</span>
+                            <span class="stat-label">Happy Customers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-counter="98">98%</span>
+                            <span class="stat-label">Approval Rate</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-counter="24">24/7</span>
+                            <span class="stat-label">Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="text-center">
+                    <img src="{% static 'images/hero-illustration.svg' %}" alt="FlexiFinance - Microfinance Loans" class="img-fluid" style="max-height: 500px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2>Why Choose FlexiFinance?</h2>
+            <p>Experience the future of microfinance with our innovative platform designed for Kenyan entrepreneurs and individuals</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h4>Instant Approval</h4>
+                <p>Get approved for loans in as little as 5 minutes with our AI-powered assessment system.</p>
+            </div>
+            
+            <div class="feature" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h4>Secure Payments</h4>
+                <p>Bank-level security with M-PESA integration and encrypted payment processing.</p>
+            </div>
+            
+            <div class="feature" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h4>Flexible Terms</h4>
+                <p>Choose repayment terms that work for your budget from 1 month to 24 months.</p>
+            </div>
+            
+            <div class="feature" data-aos="fade-up" data-aos-delay="400">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h4>Build Credit</h4>
+                <p>Establish and improve your credit score with consistent, on-time repayments.</p>
+            </div>
+            
+            <div class="feature" data-aos="fade-up" data-aos-delay="500">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h4>24/7 Support</h4>
+                <p>Our customer support team is available around the clock to assist you.</p>
+            </div>
+            
+            <div class="feature" data-aos="fade-up" data-aos-delay="600">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h4>Mobile-First</h4>
+                <p>Apply, track, and manage your loans completely from your smartphone.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="section bg-light">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2>How FlexiFinance Works</h2>
+            <p>Simple, transparent process from application to approval</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="feature-icon mx-auto mb-3" style="width: 4rem; height: 4rem;">
+                            <span style="font-size: 1.5rem;">1</span>
+                        </div>
+                        <h4>Apply Online</h4>
+                        <p>Complete our simple online application form with your details and loan requirements.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="feature-icon mx-auto mb-3" style="width: 4rem; height: 4rem;">
+                            <span style="font-size: 1.5rem;">2</span>
+                        </div>
+                        <h4>Instant Assessment</h4>
+                        <p>Our AI system evaluates your application and creditworthiness in minutes.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="feature-icon mx-auto mb-3" style="width: 4rem; height: 4rem;">
+                            <span style="font-size: 1.5rem;">3</span>
+                        </div>
+                        <h4>Get Approved</h4>
+                        <p>Receive instant approval notification and funds disbursed to your M-PESA or bank account.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Loan Calculator Section -->
+<section id="loan-application" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="section-title text-start">
+                    <h2>Calculate Your Loan</h2>
+                    <p>Use our calculator to estimate your monthly payments and find the perfect loan term for your budget.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <form id="loan-calculator">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Loan Amount (KSh)</label>
+                                <input type="range" class="form-range" id="loan-amount" min="5000" max="500000" value="50000" step="5000">
+                                <div class="d-flex justify-content-between">
+                                    <small>KSh 5,000</small>
+                                    <strong id="loan-amount-display">KSh 50,000</strong>
+                                    <small>KSh 500,000</small>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label class="form-label">Loan Term (Months)</label>
+                                <select class="form-control" id="loan-term">
+                                    <option value="1">1 Month</option>
+                                    <option value="3">3 Months</option>
+                                    <option value="6" selected>6 Months</option>
+                                    <option value="12">12 Months</option>
+                                    <option value="18">18 Months</option>
+                                    <option value="24">24 Months</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label class="form-label">Annual Interest Rate</label>
+                                <div class="form-control-plaintext">
+                                    <strong id="interest-rate-display">18%</strong>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <h5 class="mb-2">Estimated Monthly Payment</h5>
+                                <h3 class="text-primary mb-0" id="monthly-payment">KSh 0</h3>
+                            </div>
+                            
+                            <button type="button" class="btn btn-primary btn-lg w-100" onclick="applyForLoan()">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Apply for This Loan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="text-center mb-4">
+                    <img src="{% static 'images/loan-calculator.svg' %}" alt="Loan Calculator" class="img-fluid" style="max-height: 400px;">
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-3">Loan Benefits</h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                No hidden fees or charges
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Early repayment options
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Competitive interest rates
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Instant M-PESA disbursement
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Flexible payment schedules
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2>What Our Customers Say</h2>
+            <p>Real stories from real customers who found financial freedom with FlexiFinance</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "FlexiFinance helped me expand my business when traditional banks said no. The application was simple, and I received the funds within hours!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JM</div>
+                        <div class="author-info">
+                            <h5>James Mwangi</h5>
+                            <small>Business Owner, Nairobi</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "I needed emergency funds for medical bills. FlexiFinance approved my loan instantly and the money was in my M-PESA within minutes."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SA</div>
+                        <div class="author-info">
+                            <h5>Sarah Achieng</h5>
+                            <small>Teacher, Kisumu</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "The flexible repayment terms allowed me to manage my cash flow perfectly. I built my credit score and got better rates on my next loan."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">DK</div>
+                        <div class="author-info">
+                            <h5>David Kiprotich</h5>
+                            <small>Farmer, Eldoret</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div data-aos="fade-up">
+            <h2>Ready to Take Control of Your Financial Future?</h2>
+            <p>Join thousands of satisfied customers who trust FlexiFinance for their financial needs. Apply today and experience the difference.</p>
+            
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="#loan-application" class="btn btn-light btn-lg">
+                    <i class="fas fa-rocket me-2"></i>
+                    Start Your Application
+                </a>
+                <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-phone me-2"></i>
+                    Talk to Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Loan Calculator Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const loanAmountSlider = document.getElementById('loan-amount');
+    const loanAmountDisplay = document.getElementById('loan-amount-display');
+    const loanTermSelect = document.getElementById('loan-term');
+    const monthlyPaymentDisplay = document.getElementById('monthly-payment');
+    
+    function calculateMonthlyPayment() {
+        const principal = parseFloat(loanAmountSlider.value);
+        const months = parseInt(loanTermSelect.value);
+        const annualRate = 0.18; // 18% annual rate
+        const monthlyRate = annualRate / 12;
+        
+        const monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+        
+        loanAmountDisplay.textContent = 'KSh ' + principal.toLocaleString();
+        monthlyPaymentDisplay.textContent = 'KSh ' + Math.round(monthlyPayment).toLocaleString();
+    }
+    
+    loanAmountSlider.addEventListener('input', calculateMonthlyPayment);
+    loanTermSelect.addEventListener('change', calculateMonthlyPayment);
+    
+    // Initial calculation
+    calculateMonthlyPayment();
+});
+
+function applyForLoan() {
+    // Redirect to application form or open modal
+    FlexiFinance.showToast('Redirecting to application form...', 'info');
+    
+    // You can implement actual application form logic here
+    setTimeout(() => {
+        window.location.href = '{% url "loans:loan_application" %}';
+    }, 1500);
+}
+</script>
+{% endblock %}

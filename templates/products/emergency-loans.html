@@ -1,0 +1,772 @@
+{% extends "base.html" %}
+
+{% block title %}Emergency Loans - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Hero Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mb-5">
+            <h1 class="display-4 fw-bold text-warning mb-4">Emergency Loans</h1>
+            <p class="lead text-muted">Fast cash when you need it most - Get approved and funded within minutes</p>
+        </div>
+    </div>
+    
+    <!-- Emergency Banner -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card bg-warning text-dark border-0">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="mb-2"><i class="fas fa-bolt me-2"></i>24/7 Emergency Funding</h3>
+                            <p class="mb-0">Apply anytime, get approved within minutes, funds disbursed to M-Pesa instantly</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-dark btn-lg">
+                                <i class="fas fa-bolt me-2"></i>Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Emergency Loan Features -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Why Choose Emergency Loans?</h2>
+            <p class="text-muted">Designed for urgent financial needs</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 70px; height: 70px;">
+                            <i class="fas fa-clock text-warning fa-2x"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title">Instant Approval</h5>
+                    <p class="card-text text-muted small">Get approved in under 15 minutes during business hours</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 70px; height: 70px;">
+                            <i class="fas fa-mobile-alt text-success fa-2x"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title">M-Pesa Transfer</h5>
+                    <p class="card-text text-muted small">Funds sent directly to your M-Pesa account within minutes</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 70px; height: 70px;">
+                            <i class="fas fa-file-alt text-primary fa-2x"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title">Minimal Docs</h5>
+                    <p class="card-text text-muted small">Just your ID and M-Pesa number - no lengthy paperwork</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 70px; height: 70px;">
+                            <i class="fas fa-shield-alt text-info fa-2x"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title">Secure Process</h5>
+                    <p class="card-text text-muted small">Bank-level security protects your personal information</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Emergency Loan Options -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Emergency Loan Types</h2>
+            <p class="text-muted">Choose the right emergency loan for your situation</p>
+        </div>
+        
+        <!-- Medical Emergency -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-heartbeat text-danger fa-2x"></i>
+                        </div>
+                    </div>
+                    
+                    <h4 class="card-title text-center mb-3">Medical Emergency</h4>
+                    <p class="card-text text-muted text-center mb-4">
+                        Cover hospital bills, medication costs, or urgent medical procedures
+                    </p>
+                    
+                    <div class="flex-grow-1">
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-primary fw-bold">2,000</h6>
+                                    <small class="text-muted">Min Amount</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-primary fw-bold">100,000</h6>
+                                <small class="text-muted">Max Amount</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-success fw-bold">15-18%</h6>
+                                    <small class="text-muted">Per Month</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-success fw-bold">3-12</h6>
+                                <small class="text-muted">Months</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="small text-muted mb-2">Perfect for:</h6>
+                            <ul class="list-unstyled small">
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Hospital bills
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Medication costs
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Emergency surgery
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Medical tests
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-danger">
+                                <i class="fas fa-heartbeat me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-danger btn-sm" 
+                                    onclick="showLoanDetails('Medical Emergency Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Family Emergency -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-home text-info fa-2x"></i>
+                        </div>
+                    </div>
+                    
+                    <h4 class="card-title text-center mb-3">Family Emergency</h4>
+                    <p class="card-text text-muted text-center mb-4">
+                        Handle unexpected family situations, travel costs, or urgent family needs
+                    </p>
+                    
+                    <div class="flex-grow-1">
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-primary fw-bold">3,000</h6>
+                                    <small class="text-muted">Min Amount</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-primary fw-bold">80,000</h6>
+                                <small class="text-muted">Max Amount</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-success fw-bold">16-20%</h6>
+                                    <small class="text-muted">Per Month</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-success fw-bold">3-9</h6>
+                                <small class="text-muted">Months</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="small text-muted mb-2">Perfect for:</h6>
+                            <ul class="list-unstyled small">
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Family travel
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Home repairs
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>School fees
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Funeral expenses
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-info">
+                                <i class="fas fa-home me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-info btn-sm" 
+                                    onclick="showLoanDetails('Family Emergency Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cash Flow Emergency -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-coins text-warning fa-2x"></i>
+                        </div>
+                    </div>
+                    
+                    <h4 class="card-title text-center mb-3">Cash Flow Emergency</h4>
+                    <p class="card-text text-muted text-center mb-4">
+                        Bridge temporary cash flow gaps until your next income or payment
+                    </p>
+                    
+                    <div class="flex-grow-1">
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-primary fw-bold">1,000</h6>
+                                    <small class="text-muted">Min Amount</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-primary fw-bold">50,000</h6>
+                                <small class="text-muted">Max Amount</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h6 class="text-success fw-bold">18-22%</h6>
+                                    <small class="text-muted">Per Month</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-success fw-bold">1-6</h6>
+                                <small class="text-muted">Months</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="small text-muted mb-2">Perfect for:</h6>
+                            <ul class="list-unstyled small">
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Bill payments
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Rent assistance
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Food & utilities
+                                </li>
+                                <li class="mb-1">
+                                    <i class="fas fa-check text-success me-2"></i>Transport costs
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-warning">
+                                <i class="fas fa-coins me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-warning btn-sm" 
+                                    onclick="showLoanDetails('Daily Expense Loan')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- How Emergency Loans Work -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">How Emergency Loans Work</h2>
+            <p class="text-muted">Fast, simple, and secure process</p>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="text-center">
+                <div class="mb-4">
+                    <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 100px; height: 100px;">
+                        <span class="text-warning fw-bold fs-2">1</span>
+                    </div>
+                </div>
+                <h4 class="mb-3">Apply Online</h4>
+                <p class="text-muted">Fill out our quick online form with your basic details and M-Pesa number</p>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="text-center">
+                <div class="mb-4">
+                    <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 100px; height: 100px;">
+                        <span class="text-success fw-bold fs-2">2</span>
+                    </div>
+                </div>
+                <h4 class="mb-3">Instant Verification</h4>
+                <p class="text-muted">Our system instantly verifies your details and M-Pesa account</p>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="text-center">
+                <div class="mb-4">
+                    <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 100px; height: 100px;">
+                        <span class="text-primary fw-bold fs-2">3</span>
+                    </div>
+                </div>
+                <h4 class="mb-3">Get Funds</h4>
+                <p class="text-muted">Once approved, funds are sent directly to your M-Pesa within minutes</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Requirements -->
+    <div class="row mb-5">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-clipboard-check me-2"></i>Eligibility Requirements</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-warning mt-1 me-3"></i>
+                                <div>
+                                    <strong>Kenyan Resident</strong>
+                                    <p class="text-muted small mb-0">Must be a resident of Kenya with valid ID</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-warning mt-1 me-3"></i>
+                                <div>
+                                    <strong>Age 18-65</strong>
+                                    <p class="text-muted small mb-0">Must be between 18 and 65 years old</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-warning mt-1 me-3"></i>
+                                <div>
+                                    <strong>Active M-Pesa</strong>
+                                    <p class="text-muted small mb-0">Must have an active M-Pesa account</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-warning mt-1 me-3"></i>
+                                <div>
+                                    <strong>Regular Income</strong>
+                                    <p class="text-muted small mb-0">Must have a regular source of income</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Required Documents</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-id-card text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>National ID</strong>
+                                    <p class="text-muted small mb-0">Clear photo of your Kenyan National ID</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-phone text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>M-Pesa Number</strong>
+                                    <p class="text-muted small mb-0">Active M-Pesa registered phone number</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-file text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Proof of Income</strong>
+                                    <p class="text-muted small mb-0">Recent payslip or bank statement</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-map-marker-alt text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Location Details</strong>
+                                    <p class="text-muted small mb-0">Your current address and location</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Emergency Scenarios -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Common Emergency Situations</h2>
+            <p class="text-muted">We understand life happens - here's how we can help</p>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-hospital text-danger fa-3x mb-3"></i>
+                    <h6>Medical Emergency</h6>
+                    <p class="text-muted small">Sudden hospital bills or medical procedures</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-home text-info fa-3x mb-3"></i>
+                    <h6>Home Emergency</h6>
+                    <p class="text-muted small">Burst pipes, electrical issues, or roof repairs</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-car text-warning fa-3x mb-3"></i>
+                    <h6>Vehicle Breakdown</h6>
+                    <p class="text-muted small">Car repairs or transportation emergencies</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-bolt text-primary fa-3x mb-3"></i>
+                    <h6>Cash Flow Gap</h6>
+                    <p class="text-muted small">Between jobs or delayed payments</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tips for Emergency Loans -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Emergency Loan Tips</h2>
+            <p class="text-muted">Make the most of your emergency loan</p>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Best Practices</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-info mt-1 me-3"></i>
+                                <div>
+                                    <strong>Borrow Only What You Need</strong>
+                                    <p class="text-muted small mb-0">Only request the exact amount for your emergency</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-info mt-1 me-3"></i>
+                                <div>
+                                    <strong>Plan Your Repayment</strong>
+                                    <p class="text-muted small mb-0">Ensure you can comfortably repay within the term</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check text-info mt-1 me-3"></i>
+                                <div>
+                                    <strong>Use for True Emergencies</strong>
+                                    <p class="text-muted small mb-0">Reserve emergency loans for genuine urgent situations</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Our Commitment</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-lock text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>No Hidden Fees</strong>
+                                    <p class="text-muted small mb-0">What you see is what you pay - no surprises</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-clock text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Fast Processing</strong>
+                                    <p class="text-muted small mb-0">Same-day approval and funding</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-life-ring text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>24/7 Support</strong>
+                                    <p class="text-muted small mb-0">We're here when you need us most</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-warning text-dark text-center">
+                <div class="card-body p-5">
+                    <h2 class="mb-3">Need Emergency Funding?</h2>
+                    <p class="mb-4 lead">Don't let financial emergencies stress you out - apply now and get help within minutes</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-dark btn-lg">
+                            <i class="fas fa-bolt me-2"></i>Apply for Emergency Loan
+                        </a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline-dark btn-lg">
+                            <i class="fas fa-phone me-2"></i>Call for Help
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Details Modal -->
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loanModalTitle">Loan Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="loanModalContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                    <i class="fas fa-paper-plane me-2"></i>Apply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoanDetails(loanName) {
+    const modalContent = document.getElementById('loanModalContent');
+    const modalTitle = document.getElementById('loanModalTitle');
+    
+    modalTitle.textContent = loanName + ' - Detailed Information';
+    
+    let loanDetails = '';
+    
+    // Customize content based on loan type
+    if (loanName === 'Medical Emergency Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Immediate approval within minutes</li>
+                        <li>No collateral required</li>
+                        <li>Direct hospital/clinic payments</li>
+                        <li>Flexible repayment terms</li>
+                        <li>24/7 application support</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Medical emergency proof</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa account</li>
+                        <li>Minimum income: KSh 20,000</li>
+                        <li>Emergency contact details</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-danger">
+                <i class="fas fa-heartbeat me-2"></i>
+                Get the medical care you need without financial stress.
+            </div>
+        `;
+    } else if (loanName === 'Family Emergency Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Quick family support funding</li>
+                        <li>No questions asked policy</li>
+                        <li>Same-day disbursement</li>
+                        <li>Extended family eligible</li>
+                        <li>Confidential service</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Family relationship proof</li>
+                        <li>Emergency situation details</li>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa number</li>
+                        <li>Employment or income proof</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <i class="fas fa-home me-2"></i>
+                Support your family through unexpected situations and challenges.
+            </div>
+        `;
+    } else if (loanName === 'Daily Expense Loan') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Cover essential daily needs</li>
+                        <li>Small amounts available</li>
+                        <li>Quick approval process</li>
+                        <li>Flexible daily payments</li>
+                        <li>No hidden fees</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Valid Kenyan ID</li>
+                        <li>Active M-Pesa account</li>
+                        <li>Source of income</li>
+                        <li>Minimum age: 18 years</li>
+                        <li>Kenyan resident</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <i class="fas fa-coins me-2"></i>
+                Bridge the gap during temporary financial difficulties.
+            </div>
+        `;
+    }
+    
+    modalContent.innerHTML = loanDetails;
+    
+    const modal = new bootstrap.Modal(document.getElementById('loanModal'));
+    modal.show();
+}
+</script>
+{% endblock %}

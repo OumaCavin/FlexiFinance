@@ -1,0 +1,1117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile - FlexiFinance{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        color: white;
+        margin-bottom: 2rem;
+    }
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid white;
+        margin-bottom: 1rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .profile-form {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .section-title {
+        color: #667eea;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    .form-label {
+        font-weight: 500;
+        color: #4a5568;
+    }
+    .nav-pills .nav-link {
+        color: #666;
+        border-radius: 50px;
+        padding: 0.75rem 1.5rem;
+        margin-right: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    .nav-pills .nav-link:hover {
+        background-color: #f8f9fa;
+        color: #667eea;
+    }
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 6px rgba(102, 126, 234, 0.25);
+    }
+    /* Style for form errors rendered by Django */
+    .errorlist {
+        color: #dc3545;
+        list-style: none;
+        padding: 0;
+        margin-top: 0.25rem;
+        font-size: 0.875em;
+    }
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+    }
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Sub-tabs styling for Personal Info sections */
+    .sub-tabs {
+        margin-bottom: 2rem !important;
+        background-color: #f8f9fa;
+        border-radius: 25px;
+        padding: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .sub-tabs .nav-link {
+        color: #6c757d;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        margin: 0 0.25rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .sub-tabs .nav-link:hover {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+    
+    .sub-tabs .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Responsive adjustments for sub-tabs */
+    @media (max-width: 768px) {
+        .sub-tabs {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .sub-tabs .nav-link {
+            text-align: center;
+            margin: 0;
+        }
+    }
+    
+    /* Ensure sub-tabs content has proper spacing */
+    .tab-content .tab-pane {
+        padding-top: 1rem;
+    }
+    
+    /* Make sub-tab content areas more compact */
+    .sub-tabs + .tab-content {
+        border: none;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="profile-card text-center" data-aos="fade-up">
+                <div class="profile-avatar mx-auto">
+                    <i class="fas fa-user fa-3x text-white"></i>
+                </div>
+                <h2 class="mb-1">{{ user.get_full_name|default:user.username }}</h2>
+                <p class="mb-2 opacity-75">{{ user.email }}</p>
+                
+                <div class="d-flex justify-content-center gap-2 mt-3">
+                    <span class="badge bg-white text-primary rounded-pill px-3 py-2">
+                        {% if user.is_verified %}
+                            <i class="fas fa-check-circle me-1"></i> Verified
+                        {% else %}
+                            <i class="fas fa-hourglass-half me-1"></i> Pending Verification
+                        {% endif %}
+                    </span>
+                    <span class="badge bg-white text-dark rounded-pill px-3 py-2">
+                        Member since {{ user.date_joined|date:"M Y" }}
+                    </span>
+                </div>
+                
+                <!-- Debug Link -->
+                {% if request.user.is_staff %}
+                <div class="mt-3">
+                    <a href="{% url 'dashboard:test_form_save' %}" class="btn btn-outline-light btn-sm">
+                        <i class="fas fa-bug me-1"></i>Debug Test
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="profile-form" data-aos="fade-up" data-aos-delay="100">
+                <ul class="nav nav-pills nav-fill mb-4" id="profileTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="personal-tab" data-bs-toggle="pill" 
+                                data-bs-target="#personal" type="button" role="tab">
+                            <i class="fas fa-user-edit me-2"></i>Personal Info
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="security-tab" data-bs-toggle="pill" 
+                                data-bs-target="#security" type="button" role="tab">
+                            <i class="fas fa-shield-alt me-2"></i>Security
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="kyc-tab" data-bs-toggle="pill" 
+                                data-bs-target="#kyc" type="button" role="tab">
+                            <i class="fas fa-id-card me-2"></i>KYC & Verification
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="profileTabContent">
+                    
+                    <div class="tab-pane fade show active" id="personal" role="tabpanel">
+                        
+                        <!-- Sub-tab navigation for Personal Info sections -->
+                        <ul class="nav nav-pills nav-fill mb-4 sub-tabs" id="personalSubTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="identity-tab" data-bs-toggle="pill" 
+                                        data-bs-target="#identity" type="button" role="tab">
+                                    <i class="fas fa-id-card me-2"></i>Identity Details
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="pill" 
+                                        data-bs-target="#contact" type="button" role="tab">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Contact Information
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="employment-tab" data-bs-toggle="pill" 
+                                        data-bs-target="#employment" type="button" role="tab">
+                                    <i class="fas fa-briefcase me-2"></i>Employment & Financials
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="emergency-tab" data-bs-toggle="pill" 
+                                        data-bs-target="#emergency" type="button" role="tab">
+                                    <i class="fas fa-phone-alt me-2"></i>Emergency Contact
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Sub-tab content with separate forms -->
+                        <div class="tab-content" id="personalSubTabContent">
+                            
+                            <!-- Identity Details Tab -->
+                            <div class="tab-pane fade show active" id="identity" role="tabpanel">
+                                <form id="profile-identity-form" novalidate>
+                                    {% csrf_token %}
+                                    
+                                    <div class="section-title"><i class="fas fa-id-card me-2"></i>Identity Details</div>
+                                    
+                                    {% if identity_form.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            {{ identity_form.non_field_errors }}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">First Name *</label>
+                                            {{ identity_form.first_name }}
+                                            {{ identity_form.first_name.errors }}
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Middle Name</label>
+                                            {{ identity_form.middle_name }}
+                                            {{ identity_form.middle_name.errors }}
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Last Name *</label>
+                                            {{ identity_form.last_name }}
+                                            {{ identity_form.last_name.errors }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Date of Birth</label>
+                                            {{ identity_form.date_of_birth }}
+                                            {{ identity_form.date_of_birth.errors }}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">National ID / Passport</label>
+                                            {{ identity_form.national_id }}
+                                            {{ identity_form.national_id.errors }}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Save button for this section -->
+                                    <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                                        <button type="button" class="btn btn-primary px-4" onclick="submitProfileIdentityForm()">
+                                            <i class="fas fa-save me-2"></i>Save Identity Details
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Contact Information Tab -->
+                            <div class="tab-pane fade" id="contact" role="tabpanel">
+                                <form id="profile-contact-form" novalidate>
+                                    {% csrf_token %}
+                                    
+                                    <div class="section-title"><i class="fas fa-map-marker-alt me-2"></i>Contact Information</div>
+                                    
+                                    {% if contact_form.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            {{ contact_form.non_field_errors }}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Phone Number (M-Pesa)</label>
+                                            {{ contact_form.phone_number }}
+                                            {{ contact_form.phone_number.errors }}
+                                            <div class="form-text">Format: +254... Used for loan disbursements.</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Email Address</label>
+                                            <input type="text" class="form-control bg-light" value="{{ user.email }}" readonly>
+                                            <div class="form-text">Contact support to change email.</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Physical Address</label>
+                                            {{ contact_form.address }}
+                                            {{ contact_form.address.errors }}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">City/Town</label>
+                                            {{ contact_form.city }}
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">County</label>
+                                            {{ contact_form.county }}
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Country</label>
+                                            {{ contact_form.country }}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Save button for this section -->
+                                    <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                                        <button type="button" class="btn btn-primary px-4" onclick="submitProfileContactForm()">
+                                            <i class="fas fa-save me-2"></i>Save Contact Information
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Employment & Financials Tab -->
+                            <div class="tab-pane fade" id="employment" role="tabpanel">
+                                <form id="profile-employment-form" novalidate>
+                                    {% csrf_token %}
+                                    
+                                    <div class="section-title"><i class="fas fa-briefcase me-2"></i>Employment & Financials</div>
+                                    
+                                    {% if employment_form.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            {{ employment_form.non_field_errors }}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Occupation</label>
+                                            {{ employment_form.occupation }}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Employer Name</label>
+                                            {{ employment_form.employer_name }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Monthly Income (KES)</label>
+                                            {{ employment_form.monthly_income }}
+                                            {{ employment_form.monthly_income.errors }}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Employment Duration (Months)</label>
+                                            {{ employment_form.employment_duration }}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Save button for this section -->
+                                    <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                                        <button type="button" class="btn btn-primary px-4" onclick="submitProfileEmploymentForm()">
+                                            <i class="fas fa-save me-2"></i>Save Employment Information
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Emergency Contact Tab -->
+                            <div class="tab-pane fade" id="emergency" role="tabpanel">
+                                <form id="profile-emergency-form" novalidate>
+                                    {% csrf_token %}
+                                    
+                                    <div class="section-title"><i class="fas fa-phone-alt me-2"></i>Emergency Contact</div>
+                                    
+                                    {% if emergency_form.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            {{ emergency_form.non_field_errors }}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Full Name</label>
+                                            {{ emergency_form.emergency_contact_name }}
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Relationship</label>
+                                            {{ emergency_form.emergency_contact_relationship }}
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Phone Number</label>
+                                            {{ emergency_form.emergency_contact_phone }}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Save button for this section -->
+                                    <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                                        <button type="button" class="btn btn-primary px-4" onclick="submitProfileEmergencyForm()">
+                                            <i class="fas fa-save me-2"></i>Save Emergency Contact
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="security" role="tabpanel">
+                        <form method="POST" action="{% url 'dashboard:profile' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="password">
+                            
+                            <div class="alert alert-info border-0 bg-light-info">
+                                <div class="d-flex">
+                                    <i class="fas fa-info-circle fa-2x me-3 text-info"></i>
+                                    <div>
+                                        <h6 class="alert-heading fw-bold">Password Management</h6>
+                                        <p class="mb-0">Only fill these fields if you want to change your password. Otherwise, leave them blank.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row justify-content-center mt-4">
+                                <div class="col-md-8">
+                                    <div class="mb-4">
+                                        <label for="current_password" class="form-label">Current Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                                            <input type="password" class="form-control" id="current_password" name="current_password">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="new_password" class="form-label">New Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="fas fa-key"></i></span>
+                                            <input type="password" class="form-control" id="new_password" name="new_password">
+                                        </div>
+                                        <div class="form-text">Must be at least 8 characters long.</div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="confirm_password" class="form-label">Confirm New Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="fas fa-check-double"></i></span>
+                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                                        </div>
+                                    </div>
+
+                                    <div class="d-grid gap-2 mt-5">
+                                        <button type="submit" class="btn btn-primary py-3">
+                                            <i class="fas fa-shield-alt me-2"></i>Update Password
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="kyc" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-gradient text-white">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-id-card me-2"></i>KYC & Identity Verification
+                                        </h5>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        
+                                        <!-- Verification Status -->
+                                        <div class="row mb-4">
+                                            <div class="col-md-4">
+                                                <div class="verification-status">
+                                                    <h6 class="text-muted mb-2">Email Verification</h6>
+                                                    <div class="d-flex align-items-center">
+                                                        {% if user.is_verified %}
+                                                            <i class="fas fa-check-circle text-success fa-2x me-3"></i>
+                                                            <div>
+                                                                <h5 class="text-success mb-0">Email Verified</h5>
+                                                                <small class="text-muted">Verified on {{ user.verification_date|date:"M d, Y" }}</small>
+                                                            </div>
+                                                        {% else %}
+                                                            <i class="fas fa-envelope text-warning fa-2x me-3"></i>
+                                                            <div>
+                                                                <h5 class="text-warning mb-0">Email Unverified</h5>
+                                                                <small class="text-muted">Check your inbox for verification link</small>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="verification-status">
+                                                    <h6 class="text-muted mb-2">Account Verification</h6>
+                                                    <div class="d-flex align-items-center">
+                                                        {% if user.is_verified %}
+                                                            <i class="fas fa-user-check text-success fa-2x me-3"></i>
+                                                            <div>
+                                                                <h5 class="text-success mb-0">Account Verified</h5>
+                                                                <small class="text-muted">Full access enabled</small>
+                                                            </div>
+                                                        {% else %}
+                                                            <i class="fas fa-user-clock text-warning fa-2x me-3"></i>
+                                                            <div>
+                                                                <h5 class="text-warning mb-0">Account Pending</h5>
+                                                                <small class="text-muted">Verify email to activate</small>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="kyc-status">
+                                                    <h6 class="text-muted mb-2">KYC Status</h6>
+                                                    <div class="d-flex align-items-center">
+                                                        {% if user.kyc_status == 'APPROVED' %}
+                                                            <i class="fas fa-shield-alt text-success fa-2x me-3"></i>
+                                                            <div>
+                                                                <h5 class="text-success mb-0">KYC Approved</h5>
+                                                                <small class="text-muted">All documents verified</small>
+                                                            </div>
+                                                        {% elif user.kyc_status == 'PENDING' %}
+                                                            <i class="fas fa-clock text-warning fa-2x me-3"></i>
+                                                            <div>
+                                                                <h5 class="text-warning mb-0">KYC Pending</h5>
+                                                                <small class="text-muted">{% if not user.is_verified %}Email verification required{% else %}Under review{% endif %}</small>
+                                                            </div>
+                                                        {% elif user.kyc_status == 'REJECTED' %}
+                                                            <i class="fas fa-times-circle text-danger fa-2x me-3"></i>
+                                                            <div>
+                                                                <h5 class="text-danger mb-0">KYC Rejected</h5>
+                                                                <small class="text-muted">Documents need resubmission</small>
+                                                            </div>
+                                                        {% else %}
+                                                            <i class="fas fa-hourglass-half text-muted fa-2x me-3"></i>
+                                                            <div>
+                                                                <h5 class="text-muted mb-0">KYC {{ user.kyc_status|title }}</h5>
+                                                                <small class="text-muted">Status: {{ user.kyc_status }}</small>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Document Requirements -->
+                                        <div class="alert alert-info border-0">
+                                            <div class="d-flex">
+                                                <i class="fas fa-info-circle fa-2x me-3 text-info"></i>
+                                                <div>
+                                                    <h6 class="alert-heading fw-bold">Required Documents for KYC</h6>
+                                                    <p class="mb-2">To complete your KYC verification, please prepare the following documents:</p>
+                                                    <ul class="mb-0">
+                                                        <li><strong>National ID or Passport</strong> - Clear, readable copy</li>
+                                                        <li><strong>Proof of Address</strong> - Utility bill or bank statement (last 3 months)</li>
+                                                        <li><strong>Employment Verification</strong> - Recent pay slip or employment letter</li>
+                                                        <li><strong>Bank Details</strong> - For loan disbursement and repayments</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Current Application Status -->
+                                        {% if user.kyc_status == 'PENDING' %}
+                                            <div class="alert alert-warning border-0">
+                                                <div class="d-flex">
+                                                    <i class="fas fa-clock fa-2x me-3 text-warning"></i>
+                                                    <div>
+                                                        <h6 class="alert-heading fw-bold">Application Under Review</h6>
+                                                        <p class="mb-2">Your KYC documents are currently being reviewed by our compliance team.</p>
+                                                        <p class="mb-0"><strong>Expected review time:</strong> 24-48 hours</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% elif user.kyc_status == 'REJECTED' %}
+                                            <div class="alert alert-danger border-0">
+                                                <div class="d-flex">
+                                                    <i class="fas fa-exclamation-triangle fa-2x me-3 text-danger"></i>
+                                                    <div>
+                                                        <h6 class="alert-heading fw-bold">Documents Rejected</h6>
+                                                        <p class="mb-2">Unfortunately, your KYC documents were not accepted. Please review the rejection reasons and resubmit.</p>
+                                                        <p class="mb-0"><strong>Next Steps:</strong> Contact support for specific rejection details</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% elif user.kyc_status == 'APPROVED' %}
+                                            <div class="alert alert-success border-0">
+                                                <div class="d-flex">
+                                                    <i class="fas fa-check-circle fa-2x me-3 text-success"></i>
+                                                    <div>
+                                                        <h6 class="alert-heading fw-bold">KYC Completed Successfully!</h6>
+                                                        <p class="mb-0">Your account is fully verified and you can now access all FlexiFinance features.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+
+                                        <!-- Action Buttons -->
+                                        <div class="d-grid gap-2 mt-4">
+                                            {% if not user.is_verified %}
+                                                <div class="alert alert-warning border-0">
+                                                    <h6 class="alert-heading">
+                                                        <i class="fas fa-envelope me-2"></i>Email Verification Required
+                                                    </h6>
+                                                    <p class="mb-2">Please verify your email address to activate your account and unlock all features.</p>
+                                                    <form method="POST" action="{% url 'dashboard:resend_verification' %}" class="d-inline">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="email" value="{{ user.email }}">
+                                                        <button type="submit" class="btn btn-warning btn-sm">
+                                                            <i class="fas fa-redo me-1"></i>Resend Verification Email
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            {% elif user.kyc_status == 'PENDING' %}
+                                                <button class="btn btn-outline-primary" disabled>
+                                                    <i class="fas fa-clock me-2"></i>Under Review - Please Wait
+                                                </button>
+                                            {% elif user.kyc_status == 'APPROVED' %}
+                                                <button class="btn btn-outline-success" disabled>
+                                                    <i class="fas fa-check me-2"></i>Already Verified
+                                                </button>
+                                            {% else %}
+                                                <button class="btn btn-primary" onclick="startKYCProcess()">
+                                                    <i class="fas fa-upload me-2"></i>Start KYC Verification
+                                                </button>
+                                                <button class="btn btn-outline-info" onclick="contactSupport()">
+                                                    <i class="fas fa-headset me-2"></i>Contact Support
+                                                </button>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Admin KYC Management (only visible to staff) -->
+                                        {% if request.user.is_staff %}
+                                            <hr class="my-4">
+                                            <div class="alert alert-warning border-0">
+                                                <h6 class="alert-heading">
+                                                    <i class="fas fa-tools me-2"></i>Admin KYC Management
+                                                </h6>
+                                                <p class="mb-3">This section is only visible to administrators for testing purposes.</p>
+                                                
+                                                <form method="POST" action="{% url 'dashboard:update_kyc_status' %}" class="d-flex gap-2">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                                                    <select name="kyc_status" class="form-select" style="max-width: 200px;">
+                                                        <option value="PENDING" {% if user.kyc_status == 'PENDING' %}selected{% endif %}>Pending</option>
+                                                        <option value="APPROVED" {% if user.kyc_status == 'APPROVED' %}selected{% endif %}>Approved</option>
+                                                        <option value="REJECTED" {% if user.kyc_status == 'REJECTED' %}selected{% endif %}>Rejected</option>
+                                                        <option value="EXPIRED" {% if user.kyc_status == 'EXPIRED' %}selected{% endif %}>Expired</option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-warning">
+                                                        <i class="fas fa-save me-1"></i>Update Status
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sidebar with Benefits -->
+                            <div class="col-lg-4">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-gradient text-white">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-star me-2"></i>Verification Benefits
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="benefit-item mb-3">
+                                            <div class="d-flex align-items-start">
+                                                <i class="fas fa-money-bill-wave text-success me-3 mt-1"></i>
+                                                <div>
+                                                    <h6 class="mb-1">Higher Loan Limits</h6>
+                                                    <small class="text-muted">Access loans up to KES 500,000</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="benefit-item mb-3">
+                                            <div class="d-flex align-items-start">
+                                                <i class="fas fa-percentage text-primary me-3 mt-1"></i>
+                                                <div>
+                                                    <h6 class="mb-1">Better Interest Rates</h6>
+                                                    <small class="text-muted">Lower rates for verified users</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="benefit-item mb-3">
+                                            <div class="d-flex align-items-start">
+                                                <i class="fas fa-credit-card text-info me-3 mt-1"></i>
+                                                <div>
+                                                    <h6 class="mb-1">Quick Approvals</h6>
+                                                    <small class="text-muted">Fast-track loan processing</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="benefit-item">
+                                            <div class="d-flex align-items-start">
+                                                <i class="fas fa-shield-alt text-warning me-3 mt-1"></i>
+                                                <div>
+                                                    <h6 class="mb-1">Enhanced Security</h6>
+                                                    <small class="text-muted">Protected account with full verification</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Keep the active tab open on refresh if hash is present
+    document.addEventListener("DOMContentLoaded", function(){
+        // Initialize AOS
+        if(typeof AOS !== 'undefined') {
+            AOS.init({ duration: 800, easing: 'ease-in-out', once: true });
+        }
+
+        // Tab persistence logic
+        var triggerTabList = [].slice.call(document.querySelectorAll('#profileTabs button'));
+        triggerTabList.forEach(function(triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl);
+            triggerEl.addEventListener('click', function(event) {
+                // Save tab ID to localStorage
+                localStorage.setItem('activeProfileTab', event.target.id);
+            });
+        });
+
+        // Restore active tab
+        var activeTabId = localStorage.getItem('activeProfileTab');
+        if(activeTabId && activeTabId.trim() !== '') {
+            var triggerEl = document.querySelector('#' + activeTabId);
+            if(triggerEl) {
+                bootstrap.Tab.getInstance(triggerEl) || new bootstrap.Tab(triggerEl).show();
+            }
+        }
+        
+        // Handle sub-tabs within Personal Info section
+        var personalSubTabList = [].slice.call(document.querySelectorAll('#personalSubTabs button'));
+        personalSubTabList.forEach(function(triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl);
+            triggerEl.addEventListener('click', function(event) {
+                // Save sub-tab ID to localStorage
+                localStorage.setItem('activePersonalSubTab', event.target.id);
+            });
+        });
+
+        // Restore active sub-tab
+        var activeSubTabId = localStorage.getItem('activePersonalSubTab');
+        if(activeSubTabId && activeSubTabId.trim() !== '') {
+            var subTriggerEl = document.querySelector('#' + activeSubTabId);
+            if(subTriggerEl) {
+                bootstrap.Tab.getInstance(subTriggerEl) || new bootstrap.Tab(subTriggerEl).show();
+            }
+        }
+
+        // Form validation feedback with debugging
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                console.log('Form submitted:', form.action);
+                console.log('Form data:', new FormData(form));
+                
+                // Get form type for debugging
+                const formType = form.querySelector('input[name="form_type"]')?.value || 'unknown';
+                console.log('Form type:', formType);
+                
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    console.log('Updating submit button...');
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+                    submitBtn.disabled = true;
+                }
+            });
+        });
+        
+        // Additional debugging for all profile forms
+        const allProfileForms = document.querySelectorAll('form[action*="profile"]');
+        console.log(`Found ${allProfileForms.length} profile forms`);
+        
+        allProfileForms.forEach((form, index) => {
+            console.log(`Profile form ${index + 1}:`, form);
+            
+            form.addEventListener('submit', function(e) {
+                console.log(`Profile form ${index + 1} submit triggered`);
+                console.log('Form action:', this.action);
+                console.log('Form method:', this.method);
+                
+                // Validate form data
+                const formData = new FormData(this);
+                console.log(`Form ${index + 1} fields:`);
+                let fieldCount = 0;
+                for (let [key, value] of formData.entries()) {
+                    console.log(`  ${key}: ${value}`);
+                    fieldCount++;
+                }
+                console.log(`Total form fields: ${fieldCount}`);
+                
+                // Check CSRF token
+                const csrfToken = this.querySelector('input[name="csrfmiddlewaretoken"]');
+                if (csrfToken) {
+                    console.log('CSRF token present:', csrfToken.value ? 'Yes (length: ' + csrfToken.value.length + ')' : 'No');
+                } else {
+                    console.log('WARNING: No CSRF token found!');
+                }
+                
+                // Check form type
+                const formType = this.querySelector('input[name="form_type"]');
+                if (formType) {
+                    console.log('Form type:', formType.value);
+                } else {
+                    console.log('WARNING: No form_type field found!');
+                }
+                
+                // Add visual feedback
+                const submitBtn = this.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    console.log('Updating submit button text and state...');
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+                    submitBtn.disabled = true;
+                }
+            });
+        });
+        
+        if (allProfileForms.length === 0) {
+            console.log('ERROR: No profile forms found!');
+        }
+
+        // KYC Actions
+        window.startKYCProcess = function() {
+            // In a real implementation, this would open a KYC wizard or redirect to document upload
+            alert('KYC process will be implemented in the next update. For now, please contact support with your documents.');
+        };
+
+        window.contactSupport = function() {
+            // Redirect to support page or open support modal
+            window.location.href = '/support/';
+        };
+        
+        // Helper function to show messages (same as test-profile page)
+        function showMessage(type, message) {
+            console.log('=== PROFILE SHOW MESSAGE CALLED ===');
+            console.log('Type:', type);
+            console.log('Message:', message);
+            
+            // Create message element
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+            messageDiv.style.position = 'fixed';
+            messageDiv.style.top = '20px';
+            messageDiv.style.left = '50%';
+            messageDiv.style.transform = 'translateX(-50%)';
+            messageDiv.style.zIndex = '9999';
+            messageDiv.style.minWidth = '400px';
+            messageDiv.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+            messageDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            // Try to insert at top of content area first
+            const contentContainer = document.querySelector('.container-fluid');
+            const breadcrumb = document.querySelector('.breadcrumb');
+            
+            if (contentContainer && breadcrumb) {
+                // Insert after breadcrumb if it exists
+                breadcrumb.parentNode.insertBefore(messageDiv, breadcrumb.nextSibling);
+                console.log('Message inserted after breadcrumb');
+            } else if (contentContainer) {
+                // Insert at top of content if breadcrumb doesn't exist
+                contentContainer.insertBefore(messageDiv, contentContainer.firstChild);
+                console.log('Message inserted at top of content');
+            } else {
+                // Fallback: append to body if nothing else works
+                document.body.appendChild(messageDiv);
+                console.log('Message appended to body');
+            }
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                    console.log('Message auto-removed after 5 seconds');
+                }
+            }, 5000);
+            
+            console.log('Message display setup complete');
+        }
+
+        // Profile form submission functions
+        function submitProfileIdentityForm() {
+            console.log('=== PROFILE IDENTITY FORM SUBMISSION ===');
+            
+            const form = document.getElementById('profile-identity-form');
+            const formData = new FormData(form);
+            formData.append('form_type', 'identity');
+            
+            console.log('Profile Identity form data:', Object.fromEntries(formData));
+            
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="button"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+            submitBtn.disabled = true;
+            
+            // Submit to backend
+            fetch('{% url "dashboard:profile" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Profile Identity form response:', data);
+                
+                // Show success message
+                showMessage('success', 'Identity details saved successfully!');
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Profile Identity form error:', error);
+                
+                // Show error message
+                showMessage('error', 'Error: ' + error.message);
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+
+        function submitProfileContactForm() {
+            console.log('=== PROFILE CONTACT FORM SUBMISSION ===');
+            
+            const form = document.getElementById('profile-contact-form');
+            const formData = new FormData(form);
+            formData.append('form_type', 'contact');
+            
+            console.log('Profile Contact form data:', Object.fromEntries(formData));
+            
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="button"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+            submitBtn.disabled = true;
+            
+            // Submit to backend
+            fetch('{% url "dashboard:profile" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Profile Contact form response:', data);
+                
+                // Show success message
+                showMessage('success', 'Contact information saved successfully!');
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Profile Contact form error:', error);
+                
+                // Show error message
+                showMessage('error', 'Error: ' + error.message);
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+
+        function submitProfileEmploymentForm() {
+            console.log('=== PROFILE EMPLOYMENT FORM SUBMISSION ===');
+            
+            const form = document.getElementById('profile-employment-form');
+            const formData = new FormData(form);
+            formData.append('form_type', 'employment');
+            
+            console.log('Profile Employment form data:', Object.fromEntries(formData));
+            
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="button"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+            submitBtn.disabled = true;
+            
+            // Submit to backend
+            fetch('{% url "dashboard:profile" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Profile Employment form response:', data);
+                
+                // Show success message
+                showMessage('success', 'Employment information saved successfully!');
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Profile Employment form error:', error);
+                
+                // Show error message
+                showMessage('error', 'Error: ' + error.message);
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+
+        function submitProfileEmergencyForm() {
+            console.log('=== PROFILE EMERGENCY FORM SUBMISSION ===');
+            
+            const form = document.getElementById('profile-emergency-form');
+            const formData = new FormData(form);
+            formData.append('form_type', 'emergency');
+            
+            console.log('Profile Emergency form data:', Object.fromEntries(formData));
+            
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="button"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+            submitBtn.disabled = true;
+            
+            // Submit to backend
+            fetch('{% url "dashboard:profile" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Profile Emergency form response:', data);
+                
+                // Show success message
+                showMessage('success', 'Emergency contact saved successfully!');
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Profile Emergency form error:', error);
+                
+                // Show error message
+                showMessage('error', 'Error: ' + error.message);
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Out - FlexiFinance{% endblock %}
+
+{% block extra_css %}
+<style>
+    .logout-container {
+        max-width: 500px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .logout-header {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
+
+    .logout-header h2 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 300;
+    }
+
+    .logout-content {
+        padding: 40px 30px;
+        text-align: center;
+    }
+
+    .logout-icon {
+        font-size: 4rem;
+        color: #ff6b6b;
+        margin-bottom: 20px;
+    }
+
+    .success-icon {
+        font-size: 4rem;
+        color: #51cf66;
+        margin-bottom: 20px;
+    }
+
+    .btn-confirm {
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin: 0 10px;
+        cursor: pointer;
+    }
+
+    .btn-confirm:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        color: white;
+    }
+
+    .btn-cancel {
+        padding: 12px 30px;
+        background: transparent;
+        color: #666;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin: 0 10px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-cancel:hover {
+        border-color: #bbb;
+        color: #444;
+        text-decoration: none;
+    }
+
+    .btn-home {
+        display: inline-block;
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .btn-home:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(81, 207, 102, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+        .logout-container {
+            margin: 20px;
+            border-radius: 10px;
+        }
+        
+        .logout-header {
+            padding: 30px 20px;
+        }
+        
+        .logout-content {
+            padding: 30px 20px;
+        }
+        
+        .btn-confirm, .btn-cancel {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="logout-container">
+        <div class="logout-header">
+            <h2>Sign Out Confirmation</h2>
+        </div>
+        
+        <div class="logout-content">
+            {% if user.is_authenticated %}
+                <!-- Confirmation Dialog for Logged In Users -->
+                <div class="logout-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                
+                <h3>Are you sure you want to sign out?</h3>
+                <p class="text-muted">You will be logged out of your FlexiFinance account.</p>
+                
+                <form method="post" action="{% url 'logout' %}" style="margin-top: 20px;">
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+                    
+                    <button type="submit" class="btn-confirm">
+                        <i class="fas fa-sign-out-alt me-2"></i>Yes, Sign Out
+                    </button>
+                    <a href="{% url 'core:home' %}" class="btn-cancel">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
+                </form>
+            {% else %}
+                <!-- Success Message for Already Logged Out Users -->
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                
+                <h3>Signed Out Successfully</h3>
+                <p class="text-muted">You have been successfully signed out of your FlexiFinance account.</p>
+                
+                <a href="{% url 'core:home' %}" class="btn-home">
+                    <i class="fas fa-home me-2"></i>Back to Home
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

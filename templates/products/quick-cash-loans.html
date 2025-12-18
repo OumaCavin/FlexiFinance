@@ -1,0 +1,423 @@
+{% extends "base.html" %}
+
+{% block title %}Quick Cash Loans - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Hero Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-4">Quick Cash Loans</h1>
+            <p class="lead text-muted">Fast, flexible financing solutions when you need money urgently</p>
+        </div>
+    </div>
+    
+    <!-- Quick Cash Calculator Banner -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card bg-gradient text-white border-0">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="mb-2">Calculate Your Quick Cash Loan</h3>
+                            <p class="mb-0">Get instant loan estimates with our quick cash calculator</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <a href="{% url 'loan_calculator' %}" class="btn btn-light btn-lg">
+                                <i class="fas fa-calculator me-2"></i>Calculate Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Cash Loan Products -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Quick Cash Solutions</h2>
+            <p class="text-muted">Choose the right quick cash option for your urgent needs</p>
+        </div>
+        
+        <!-- Quick Cash Small Amount -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-bolt text-warning fa-2x"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title text-center mb-3">Quick Cash - Small Amount</h4>
+                    <p class="card-text text-muted mb-4">Fast approval for amounts up to KSh 25,000</p>
+                    
+                    <div class="mt-auto">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Amount: KSh 5,000 - 25,000</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interest: 15.0% monthly</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 1-6 months</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Approval: Within 24 hours</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Processing Fee: KSh 500</li>
+                        </ul>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-warning">
+                                <i class="fas fa-paper-plane me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-warning btn-sm" 
+                                    onclick="showLoanDetails('Quick Cash Small Amount')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Regular Quick Cash Option -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-fast-forward text-primary fa-2x"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title text-center mb-3">Express Cash</h4>
+                    <p class="card-text text-muted mb-4">Premium quick cash with enhanced benefits</p>
+                    
+                    <div class="mt-auto">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Amount: KSh 10,000 - 50,000</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interest: 12.5% monthly</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tenure: 3-12 months</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Approval: Within 12 hours</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Processing Fee: KSh 750</li>
+                        </ul>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Apply Now
+                            </a>
+                            <button type="button" class="btn btn-outline-primary btn-sm" 
+                                    onclick="showLoanDetails('Express Cash')">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Features -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Why Choose FlexiFinance Quick Cash?</h2>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-clock text-warning fa-2x"></i>
+                </div>
+                <h5>Lightning Fast</h5>
+                <p class="text-muted">Get approved within 12-24 hours</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-mobile-alt text-primary fa-2x"></i>
+                </div>
+                <h5>Mobile M-Pesa</h5>
+                <p class="text-muted">Direct disbursement to your M-Pesa</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-shield-alt text-success fa-2x"></i>
+                </div>
+                <h5>No Collateral</h5>
+                <p class="text-muted">Unsecured loans, no assets required</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="text-center">
+                <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 80px; height: 80px;">
+                    <i class="fas fa-percentage text-info fa-2x"></i>
+                </div>
+                <h5>Competitive Rates</h5>
+                <p class="text-muted">Transparent pricing, no hidden fees</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Eligibility -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <h3 class="text-center mb-4">Quick Cash Eligibility Requirements</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-user text-warning me-3"></i>Age: 21-65 years</li>
+                                <li class="mb-3"><i class="fas fa-briefcase text-warning me-3"></i>Employment: Any stable income source</li>
+                                <li class="mb-3"><i class="fas fa-money-bill text-warning me-3"></i>Income: Minimum KSh 25,000 monthly</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-id-card text-warning me-3"></i>Valid Kenyan ID or passport</li>
+                                <li class="mb-3"><i class="fas fa-mobile text-warning me-3"></i>Active M-Pesa account</li>
+                                <li class="mb-3"><i class="fas fa-credit-card text-warning me-3"></i>Bank account (3+ months old)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Use Cases -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">When You Need Quick Cash</h2>
+            <p class="text-muted">Perfect for these urgent situations</p>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-heartbeat text-danger fa-lg"></i>
+                    </div>
+                    <h5>Medical Emergencies</h5>
+                    <p class="text-muted">Hospital bills, medication, urgent medical procedures</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-wrench text-warning fa-lg"></i>
+                    </div>
+                    <h5>Vehicle Repairs</h5>
+                    <p class="text-muted">Car repairs, maintenance, emergency breakdowns</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-home text-info fa-lg"></i>
+                    </div>
+                    <h5>Home Repairs</h5>
+                    <p class="text-muted">Plumbing, electrical, roofing, urgent home fixes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Testimonials -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Customer Success Stories</h2>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Customer">
+                        <div>
+                            <h6 class="mb-1">David M.</h6>
+                            <small class="text-muted">Nairobi</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "My car broke down and I needed KSh 15,000 for repairs. FlexiFinance approved my 
+                        quick cash loan the same day. Lifesaver!"
+                    </p>
+                    <div class="text-warning mt-2">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Customer">
+                        <div>
+                            <h6 class="mb-1">Faith K.</h6>
+                            <small class="text-muted">Mombasa</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "Medical emergency at 2 AM. Got KSh 20,000 approved within hours. The M-Pesa 
+                        transfer was instant. Amazing service!"
+                    </p>
+                    <div class="text-warning mt-2">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Customer">
+                        <div>
+                            <h6 class="mb-1">Peter N.</h6>
+                            <small class="text-muted">Kisumu</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "Pipe burst at home on weekend. Needed immediate repairs. FlexiFinance quick cash 
+                        helped me fix it before water damage escalated."
+                    </p>
+                    <div class="text-warning mt-2">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-warning text-white text-center">
+                <div class="card-body p-5">
+                    <h2 class="mb-3">Need Cash Urgently? We've Got You Covered!</h2>
+                    <p class="mb-4 lead">Join thousands of customers who trust FlexiFinance for quick cash solutions</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
+                            <i class="fas fa-rocket me-2"></i>Apply for Quick Cash
+                        </a>
+                        <a href="{% url 'loan_calculator' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-calculator me-2"></i>Calculate Loan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Details Modal -->
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loanModalTitle">Loan Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="loanModalContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'loans:loan_application' %}" class="btn btn-warning">
+                    <i class="fas fa-paper-plane me-2"></i>Apply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoanDetails(loanName) {
+    const modalContent = document.getElementById('loanModalContent');
+    const modalTitle = document.getElementById('loanModalTitle');
+    
+    modalTitle.textContent = loanName + ' - Detailed Information';
+    
+    let loanDetails = '';
+    
+    // Customize content based on loan type
+    if (loanName === 'Quick Cash Small Amount') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Instant approval within 24 hours</li>
+                        <li>No collateral required</li>
+                        <li>Direct M-Pesa disbursement</li>
+                        <li>Flexible 1-6 month repayment</li>
+                        <li>Processing fee: KSh 500</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Valid Kenyan ID or passport</li>
+                        <li>Active M-Pesa account</li>
+                        <li>Minimum income: KSh 25,000</li>
+                        <li>Age: 21-65 years</li>
+                        <li>Bank account (3+ months)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <i class="fas fa-info-circle me-2"></i>
+                Perfect for urgent expenses like medical bills, vehicle repairs, or household emergencies.
+            </div>
+        `;
+    } else if (loanName === 'Express Cash') {
+        loanDetails = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Loan Features:</h6>
+                    <ul>
+                        <li>Premium approval within 12 hours</li>
+                        <li>Higher loan amounts available</li>
+                        <li>Direct M-Pesa disbursement</li>
+                        <li>Extended 3-12 month repayment</li>
+                        <li>Priority customer support</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>Valid Kenyan ID or passport</li>
+                        <li>Active M-Pesa account</li>
+                        <li>Minimum income: KSh 40,000</li>
+                        <li>Age: 21-65 years</li>
+                        <li>Stable employment/business</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-primary">
+                <i class="fas fa-star me-2"></i>
+                Enhanced benefits with faster approval and larger amounts for repeat customers.
+            </div>
+        `;
+    }
+    
+    modalContent.innerHTML = loanDetails;
+    
+    const modal = new bootstrap.Modal(document.getElementById('loanModal'));
+    modal.show();
+}
+</script>
+{% endblock %}

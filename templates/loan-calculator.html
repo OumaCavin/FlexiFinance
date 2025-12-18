@@ -1,0 +1,454 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Loan Calculator - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Hero Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-4">Loan Calculator</h1>
+            <p class="lead text-muted">Calculate your monthly payments and find the perfect loan for your needs</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Calculator Form -->
+        <div class="col-lg-6 mb-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-calculator me-2"></i>Loan Calculator</h5>
+                </div>
+                <div class="card-body">
+                    <form id="loanCalculatorForm" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <label for="loanAmount" class="form-label">Loan Amount (KSh)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">KSh</span>
+                                <input type="number" class="form-control form-control-lg" id="loanAmount" 
+                                       min="5000" max="500000" value="50000" required>
+                            </div>
+                            <div class="form-text">Minimum: KSh 5,000 | Maximum: KSh 500,000</div>
+                            <div class="invalid-feedback">
+                                Please enter a loan amount between KSh 5,000 and KSh 500,000.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="loanTerm" class="form-label">Loan Term</label>
+                            <select class="form-select form-select-lg" id="loanTerm" required>
+                                <option value="3">3 months</option>
+                                <option value="6" selected>6 months</option>
+                                <option value="12">12 months</option>
+                                <option value="24">24 months</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a loan term.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="interestRate" class="form-label">Interest Rate (%)</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control form-control-lg" id="interestRate" 
+                                       step="0.1" min="1" max="30" value="15" required>
+                                <span class="input-group-text">% per month</span>
+                            </div>
+                            <div class="form-text">Typical rates: 12-24% per month</div>
+                            <div class="invalid-feedback">
+                                Please enter a valid interest rate.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="loanType" class="form-label">Loan Type</label>
+                            <select class="form-select form-select-lg" id="loanType">
+                                <option value="personal">Personal Loan</option>
+                                <option value="emergency">Emergency Loan</option>
+                                <option value="business">Business Loan</option>
+                                <option value="education">Education Loan</option>
+                            </select>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-primary btn-lg" onclick="calculateLoan()">
+                                <i class="fas fa-calculator me-2"></i>Calculate
+                            </button>
+                            <button type="reset" class="btn btn-outline-secondary" onclick="resetCalculator()">
+                                <i class="fas fa-undo me-2"></i>Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results -->
+        <div class="col-lg-6 mb-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Calculation Results</h5>
+                </div>
+                <div class="card-body">
+                    <div id="calculationResults" style="display: none;">
+                        <div class="row text-center mb-4">
+                            <div class="col-12">
+                                <h3 class="text-primary fw-bold" id="monthlyPayment">KSh 0</h3>
+                                <p class="text-muted">Monthly Payment</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <h5 class="text-success fw-bold" id="totalAmount">KSh 0</h5>
+                                    <small class="text-muted">Total Amount</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <h5 class="text-warning fw-bold" id="totalInterest">KSh 0</h5>
+                                    <small class="text-muted">Total Interest</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <h6 class="fw-bold" id="interestRateDisplay">0%</h6>
+                                    <small class="text-muted">Interest Rate</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <h6 class="fw-bold" id="loanTermDisplay">0 months</h6>
+                                    <small class="text-muted">Loan Term</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="mb-4">
+                            <h6 class="mb-3">Payment Breakdown</h6>
+                            <div class="progress mb-3" style="height: 30px;">
+                                <div class="progress-bar bg-success" id="principalProgress" style="width: 0%">
+                                    Principal
+                                </div>
+                                <div class="progress-bar bg-warning" id="interestProgress" style="width: 0%">
+                                    Interest
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-6">
+                                    <small class="text-success">Principal: <span id="principalAmount">KSh 0</span></small>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-warning">Interest: <span id="interestAmount">KSh 0</span></small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'loans:loan_application' %}" class="btn btn-success btn-lg">
+                                <i class="fas fa-rocket me-2"></i>Apply for This Loan
+                            </a>
+                            <button type="button" class="btn btn-outline-primary" onclick="shareCalculation()">
+                                <i class="fas fa-share me-2"></i>Share Calculation
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="noResults" class="text-center py-5">
+                        <i class="fas fa-calculator fa-3x text-muted mb-3"></i>
+                        <h6 class="text-muted">Enter your loan details to see calculations</h6>
+                        <p class="text-muted">Fill out the form and click "Calculate" to view your loan breakdown</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loan Products -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Available Loan Products</h2>
+            <p class="text-muted">Choose the right loan for your needs</p>
+        </div>
+        
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-th-large text-primary fa-2x"></i>
+                        </div>
+                        <h4 class="mb-3">Explore All Loan Products</h4>
+                        <p class="text-muted mb-4">
+                            View our complete range of loan products with detailed information, 
+                            features, and application requirements. Find the perfect loan for your specific needs.
+                        </p>
+                    </div>
+                    
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'loan_products' %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-list me-2"></i>View All Products
+                        </a>
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-success btn-lg">
+                            <i class="fas fa-rocket me-2"></i>Apply Now
+                        </a>
+                    </div>
+                    
+                    <div class="row mt-5">
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <i class="fas fa-check-circle text-success fa-2x mb-2"></i>
+                                <h6>Easy Application</h6>
+                                <small class="text-muted">Simple online process</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <i class="fas fa-clock text-warning fa-2x mb-2"></i>
+                                <h6>Quick Approval</h6>
+                                <small class="text-muted">Fast decision making</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <i class="fas fa-mobile-alt text-info fa-2x mb-2"></i>
+                                <h6>M-Pesa Disbursement</h6>
+                                <small class="text-muted">Direct to your phone</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tips and Information -->
+    <div class="row mb-5">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Loan Tips</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-info mt-1 me-3"></i>
+                                <div>
+                                    <strong>Borrow What You Can Afford</strong>
+                                    <p class="text-muted small mb-0">Ensure your monthly payment fits comfortably in your budget</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-info mt-1 me-3"></i>
+                                <div>
+                                    <strong>Compare Different Terms</strong>
+                                    <p class="text-muted small mb-0">Longer terms mean lower payments but higher total interest</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-info mt-1 me-3"></i>
+                                <div>
+                                    <strong>Pay On Time</strong>
+                                    <p class="text-muted small mb-0">Timely payments help build your credit score for future loans</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-info mt-1 me-3"></i>
+                                <div>
+                                    <strong>Read Terms Carefully</strong>
+                                    <p class="text-muted small mb-0">Understand all fees, penalties, and repayment conditions</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Our Guarantees</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-lock text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>No Hidden Fees</strong>
+                                    <p class="text-muted small mb-0">The rate you see is the rate you pay</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-clock text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Quick Approval</strong>
+                                    <p class="text-muted small mb-0">Most applications approved within 30 minutes</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-mobile-alt text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>Digital Process</strong>
+                                    <p class="text-muted small mb-0">Apply online, get approved digitally, receive funds via M-Pesa</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-life-ring text-success mt-1 me-3"></i>
+                                <div>
+                                    <strong>24/7 Support</strong>
+                                    <p class="text-muted small mb-0">We're here to help whenever you need us</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-primary text-white text-center">
+                <div class="card-body p-5">
+                    <h2 class="mb-3">Ready to Apply?</h2>
+                    <p class="mb-4 lead">Based on your calculation, you can now apply for your loan with confidence.</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'loans:loan_application' %}" class="btn btn-light btn-lg">
+                            <i class="fas fa-rocket me-2"></i>Apply for Loan
+                        </a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-question-circle me-2"></i>Need Help?
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function calculateLoan() {
+    const form = document.getElementById('loanCalculatorForm');
+    
+    if (!form.checkValidity()) {
+        form.classList.add('was-validated');
+        return;
+    }
+    
+    const principal = parseFloat(document.getElementById('loanAmount').value);
+    const rate = parseFloat(document.getElementById('interestRate').value) / 100;
+    const months = parseInt(document.getElementById('loanTerm').value);
+    
+    // Calculate monthly payment using compound interest formula
+    const monthlyRate = rate;
+    const monthlyPayment = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+                          (Math.pow(1 + monthlyRate, months) - 1);
+    
+    const totalAmount = monthlyPayment * months;
+    const totalInterest = totalAmount - principal;
+    
+    // Update display
+    document.getElementById('monthlyPayment').textContent = 'KSh ' + Math.round(monthlyPayment).toLocaleString();
+    document.getElementById('totalAmount').textContent = 'KSh ' + Math.round(totalAmount).toLocaleString();
+    document.getElementById('totalInterest').textContent = 'KSh ' + Math.round(totalInterest).toLocaleString();
+    document.getElementById('interestRateDisplay').textContent = (rate * 100).toFixed(1) + '%';
+    document.getElementById('loanTermDisplay').textContent = months + ' months';
+    document.getElementById('principalAmount').textContent = 'KSh ' + Math.round(principal).toLocaleString();
+    document.getElementById('interestAmount').textContent = 'KSh ' + Math.round(totalInterest).toLocaleString();
+    
+    // Update progress bars
+    const principalPercent = (principal / totalAmount) * 100;
+    const interestPercent = (totalInterest / totalAmount) * 100;
+    
+    document.getElementById('principalProgress').style.width = principalPercent + '%';
+    document.getElementById('interestProgress').style.width = interestPercent + '%';
+    
+    // Show results
+    document.getElementById('calculationResults').style.display = 'block';
+    document.getElementById('noResults').style.display = 'none';
+}
+
+function resetCalculator() {
+    document.getElementById('calculationResults').style.display = 'none';
+    document.getElementById('noResults').style.display = 'block';
+    document.getElementById('loanCalculatorForm').classList.remove('was-validated');
+}
+
+function shareCalculation() {
+    const amount = document.getElementById('loanAmount').value;
+    const term = document.getElementById('loanTerm').value;
+    const monthly = document.getElementById('monthlyPayment').textContent;
+    
+    const text = `I calculated my loan: KSh ${amount} for ${term} months = ${monthly} monthly payment via FlexiFinance`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'Loan Calculation',
+            text: text,
+            url: window.location.href
+        });
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Calculation copied to clipboard!');
+        });
+    }
+}
+
+// Auto-calculate when form changes
+document.getElementById('loanCalculatorForm').addEventListener('input', function() {
+    const amount = document.getElementById('loanAmount').value;
+    const term = document.getElementById('loanTerm').value;
+    
+    if (amount && term) {
+        calculateLoan();
+    }
+});
+
+// Initialize calculator on page load
+document.addEventListener('DOMContentLoaded', function() {
+    calculateLoan();
+});
+
+// Form validation
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
+{% endblock %}

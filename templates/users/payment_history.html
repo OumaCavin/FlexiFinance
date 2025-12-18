@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payment History - FlexiFinance{% endblock %}
+
+{% block extra_css %}
+<style>
+    .payment-history-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 3rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .payment-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border: none;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+    }
+    .payment-card:hover {
+        transform: translateY(-2px);
+    }
+    .payment-status {
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .status-completed {
+        background: #d4edda;
+        color: #155724;
+    }
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    .status-failed {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    .amount-display {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #667eea;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Header -->
+    <div class="payment-history-header" data-aos="fade-up">
+        <h1 class="mb-3">Payment History</h1>
+        <p class="mb-0 opacity-75">View all your transaction history and payment records</p>
+    </div>
+
+    <!-- Payment Statistics -->
+    <div class="row mb-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-md-4">
+            <div class="card text-center" style="background: #f8f9fa; border: none; border-radius: 15px; padding: 1.5rem;">
+                <h3 class="text-primary mb-2">{{ stats.total_payments }}</h3>
+                <p class="text-muted mb-0">Total Payments</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center" style="background: #f8f9fa; border: none; border-radius: 15px; padding: 1.5rem;">
+                <h3 class="text-success mb-2">KES {{ stats.total_amount|floatformat:0 }}</h3>
+                <p class="text-muted mb-0">Total Amount Paid</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center" style="background: #f8f9fa; border: none; border-radius: 15px; padding: 1.5rem;">
+                <h3 class="text-info mb-2">{{ stats.successful_payments }}</h3>
+                <p class="text-muted mb-0">Successful Payments</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment History List -->
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-3" data-aos="fade-up">Recent Payments</h3>
+            
+            {% if payments %}
+                {% for payment in payments %}
+                <div class="payment-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:200 }}">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h5 class="mb-1">{{ payment.get_payment_type_display }}</h5>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                {{ payment.created_at|date:"M d, Y H:i" }}
+                            </small>
+                            {% if payment.reference_number %}
+                                <br>
+                                <small class="text-muted">
+                                    <i class="fas fa-hashtag me-1"></i>
+                                    Ref: {{ payment.reference_number }}
+                                </small>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="amount-display">KES {{ payment.amount|floatformat:0 }}</div>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <span class="payment-status status-{{ payment.status|lower }}">
+                                {{ payment.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Empty State -->
+                <div class="text-center py-5" data-aos="fade-up">
+                    <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
+                    <h4>No Payment History</h4>
+                    <p class="text-muted">You haven't made any payments yet.</p>
+                    <a href="{% url 'loans:loan_application' %}" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Apply for a Loan
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS already loaded in base.html -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+</script>
+{% endblock %}

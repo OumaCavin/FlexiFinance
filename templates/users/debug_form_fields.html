@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Debug Form Fields - FlexiFinance{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Debug Form Fields</h3>
+                </div>
+                <div class="card-body">
+                    <p>This page helps debug what form fields are being submitted.</p>
+                    
+                    <form method="POST" action="{% url 'dashboard:debug_form_fields' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="debug">
+                        
+                        <div class="mb-3">
+                            <label>First Name:</label>
+                            <input type="text" name="first_name" class="form-control" value="TestFirst">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label>Last Name:</label>
+                            <input type="text" name="last_name" class="form-control" value="TestLast">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label>Phone Number:</label>
+                            <input type="text" name="phone_number" class="form-control" value="+254712345678">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Debug Submit</button>
+                    </form>
+                    
+                    <div class="mt-4">
+                        <h5>Direct Test Links:</h5>
+                        <ul>
+                            <li><a href="{% url 'dashboard:test_profile_forms' %}">Test Profile Page</a></li>
+                            <li><a href="{% url 'dashboard:test_form_save' %}">Test Form Save</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,549 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Document Upload - FlexiFinance{% endblock %}
+
+{% block extra_css %}
+<style>
+    .upload-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .upload-form {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .drop-zone {
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        padding: 40px;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .drop-zone.dragover {
+        border-color: #007bff;
+        background-color: #f8f9fa;
+    }
+    
+    .file-info {
+        display: none;
+        background: #e9ecef;
+        border-radius: 6px;
+        padding: 15px;
+        margin-top: 15px;
+    }
+    
+    .existing-documents {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 30px;
+    }
+    
+    .document-card {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .document-info {
+        flex: 1;
+    }
+    
+    .document-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .status-badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .status-pending { background: #ffc107; color: #212529; }
+    .status-approved { background: #28a745; color: white; }
+    .status-rejected { background: #dc3545; color: white; }
+    .status-expired { background: #6c757d; color: white; }
+    
+    .progress-bar {
+        width: 100%;
+        height: 6px;
+        background: #e9ecef;
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background: #007bff;
+        transition: width 0.3s ease;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Document Upload</h2>
+        <a href="{% url 'documents:list' %}" class="btn btn-outline-primary">
+            <i class="fas fa-list"></i> My Documents
+        </a>
+    </div>
+
+    <div class="upload-form">
+        <h4 class="mb-4">Upload New Document</h4>
+        
+        <form id="uploadForm" enctype="multipart/form-data" class="no-js-validate">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="document_type">Document Type *</label>
+                        <select class="form-control" id="document_type" name="document_type" required>
+                            <option value="">Select document type...</option>
+                            {% for doc_type in document_types %}
+                            <option value="{{ doc_type.id }}" 
+                                    data-max-size="{{ doc_type.max_file_size }}"
+                                    data-extensions="{{ doc_type.allowed_extensions }}">
+                                {{ doc_type.name }} - {{ doc_type.get_required_for_display }}
+                                {% if doc_type.is_required %}<span class="text-danger">*</span>{% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <small class="form-text text-muted">
+                            Required documents are marked with *
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group mt-3">
+                <label>Upload Document *</label>
+                <div class="drop-zone" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                    <p class="mb-2">Drag and drop your file here, or click to browse</p>
+                    <p class="text-muted small">
+                        Supported formats: <span id="allowedFormats">PDF, JPG, PNG</span><br>
+                        Maximum size: <span id="maxSize">10 MB</span>
+                    </p>
+                    <input type="file" id="fileInput" name="document" style="display: none;">
+                </div>
+                
+                <div class="file-info" id="fileInfo">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong id="fileName"></strong>
+                            <br>
+                            <small class="text-muted" id="fileSize"></small>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" id="removeFile">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="progress-bar" id="progressBar" style="display: none;">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary" id="uploadBtn" disabled>
+                    <i class="fas fa-upload"></i> Upload Document
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="existing-documents">
+        <h4 class="mb-4">Your Documents</h4>
+        
+        {% if user_documents %}
+            {% for document in user_documents %}
+            <div class="document-card">
+                <div class="document-info">
+                    <h6 class="mb-1">{{ document.document_type.name }}</h6>
+                    <p class="text-muted mb-1">
+                        {{ document.original_filename }} • 
+                        {{ document.file_size|filesizeformat }} • 
+                        {{ document.uploaded_at|date:"M d, Y" }}
+                    </p>
+                    <span class="status-badge status-{{ document.status|lower }}">
+                        {{ document.get_status_display }}
+                    </span>
+                    {% if document.verified_at %}
+                        <small class="text-muted ml-2">
+                            Verified {{ document.verified_at|date:"M d, Y" }}
+                        </small>
+                    {% endif %}
+                </div>
+                <div class="document-actions">
+                    {% if document.status in 'APPROVED AUTO_APPROVED' %}
+                    <a href="{% url 'documents:download' document.id %}" 
+                       class="btn btn-sm btn-success">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'documents:detail' document.id %}" 
+                       class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-eye"></i> View
+                    </a>
+                    {% if document.status != 'APPROVED' %}
+                    <button class="btn btn-sm btn-outline-danger" 
+                            onclick="deleteDocument({{ document.id }})">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                    </div>
+            {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-center text-muted py-4">
+                <i class="fas fa-file-upload fa-3x mb-3"></i>
+                <p>No documents uploaded yet</p>
+                <p class="small">Upload your first document using the form above</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // DOM Elements
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadForm = document.getElementById('uploadForm');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        
+        let droppedFile = null; 
+        
+        // Debugging URL
+        const uploadUrl = `{% url "documents:upload" %}`;
+        console.log("Upload URL configured as:", uploadUrl);
+
+        // --- Event Listeners ---
+
+        // 1. Drag & Drop Interactions
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                droppedFile = files[0];
+                fileInput.value = ''; // Clear native input
+                handleFileSelect(droppedFile);
+            }
+        });
+        
+        // 2. Native File Input
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                droppedFile = null;
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+        
+        // 3. Form Submission
+        uploadForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Stop standard submission
+            console.log("Form submit triggered");
+
+            // Basic Validation
+            const docType = document.getElementById('document_type').value;
+            const hasFile = fileInput.files.length > 0 || droppedFile;
+            
+            if (!docType) { 
+                alert("Please select a document type."); 
+                return; 
+            }
+            if (!hasFile) { 
+                alert("Please select a file to upload."); 
+                return; 
+            }
+            
+            // Prepare Data
+            const formData = new FormData(uploadForm);
+            if (droppedFile) {
+                formData.set('document', droppedFile);
+            }
+
+            // UI Updates
+            progressBar.style.display = 'block';
+            progressFill.style.width = '0%';
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+
+            // XHR Request
+            const xhr = new XMLHttpRequest();
+            
+            try {
+                xhr.open('POST', uploadUrl);
+                
+                // CRITICAL FIX: Robust CSRF Token selection
+                const csrfInput = uploadForm.querySelector('input[name="csrfmiddlewaretoken"]');
+                if (!csrfInput) {
+                    throw new Error("CSRF Token input not found in form");
+                }
+                xhr.setRequestHeader('X-CSRFToken', csrfInput.value);
+
+                // Progress Handler
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percent = (e.loaded / e.total) * 100;
+                        progressFill.style.width = percent + '%';
+                    }
+                });
+
+                // Success/Error Handler
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.success) {
+                                showMessage('success', 'Document uploaded successfully!');
+                                // Reload after 2 seconds to show the uploaded document
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 2000);
+                            } else {
+                                throw new Error(response.error || 'Unknown server error');
+                            }
+                        } catch (err) {
+                            handleError('Invalid response from server: ' + err.message);
+                        }
+                    } else {
+                        handleError(`Upload failed (Status: ${xhr.status})`);
+                    }
+                };
+
+                // Network Error Handler
+                xhr.onerror = function() {
+                    handleError("Network error occurred. Check your connection.");
+                };
+
+                // SEND
+                console.log("Sending request...");
+                xhr.send(formData);
+
+            } catch (err) {
+                handleError("Setup Error: " + err.message);
+            }
+        });
+
+        // Helper function to show messages (same as profile pages)
+        function showMessage(type, message) {
+            console.log('=== DOCUMENT UPLOAD MESSAGE CALLED ===');
+            console.log('Type:', type);
+            console.log('Message:', message);
+            
+            // Create message element
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+            messageDiv.style.position = 'fixed';
+            messageDiv.style.top = '20px';
+            messageDiv.style.left = '50%';
+            messageDiv.style.transform = 'translateX(-50%)';
+            messageDiv.style.zIndex = '9999';
+            messageDiv.style.minWidth = '400px';
+            messageDiv.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+            messageDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            // Try to insert at top of content area first
+            const uploadContainer = document.querySelector('.upload-container');
+            const header = uploadContainer.querySelector('h2');
+            
+            if (uploadContainer && header) {
+                // Insert after header if it exists
+                header.parentNode.insertBefore(messageDiv, header.nextSibling);
+                console.log('Message inserted after header');
+            } else if (uploadContainer) {
+                // Insert at top of container if header doesn't exist
+                uploadContainer.insertBefore(messageDiv, uploadContainer.firstChild);
+                console.log('Message inserted at top of container');
+            } else {
+                // Fallback: append to body if nothing else works
+                document.body.appendChild(messageDiv);
+                console.log('Message appended to body');
+            }
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                    console.log('Message auto-removed after 5 seconds');
+                }
+            }, 5000);
+            
+            console.log('Message display setup complete');
+        }
+
+        // Helpers
+        function handleError(msg) {
+            console.error(msg);
+            showMessage('error', msg);
+            progressBar.style.display = 'none';
+            uploadBtn.disabled = false;
+            uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Upload Document';
+        }
+
+        function handleFileSelect(file) {
+            const docTypeSelect = document.getElementById('document_type');
+            const selectedOption = docTypeSelect.options[docTypeSelect.selectedIndex];
+            
+            if (!selectedOption.value) {
+                alert('Please select a document type first');
+                fileInput.value = '';
+                droppedFile = null;
+                return;
+            }
+            
+            // Validate size/type
+            const maxSize = parseInt(selectedOption.dataset.maxSize || 10485760); // Default 10MB
+            if (file.size > maxSize) {
+                alert(`File size too large. Limit is ${(maxSize/1024/1024).toFixed(1)}MB`);
+                return;
+            }
+
+            // UI Update
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileInfo.style.display = 'block';
+            uploadBtn.disabled = false;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Initialize
+        document.getElementById('removeFile').addEventListener('click', () => {
+            fileInput.value = '';
+            droppedFile = null;
+            fileInfo.style.display = 'none';
+            uploadBtn.disabled = true;
+        });
+    });
+    
+    // Helper function to show messages for delete operations
+    function showDeleteMessage(type, message) {
+        console.log('=== DOCUMENT DELETE MESSAGE CALLED ===');
+        console.log('Type:', type);
+        console.log('Message:', message);
+        
+        // Create message element
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+        messageDiv.style.position = 'fixed';
+        messageDiv.style.top = '20px';
+        messageDiv.style.left = '50%';
+        messageDiv.style.transform = 'translateX(-50%)';
+        messageDiv.style.zIndex = '9999';
+        messageDiv.style.minWidth = '400px';
+        messageDiv.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+        messageDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        // Try to insert at top of content area first
+        const uploadContainer = document.querySelector('.upload-container');
+        const header = uploadContainer.querySelector('h2');
+        
+        if (uploadContainer && header) {
+            // Insert after header if it exists
+            header.parentNode.insertBefore(messageDiv, header.nextSibling);
+            console.log('Delete message inserted after header');
+        } else if (uploadContainer) {
+            // Insert at top of container if header doesn't exist
+            uploadContainer.insertBefore(messageDiv, uploadContainer.firstChild);
+            console.log('Delete message inserted at top of container');
+        } else {
+            // Fallback: append to body if nothing else works
+            document.body.appendChild(messageDiv);
+            console.log('Delete message appended to body');
+        }
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (messageDiv.parentNode) {
+                messageDiv.remove();
+                console.log('Delete message auto-removed after 5 seconds');
+            }
+        }, 5000);
+        
+        console.log('Delete message display setup complete');
+    }
+
+    // Global function for existing delete buttons
+    window.deleteDocument = function(documentId) {
+        if (!confirm('Are you sure?')) return;
+        const deleteUrl = `{% url 'documents:delete' 0 %}`.replace('0', documentId);
+        const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+        fetch(deleteUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrf,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                showDeleteMessage('success', 'Document deleted successfully!');
+                // Reload after 2 seconds to refresh the list
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                showDeleteMessage('error', 'Delete failed: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showDeleteMessage('error', 'Delete failed. Please try again.');
+        });
+    };
+</script>
+{% endblock %}

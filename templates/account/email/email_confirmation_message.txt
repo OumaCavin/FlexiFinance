@@ -1,0 +1,10 @@
+Hello from FlexiFinance!
+
+Please verify your email address by clicking the link below:
+
+{{ activate_url }}
+
+If you didn't request this, please ignore this email.
+
+Best regards,
+The FlexiFinance Team
